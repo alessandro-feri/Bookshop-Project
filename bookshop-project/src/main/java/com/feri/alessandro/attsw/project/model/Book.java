@@ -6,12 +6,13 @@ public class Book {
 	private String title;
 	private String type;
 	private int price;
-	
+
 	public Book(Long id, String title, String type, int price) {
-		this.setId(id);
-		this.setTitle(title);
-		this.setType(type);
-		this.setPrice(price);
+		super();
+		this.id = id;
+		this.title = title;
+		this.type = type;
+		this.price = price;
 	}
 
 	public Long getId() {

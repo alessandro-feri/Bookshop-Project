@@ -17,6 +17,30 @@
 
   <properties>
     <java.version>1.8</java.version>
+    
+    <!-- For SonarQube -->
+    <sonar.coverage.jacoco.xmlReportPaths>
+      ${project.reporting.outputDirectory}/jacoco/jacoco.xml
+    </sonar.coverage.jacoco.xmlReportPaths>
+    
+    <!-- Also includes integration tests -->
+    <sonar.junit.reportPaths>
+      ${project.build.directory}/surefire-reports,
+      ${project.build.directory}/failsafe-reports
+    </sonar.junit.reportPaths>
+    
+    <!-- Also scans HTML files with ${basedir}/src/main/resources property-->
+    <sonar.sources>
+      pom.xml,
+      ${project.build.sourceDirectory},
+      ${basedir}/src/main/resources
+    </sonar.sources>
+    
+   <!-- Exclude non covered files -->  
+    <sonar.coverage.exclusions>
+      **/*Application.*,
+      **/*model/*
+    </sonar.coverage.exclusions>
   </properties>
 
   <dependencies>
@@ -180,6 +204,11 @@
 	      <artifactId>coveralls-maven-plugin</artifactId>
 	      <version>4.3.0</version>
 	    </plugin>
+	    <plugin>
+	      <groupId>org.sonarsource.scanner.maven</groupId>
+	      <artifactId>sonar-maven-plugin</artifactId>
+	      <version>3.7.0.1746</version>
+	    </plugin> 
 	  </plugins>
     </pluginManagement>
   </build>

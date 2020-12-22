@@ -2,11 +2,10 @@ package com.feri.alessandro.attsw.project.services;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.*;
 
+import java.util.Optional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -53,6 +52,19 @@ public class BookServiceWithMockitoTest {
 		
 	}
 	
+	@Test
+	public void test_getBookById_found() {
+		Book book = new Book(1L, "testBook", "testType", 10);
+		when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
+		assertThat(bookService.getBookById(1)).isSameAs(book);
+		verify(bookRepository, times(1)).findById(1L);
+	}
+	
+	@Test
+	public void test_getBookById_notFound() {
+		when(bookRepository.findById(anyLong())).thenReturn(Optional.empty());
+		assertThat(bookService.getBookById(1L)).isNull();
+	}
 	
 	
 }

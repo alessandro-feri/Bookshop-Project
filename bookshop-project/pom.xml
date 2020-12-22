@@ -39,7 +39,8 @@
    <!-- Exclude non covered files -->  
     <sonar.coverage.exclusions>
       **/*Application.*,
-      **/*model/*
+      **/*model/*,
+      **/*repositories/*
     </sonar.coverage.exclusions>
   </properties>
 
@@ -140,6 +141,7 @@
 	        <excludes>
 	          <exclude>**/*Application.*</exclude>
 	          <exclude>**/model/*</exclude>
+	          <exclude>**/repositories/*</exclude>
 	        </excludes>
 	      </configuration>
 	      <executions>

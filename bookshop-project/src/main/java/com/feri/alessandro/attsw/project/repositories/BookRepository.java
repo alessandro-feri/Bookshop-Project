@@ -1,6 +1,7 @@
 package com.feri.alessandro.attsw.project.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -19,4 +20,7 @@ public class BookRepository {
 		
 	}
 	
+	public Optional<Book> findById(long id) {
+		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+	}
 }

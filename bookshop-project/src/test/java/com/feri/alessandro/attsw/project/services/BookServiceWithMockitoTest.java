@@ -42,6 +42,17 @@ public class BookServiceWithMockitoTest {
 		verifyNoMoreInteractions(bookRepository);
 	}
 	
+	@Test
+	public void test_getAllBooksWithMoreThanOneBook() {
+		Book book1 = new Book(1L, "testBook1", "testType1", 10);
+		Book book2 = new Book(2L, "testBook2", "testType2", 20);
+		when(bookRepository.findAll()).thenReturn(asList(book1, book2));
+		assertThat(bookService.getAllBooks()).containsExactly(book1, book2);
+		verify(bookRepository, times(1)).findAll();
+		verifyNoMoreInteractions(bookRepository);
+		
+	}
+	
 	
 	
 }

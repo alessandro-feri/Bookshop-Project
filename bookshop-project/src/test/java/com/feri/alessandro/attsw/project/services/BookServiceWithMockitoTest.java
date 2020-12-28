@@ -2,7 +2,6 @@ package com.feri.alessandro.attsw.project.services;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
 
 import java.util.Optional;
@@ -64,6 +63,18 @@ public class BookServiceWithMockitoTest {
 	public void test_getBookById_notFound() {
 		when(bookRepository.findById(anyLong())).thenReturn(Optional.empty());
 		assertThat(bookService.getBookById(1L)).isNull();
+	}
+	
+	@Test
+	public void test_insertNewBook() {
+		Book bookToSave = new Book(2L, "bookToSave", "testTypeToSave", 0);
+		Book bookSaved = new Book(1L, "testBookSaved", "testTypeSaved", 10);
+		when(bookRepository.save(any(Book.class))).thenReturn(bookSaved);
+		
+		Book returnedBook = bookService.insertNewBook(bookToSave); 
+		
+		assertThat(returnedBook).isSameAs(bookSaved);
+		
 	}
 	
 	

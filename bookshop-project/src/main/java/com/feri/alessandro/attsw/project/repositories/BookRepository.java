@@ -23,4 +23,8 @@ public class BookRepository {
 	public Optional<Book> findById(long id) {
 		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 	}
+
+	public Book save(Book book) {
+		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+	}
 }

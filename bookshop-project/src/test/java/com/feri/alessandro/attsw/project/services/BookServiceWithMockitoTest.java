@@ -77,5 +77,14 @@ public class BookServiceWithMockitoTest {
 		
 	}
 	
+	@Test
+	public void test_deleteOneBook() {
+		Book bookToDelete = new Book(1L, "bookToDelete", "testTypeToDelete", 10);
+		bookService.deleteOneBook(bookToDelete);
+		verify(bookRepository, times(1)).delete(bookToDelete);
+		verifyNoMoreInteractions(bookRepository);
+		
+	}
+	
 	
 }

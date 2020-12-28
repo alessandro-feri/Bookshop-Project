@@ -27,4 +27,9 @@ public class BookRepository {
 	public Book save(Book book) {
 		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 	}
+
+	public void delete(Book book) {
+		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+		
+	}
 }

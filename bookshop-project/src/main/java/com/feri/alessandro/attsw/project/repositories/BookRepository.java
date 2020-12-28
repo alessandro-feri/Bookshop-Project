@@ -32,4 +32,9 @@ public class BookRepository {
 		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 		
 	}
+
+	public void deleteAll() {
+		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+		
+	}
 }

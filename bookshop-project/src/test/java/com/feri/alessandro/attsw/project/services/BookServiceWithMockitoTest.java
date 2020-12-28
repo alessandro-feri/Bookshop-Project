@@ -86,5 +86,12 @@ public class BookServiceWithMockitoTest {
 		
 	}
 	
+	@Test
+	public void test_deleteAllBooks() {
+		bookService.deleteAllBooks();
+		verify(bookRepository, times(1)).deleteAll();
+		verifyNoMoreInteractions(bookRepository);
+
+	}	
 	
 }

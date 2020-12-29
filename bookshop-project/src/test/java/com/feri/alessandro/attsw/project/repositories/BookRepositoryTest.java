@@ -48,5 +48,22 @@ public class BookRepositoryTest {
 		assertThat(books).containsExactly(testBook1, testBook3);
 		assertThat(books).doesNotContain(testBook2);
 	}
+	
+	@Test
+	public void test_findByTitleAndPrice() {
+		Book testBook1 = new Book(null, "testTitle1", "testType", 10);
+		Book testBook2 = new Book(null, "testTitle2", "testType", 10);
 		
+		entityManager.persistFlushFind(testBook1);
+		entityManager.persistFlushFind(testBook2);
+		
+		Book book = bookRepository.findByTitleAndPrice("testTitle1", 10);
+		
+		assertThat(book).isEqualTo(testBook1);
+		
+	}
+	
+
+	
+	
 }

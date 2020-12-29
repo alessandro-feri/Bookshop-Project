@@ -52,7 +52,7 @@ public class BookRepositoryTest {
 	@Test
 	public void test_findByTitleAndPrice() {
 		Book testBook1 = new Book(null, "testTitle1", "testType", 10);
-		Book testBook2 = new Book(null, "testTitle2", "testType", 10);
+		Book testBook2 = new Book(null, "testTitle2", "testType", 15);
 		
 		entityManager.persistFlushFind(testBook1);
 		entityManager.persistFlushFind(testBook2);
@@ -61,6 +61,19 @@ public class BookRepositoryTest {
 		
 		assertThat(book).isEqualTo(testBook1);
 		
+	}
+	
+	@Test
+	public void test_findByTitleOrType() {
+		Book testBook1 = entityManager.persistFlushFind(new Book(null, "testTitle1", "type1", 10));
+		Book testBook2 = entityManager.persistFlushFind(new Book(null, "testTitle2", "type1", 10));
+		Book testBook3 = entityManager.persistFlushFind(new Book(null, "testTitle3", "type2", 10));
+		Book testBook4 = entityManager.persistFlushFind(new Book(null, "testTitle4", "type1", 10));
+		
+		List<Book> books = bookRepository.findByTitleOrType("testTitle2", "type1");
+		
+		assertThat(books).containsExactly(testBook1, testBook2, testBook4);
+		assertThat(testBook3).isNotIn(books);
 	}
 	
 

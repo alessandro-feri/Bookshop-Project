@@ -8,10 +8,12 @@ import com.feri.alessandro.attsw.project.model.Book;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-	Book findByTitle(String string);
+	Book findByTitle(String title);
 
-	List<Book> findBooksByType(String string);
+	List<Book> findBooksByType(String type);
+	
+	List<Book> findByTitleOrType(String title, String type);
 
-	Book findByTitleAndPrice(String string, int i);
+	Book findByTitleAndPrice(String title, int price);
 
 }

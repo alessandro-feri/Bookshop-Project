@@ -97,7 +97,7 @@ public class BookRepositoryTest {
 		Book testBook3 = entityManager.persistFlushFind(new Book(null, "Il ritratto di Dorian Gray", "type1", 26));
 		Book testBook4 = entityManager.persistFlushFind(new Book(null, "Harry Potter e la pietra filosofale", "type1", 30));
 		
-		List<Book> books = bookRepository.findAllBooksOrderByTitle("type1");
+		List<Book> books = bookRepository.findAllBooksByTypeOrderByTitle("type1");
 		
 		assertThat(books).containsExactly(testBook4, testBook3, testBook1);
 		assertThat(books).doesNotContain(testBook2);

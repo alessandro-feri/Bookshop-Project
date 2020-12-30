@@ -76,7 +76,19 @@ public class BookRepositoryTest {
 		assertThat(testBook3).isNotIn(books);
 	}
 	
-
+	@Test
+	public void test_findAllBooksWhosePriceIsWithinAnInterval() {
+		Book testBook1 = entityManager.persistFlushFind(new Book(null, "testTitle1", "type1", 30));
+		Book testBook2 = entityManager.persistFlushFind(new Book(null, "testTitle2", "type1", 15));
+		Book testBook3 = entityManager.persistFlushFind(new Book(null, "testTitle3", "type2", 25));
+		Book testBook4 = entityManager.persistFlushFind(new Book(null, "testTitle4", "type1", 40));
+		
+		List<Book> books = bookRepository.findAllBooksWhosePriceIsWithinAnInterval(10, 35);
+		
+		assertThat(books).containsExactly(testBook1, testBook2, testBook3);
+		assertThat(testBook4).isNotIn(books);
+	}
+	
 	
 	
 }

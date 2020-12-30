@@ -90,6 +90,18 @@ public class BookRepositoryTest {
 		assertThat(testBook4).isNotIn(books);
 	}
 	
-	
+	@Test
+	public void test_findAllBooksByTypeOrderByTitle() {
+		Book testBook1 = entityManager.persistFlushFind(new Book(null, "La Divina Commedia", "type1", 55));
+		Book testBook2 = entityManager.persistFlushFind(new Book(null, "Geronimo Stilton", "type2", 15));
+		Book testBook3 = entityManager.persistFlushFind(new Book(null, "Il ritratto di Dorian Gray", "type1", 26));
+		Book testBook4 = entityManager.persistFlushFind(new Book(null, "Harry Potter e la pietra filosofale", "type1", 30));
+		
+		List<Book> books = bookRepository.findAllBooksOrderByTitle("type1");
+		
+		assertThat(books).containsExactly(testBook4, testBook3, testBook1);
+		assertThat(books).doesNotContain(testBook2);
+		
+	}
 	
 }

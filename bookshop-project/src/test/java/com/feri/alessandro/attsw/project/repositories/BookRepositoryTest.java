@@ -3,6 +3,7 @@ package com.feri.alessandro.attsw.project.repositories;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,8 +29,8 @@ public class BookRepositoryTest {
 		Book bookToSave = new Book(null, "testTitle", "testType", 10);
 		Book bookSaved = entityManager.persistFlushFind(bookToSave);
 		
-		Book bookFound = bookRepository.findByTitle("testTitle");
-		assertThat(bookFound).isSameAs(bookSaved);
+		Optional<Book> bookFound = bookRepository.findByTitle("testTitle");
+		assertThat(bookFound.get()).isSameAs(bookSaved);
 		
 	}
 	

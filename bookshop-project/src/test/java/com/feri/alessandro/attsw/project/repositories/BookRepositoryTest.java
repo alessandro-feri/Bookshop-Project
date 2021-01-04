@@ -7,23 +7,77 @@ import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import com.feri.alessandro.attsw.project.model.Book;
 
 @DataJpaTest
 @RunWith(SpringRunner.class)
 public class BookRepositoryTest {
-
 	@Autowired
 	private TestEntityManager entityManager;
 	
 	@Autowired
 	private BookRepository bookRepository;
-	
+
+	@Test
+	public void testJpaMapping() {
+		Book savedBook = entityManager.persistFlushFind(new Book(null, "testBook", "testType", 10));
+		assertThat(savedBook.getTitle()).isEqualTo("testBook");
+		assertThat(savedBook.getType()).isEqualTo("testType");
+		assertThat(savedBook.getPrice()).isEqualTo(10);
+		assertThat(savedBook.getId()).isNotNull();
+		assertThat(savedBook.getId()).isGreaterThan(0);
+
+		LoggerFactory.getLogger(BookRepositoryTest.class).info("Saved Book: " + savedBook.toString());
+	}
+
+	@Test
+	public void test_findAllWithEmptyDatabase() {
+		List<Book> books = bookRepository.findAll();
+		assertThat(books).isEmpty();;
+	}
+
+	@Test
+	public void test_findAllUsingSave() {
+		Book bookSaved = bookRepository.save(new Book(null, "testBook", "testType", 10));
+		List<Book> books = bookRepository.findAll();
+		assertThat(books).containsExactly(bookSaved);
+	}
+
+	@Test
+	public void test_deleteUsingJPARepositoryMethod() {
+		Book bookSaved1 = entityManager.persistFlushFind(new Book(null, "testBook", "testType", 10));
+		Book bookSaved2 = entityManager.persistFlushFind(new Book(null, "testBook", "testType", 10));
+		assertThat(bookRepository.findAll()).containsExactly(bookSaved1, bookSaved2);
+
+		bookRepository.delete(bookSaved1);
+
+		List<Book> bookListAfterDelete = bookRepository.findAll();
+
+		assertThat(bookListAfterDelete).containsExactly(bookSaved2);
+
+	}
+
+	@Test
+	public void test_deleteAllUsingJPARepositoryMethod() {
+		Book bookSaved1 = bookRepository.save(new Book(null, "testBook", "testType", 10));
+		Book bookSaved2 = bookRepository.save(new Book(null, "testBook", "testType", 10));
+		assertThat(bookRepository.findAll()).containsExactly(bookSaved1, bookSaved2);
+
+		bookRepository.deleteAll();
+
+		List<Book> bookListAfterDeleteAll = bookRepository.findAll();
+
+		assertThat(bookListAfterDeleteAll).doesNotContain(bookSaved1, bookSaved2);
+		assertThat(bookListAfterDeleteAll).isEmpty();
+
+	}
+
+
 	@Test
 	public void test_findBookByTitle() {
 		Book bookToSave = new Book(null, "testTitle", "testType", 10);
@@ -54,12 +108,14 @@ public class BookRepositoryTest {
 	public void test_findByTitleAndPrice() {
 		Book testBook1 = new Book(null, "testTitle1", "testType", 10);
 		Book testBook2 = new Book(null, "testTitle2", "testType", 15);
-		
+		Book testBook3 = new Book(null, "testTitle1", "testType", 15);
+
 		entityManager.persistFlushFind(testBook1);
 		entityManager.persistFlushFind(testBook2);
-		
+		entityManager.persistFlushFind(testBook3);
+
 		Book book = bookRepository.findByTitleAndPrice("testTitle1", 10);
-		
+
 		assertThat(book).isEqualTo(testBook1);
 		
 	}

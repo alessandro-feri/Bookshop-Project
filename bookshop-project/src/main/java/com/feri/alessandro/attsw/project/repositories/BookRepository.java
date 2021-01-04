@@ -11,13 +11,13 @@ import com.feri.alessandro.attsw.project.model.Book;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-	Optional<Book> findByTitle(String title);
+	Optional<Book> findBookByTitle(String title);
 
 	List<Book> findBooksByType(String type);
 	
-	List<Book> findByTitleOrType(String title, String type);
+	List<Book> findBooksByTitleOrType(String title, String type);
 
-	Book findByTitleAndPrice(String title, int price);
+	Optional<Book> findBookByTitleAndPrice(String title, int price);
 
 	@Query("Select b from Book b where b.price > :min and b.price < :max")
 	List<Book> findAllBooksWhosePriceIsWithinAnInterval(@Param("min") int min, @Param("max") int max);

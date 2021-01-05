@@ -49,6 +49,9 @@ public class BookRestControllerTest {
 			assertThat().
 				body(is(equalTo("[]"))
 			);
+		
+		verify(bookService, times(1)).getAllBooks();
+		verifyNoMoreInteractions(bookService);
 	}
 	
 	@Test
@@ -73,6 +76,9 @@ public class BookRestControllerTest {
 					 "type[1]", equalTo("romanzo"),
 					 "price[1]", equalTo(9)
 				);
+		
+		verify(bookService, times(1)).getAllBooks();
+		verifyNoMoreInteractions(bookService);
 	}
 	
 	@Test
@@ -88,6 +94,9 @@ public class BookRestControllerTest {
 			assertThat().
 				body(is(equalTo(""))
 			);
+		
+		verify(bookService, times(1)).getBookById(anyLong());
+		verifyNoMoreInteractions(bookService);
 	}
 	
 	@Test
@@ -107,5 +116,10 @@ public class BookRestControllerTest {
 				     "type", equalTo("romanzo"),
 				     "price", equalTo(7)
 				);
+		
+		verify(bookService, times(1)).getBookById(1L);
+		verifyNoMoreInteractions(bookService);
 	}
+	
+
 }

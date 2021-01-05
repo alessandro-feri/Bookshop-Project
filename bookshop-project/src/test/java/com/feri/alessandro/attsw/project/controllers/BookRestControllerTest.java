@@ -61,7 +61,7 @@ public class BookRestControllerTest {
 		when(bookService.getAllBooks()).thenReturn(asList(testBook1, testBook2));
 		
 		given().
-		contentType(MediaType.APPLICATION_JSON_VALUE).
+			contentType(MediaType.APPLICATION_JSON_VALUE).
 		when().
 			get("/api/books").
 		then().
@@ -86,7 +86,7 @@ public class BookRestControllerTest {
 		when(bookService.getBookById(anyLong())).thenReturn(null);
 		
 		given().
-		contentType(MediaType.APPLICATION_JSON_VALUE).
+			contentType(MediaType.APPLICATION_JSON_VALUE).
 		when().
 			get("api/books/1").
 		then().
@@ -105,7 +105,7 @@ public class BookRestControllerTest {
 				thenReturn(new Book(1L, "Il ritratto di Dorian Gray", "romanzo", 7));
 		
 		given().
-		contentType(MediaType.APPLICATION_JSON_VALUE).
+			contentType(MediaType.APPLICATION_JSON_VALUE).
 		when().
 			get("api/books/1").
 		then().
@@ -120,6 +120,30 @@ public class BookRestControllerTest {
 		verify(bookService, times(1)).getBookById(1L);
 		verifyNoMoreInteractions(bookService);
 	}
+	
+	@Test
+	public void test_insertNewBook() {
+		Book testBook = new Book(null, "Il ritratto di Dorian Gray", "romanzo", 7);
+		when(bookService.insertNewBook(testBook)).
+			thenReturn(new Book(1L, "Il ritratto di Dorian Gray", "romanzo", 7));
+		
+		given().
+			contentType(MediaType.APPLICATION_JSON_VALUE).
+			body(testBook).
+		when().
+			post("api/books/new").
+		then().
+			statusCode(200).
+			assertThat().
+				body("id", equalTo(1),
+					 "title", equalTo("Il ritratto di Dorian Gray"),
+					 "type", equalTo("romanzo"),
+					 "price", equalTo(7)
+				);
+		verify(bookService, times(1)).insertNewBook(testBook);
+		verifyNoMoreInteractions(bookService);
+	}
+	
 	
 
 }

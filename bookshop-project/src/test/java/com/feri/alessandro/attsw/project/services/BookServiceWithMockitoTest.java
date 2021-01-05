@@ -7,6 +7,7 @@ import static org.mockito.Mockito.*;
 import java.util.Optional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -67,13 +68,36 @@ public class BookServiceWithMockitoTest {
 	
 	@Test
 	public void test_insertNewBook() {
-		Book bookToSave = new Book(2L, "bookToSave", "testTypeToSave", 0);
+		Book bookToSave = new Book(2L, "testBookToSave", "testTypeToSave", 0);
 		Book bookSaved = new Book(1L, "testBookSaved", "testTypeSaved", 10);
 		when(bookRepository.save(any(Book.class))).thenReturn(bookSaved);
 		
 		Book returnedBook = bookService.insertNewBook(bookToSave); 
 		
 		assertThat(returnedBook).isSameAs(bookSaved);
+		
+		verify(bookRepository, times(1)).save(bookToSave);
+		verifyNoMoreInteractions(bookRepository);
+
+	}
+	
+	@Test
+	public void test_editBookById_setsIdToArgument_and_returnsSavedBook() {
+		Book replacementBook = spy(new Book(null, "replacementBook", "replacementType", 5));
+		Book replacedBook= new Book(1L, "replacedBook", "replacedType", 10);
+		
+		when(bookRepository.save(any(Book.class))).thenReturn(replacedBook);
+		
+		Book resultBook = bookService.editBookById(1L, replacementBook);
+		
+		assertThat(resultBook).isSameAs(replacedBook);
+		
+		verify(bookRepository, times(1)).save(replacementBook);
+		verifyNoMoreInteractions(bookRepository);	
+		
+		InOrder inOrder = inOrder(replacementBook, bookRepository);
+		inOrder.verify(replacementBook).setId(1L);
+		inOrder.verify(bookRepository).save(replacementBook);
 		
 	}
 	

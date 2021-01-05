@@ -13,11 +13,14 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
 	Optional<Book> findBookByTitle(String title);
 
-	List<Book> findBooksByType(String type);
+	@Query("Select b from Book b where b.type = :type")
+	List<Book> findBooksByType(@Param("type") String type);
 	
-	List<Book> findBooksByTitleOrType(String title, String type);
+	@Query("Select b from Book b where b.title = :title or b.type = :type")
+	List<Book> findBooksByTitleOrType(@Param("title") String title, @Param("type") String type);
 
-	Optional<Book> findBookByTitleAndPrice(String title, int price);
+	@Query("Select b from Book b where b.title = :title and b.price = :price")
+	Optional<Book> findBookByTitleAndPrice(@Param("title") String title, @Param("price") int price);
 
 	@Query("Select b from Book b where b.price > :min and b.price < :max")
 	List<Book> findAllBooksWhosePriceIsWithinAnInterval(@Param("min") int min, @Param("max") int max);

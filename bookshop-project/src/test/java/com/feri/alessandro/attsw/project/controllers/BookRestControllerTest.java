@@ -89,4 +89,23 @@ public class BookRestControllerTest {
 				body(is(equalTo(""))
 			);
 	}
+	
+	@Test
+	public void test_getBookByIdWithExistingBook() {
+		when(bookService.getBookById(anyLong())).
+				thenReturn(new Book(1L, "Il ritratto di Dorian Gray", "romanzo", 7));
+		
+		given().
+		contentType(MediaType.APPLICATION_JSON_VALUE).
+		when().
+			get("api/books/1").
+		then().
+			statusCode(200).
+			assertThat().
+				body("id", equalTo(1),
+					 "title", equalTo("Il ritratto di Dorian Gray"),
+				     "type", equalTo("romanzo"),
+				     "price", equalTo(7)
+				);
+	}
 }

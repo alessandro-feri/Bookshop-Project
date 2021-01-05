@@ -6,6 +6,11 @@ public class Book {
 	private String title;
 	private String type;
 	private int price;
+	
+
+	public Book() {
+
+	}
 
 	public Book(Long id, String title, String type, int price) {
 		super();

@@ -76,17 +76,6 @@ public class BookRepositoryTest {
 		assertThat(bookListAfterDeleteAll).isEmpty();
 
 	}
-
-
-	@Test
-	public void test_findBookByTitle() {
-		Book bookToSave = new Book(null, "testTitle", "testType", 10);
-		Book bookSaved = entityManager.persistFlushFind(bookToSave);
-		
-		Optional<Book> bookFound = bookRepository.findBookByTitle("testTitle");
-		assertThat(bookFound.get()).isSameAs(bookSaved);
-		
-	}
 	
 	@Test
 	public void test_findBooksByType() {
@@ -104,6 +93,20 @@ public class BookRepositoryTest {
 		assertThat(books).doesNotContain(testBook2);
 	}
 	
+
+	@Test
+	public void test_findBooksByTitleOrType() {
+		Book testBook1 = entityManager.persistFlushFind(new Book(null, "testTitle1", "type1", 10));
+		Book testBook2 = entityManager.persistFlushFind(new Book(null, "testTitle2", "type1", 10));
+		Book testBook3 = entityManager.persistFlushFind(new Book(null, "testTitle3", "type2", 10));
+		Book testBook4 = entityManager.persistFlushFind(new Book(null, "testTitle4", "type1", 10));
+		
+		List<Book> books = bookRepository.findBooksByTitleOrType("testTitle2", "type1");
+		
+		assertThat(books).containsExactly(testBook1, testBook2, testBook4);
+		assertThat(testBook3).isNotIn(books);
+	}
+	
 	@Test
 	public void test_findBookByTitleAndPrice() {
 		Book testBook1 = new Book(null, "testTitle1", "testType", 10);
@@ -118,19 +121,6 @@ public class BookRepositoryTest {
 
 		assertThat(book.get()).isEqualTo(testBook1);
 		
-	}
-	
-	@Test
-	public void test_findBooksByTitleOrType() {
-		Book testBook1 = entityManager.persistFlushFind(new Book(null, "testTitle1", "type1", 10));
-		Book testBook2 = entityManager.persistFlushFind(new Book(null, "testTitle2", "type1", 10));
-		Book testBook3 = entityManager.persistFlushFind(new Book(null, "testTitle3", "type2", 10));
-		Book testBook4 = entityManager.persistFlushFind(new Book(null, "testTitle4", "type1", 10));
-		
-		List<Book> books = bookRepository.findBooksByTitleOrType("testTitle2", "type1");
-		
-		assertThat(books).containsExactly(testBook1, testBook2, testBook4);
-		assertThat(testBook3).isNotIn(books);
 	}
 	
 	@Test

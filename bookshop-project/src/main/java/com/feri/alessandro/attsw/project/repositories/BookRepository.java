@@ -11,8 +11,6 @@ import com.feri.alessandro.attsw.project.model.Book;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-	Optional<Book> findBookByTitle(String title);
-
 	@Query("Select b from Book b where b.type = :type")
 	List<Book> findBooksByType(@Param("type") String type);
 	

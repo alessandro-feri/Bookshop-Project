@@ -27,6 +27,11 @@ public class BookService {
 	public Book insertNewBook(Book book) {
 		return bookRepository.save(book);
 	}
+	
+	public Book editBookById(long id, Book replacementBook) {
+		replacementBook.setId(id);
+		return bookRepository.save(replacementBook);
+	}	
 
 	public void deleteOneBook(Book book) {
 		bookRepository.delete(book);
@@ -36,5 +41,6 @@ public class BookService {
 	public void deleteAllBooks() {
 		bookRepository.deleteAll();
 		
-	}	
+	}
+
 }

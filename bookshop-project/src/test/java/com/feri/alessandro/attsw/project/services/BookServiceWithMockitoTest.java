@@ -82,7 +82,7 @@ public class BookServiceWithMockitoTest {
 	}
 	
 	@Test
-	public void test_editBookById_setsIdToArgument_and_returnsSavedBook() {
+	public void test_editBookById_setsIdToArgument_and_ShouldReturnsSavedBook() {
 		Book replacementBook = spy(new Book(null, "replacementBook", "replacementType", 5));
 		Book replacedBook= new Book(1L, "replacedBook", "replacedType", 10);
 		

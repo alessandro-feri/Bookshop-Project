@@ -5,6 +5,9 @@ import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
 
+import static org.mockito.ArgumentMatchers.anyLong;
+
+
 import java.util.Collections;
 
 import org.junit.Before;
@@ -44,7 +47,8 @@ public class BookRestControllerTest {
 		then().
 			statusCode(200).
 			assertThat().
-				body(is(equalTo("[]")));
+				body(is(equalTo("[]"))
+			);
 	}
 	
 	@Test
@@ -67,6 +71,22 @@ public class BookRestControllerTest {
 					 "id[1]", equalTo(2),
 					 "title[1]", equalTo("Harry Potter e la pietra filosofale"),
 					 "type[1]", equalTo("romanzo"),
-					 "price[1]", equalTo(9));
+					 "price[1]", equalTo(9)
+				);
+	}
+	
+	@Test
+	public void test_getBookByIdWithNonExistingBook() {
+		when(bookService.getBookById(anyLong())).thenReturn(null);
+		
+		given().
+		contentType(MediaType.APPLICATION_JSON_VALUE).
+		when().
+			get("api/books/1").
+		then().
+			statusCode(200).
+			assertThat().
+				body(is(equalTo(""))
+			);
 	}
 }

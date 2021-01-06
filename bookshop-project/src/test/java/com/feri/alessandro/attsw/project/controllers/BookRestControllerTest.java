@@ -38,7 +38,7 @@ public class BookRestControllerTest {
 	}
 	
 	@Test
-	public void test_allBooksEmpty() {
+	public void testGET_allBooksEmpty() {
 		when(bookService.getAllBooks()).thenReturn(Collections.emptyList());
 		
 		given().
@@ -55,7 +55,7 @@ public class BookRestControllerTest {
 	}
 	
 	@Test
-	public void test_allBooksNotEmpty() {
+	public void testGET_allBooksNotEmpty() {
 		Book testBook1 = new Book(1L, "Il ritratto di Dorian Gray", "romanzo", 7);
 		Book testBook2 = new Book(2L, "Harry Potter e la pietra filosofale", "romanzo", 9);
 		when(bookService.getAllBooks()).thenReturn(asList(testBook1, testBook2));
@@ -82,7 +82,7 @@ public class BookRestControllerTest {
 	}
 	
 	@Test
-	public void test_getBookByIdWithNonExistingBook() {
+	public void testGET_getBookByIdWithNonExistingBook() {
 		when(bookService.getBookById(anyLong())).thenReturn(null);
 		
 		given().
@@ -100,7 +100,7 @@ public class BookRestControllerTest {
 	}
 	
 	@Test
-	public void test_getBookByIdWithExistingBook() {
+	public void testGET_getBookByIdWithExistingBook() {
 		when(bookService.getBookById(anyLong())).
 				thenReturn(new Book(1L, "Il ritratto di Dorian Gray", "romanzo", 7));
 		
@@ -122,14 +122,14 @@ public class BookRestControllerTest {
 	}
 	
 	@Test
-	public void test_insertNewBook() {
-		Book testBook = new Book(null, "Il ritratto di Dorian Gray", "romanzo", 7);
-		when(bookService.insertNewBook(testBook)).
+	public void testPOST_insertNewBook() {
+		Book requesBodyBook = new Book(null, "Il ritratto di Dorian Gray", "romanzo", 7);
+		when(bookService.insertNewBook(requesBodyBook)).
 			thenReturn(new Book(1L, "Il ritratto di Dorian Gray", "romanzo", 7));
 		
 		given().
 			contentType(MediaType.APPLICATION_JSON_VALUE).
-			body(testBook).
+			body(requesBodyBook).
 		when().
 			post("api/books/new").
 		then().
@@ -140,10 +140,29 @@ public class BookRestControllerTest {
 					 "type", equalTo("romanzo"),
 					 "price", equalTo(7)
 				);
-		verify(bookService, times(1)).insertNewBook(testBook);
+		verify(bookService, times(1)).insertNewBook(requesBodyBook);
 		verifyNoMoreInteractions(bookService);
 	}
 	
-	
+	@Test
+	public void testPUT_editBookById() {
+		Book requestBodyBook = new Book(null, "testBook", "testType", 10);
+		when(bookService.editBookById(1L, requestBodyBook)).
+			thenReturn(new Book(1L, "testBook", "testType", 10));
+		
+		given().
+			contentType(MediaType.APPLICATION_JSON_VALUE).
+			body(requestBodyBook).
+		when().
+			put("api/books/edit/1").
+		then().
+			statusCode(200).
+			assertThat().
+			body("id", equalTo(1),
+				 "title", equalTo("testBook"),
+				 "type", equalTo("testType"),
+				 "price", equalTo(10)
+				);
+	}
 
 }

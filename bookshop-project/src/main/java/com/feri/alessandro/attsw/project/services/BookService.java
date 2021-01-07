@@ -27,6 +27,7 @@ public class BookService {
 	}
 
 	public Book insertNewBook(Book book) {
+		book.setId(null);
 		return bookRepository.save(book);
 	}
 	

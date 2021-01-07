@@ -74,17 +74,21 @@ public class BookServiceWithMockitoTest {
 	}
 	
 	@Test
-	public void test_insertNewBook() {
-		Book bookToSave = new Book(2L, "testBookToSave", "testTypeToSave", 0);
+	public void test_insertNewBook_setsIdToNull_and_ReturnsSavedBook() {
+		Book bookToSave = spy(new Book(2L, "testBookToSave", "testTypeToSave", 0));
 		Book bookSaved = new Book(1L, "testBookSaved", "testTypeSaved", 10);
 		when(bookRepository.save(any(Book.class))).thenReturn(bookSaved);
-		
+
 		Book returnedBook = bookService.insertNewBook(bookToSave); 
 		
 		assertThat(returnedBook).isSameAs(bookSaved);
 		
 		verify(bookRepository, times(1)).save(bookToSave);
 		verifyNoMoreInteractions(bookRepository);
+
+		InOrder inOrder = inOrder(bookToSave, bookRepository);
+		inOrder.verify(bookToSave).setId(null);
+		inOrder.verify(bookRepository).save(bookToSave);
 
 	}
 	

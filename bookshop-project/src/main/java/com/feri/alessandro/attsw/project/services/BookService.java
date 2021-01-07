@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
 import com.feri.alessandro.attsw.project.model.Book;
 import com.feri.alessandro.attsw.project.repositories.BookRepository;
 
@@ -20,8 +21,9 @@ public class BookService {
 		return bookRepository.findAll();
 	}
 	
-	public Book getBookById(long id) {
-		return bookRepository.findById(id).orElse(null);
+	public Book getBookById(long id) throws BookNotFoundException {
+		return bookRepository.findById(id).
+				orElseThrow(() -> new BookNotFoundException("Book not found!"));
 	}
 
 	public Book insertNewBook(Book book) {

@@ -4,6 +4,7 @@ import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
+import java.util.Collections;
 import java.util.Optional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +27,7 @@ public class BookServiceWithMockitoTest {
 	
 	@Test
 	public void test_getAllBooksWithZeroBooks() {
+		when(bookRepository.findAll()).thenReturn(Collections.emptyList());
 		assertThat(bookService.getAllBooks()).isEmpty();
 		verify(bookRepository, times(1)).findAll();
 		verifyNoMoreInteractions(bookRepository);

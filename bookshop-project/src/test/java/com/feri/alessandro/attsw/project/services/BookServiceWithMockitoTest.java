@@ -2,6 +2,7 @@ package com.feri.alessandro.attsw.project.services;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
@@ -127,10 +128,11 @@ public class BookServiceWithMockitoTest {
 	
 	@Test
 	public void test_deleteOneBook() {
-		Book bookToDelete = new Book(1L, "bookToDelete", "testTypeToDelete", 10);
-		bookService.deleteOneBook(bookToDelete);
+		Book bookToDelete = new Book(1L, "titleToDelete", "typeToDelete", 10);
+		when(bookRepository.findById(1L)).thenReturn(Optional.of(bookToDelete));
+		assertThatCode(() -> bookService.deleteOneBook(bookToDelete)).doesNotThrowAnyException();
+		verify(bookRepository, times(1)).findById(1L);
 		verify(bookRepository, times(1)).delete(bookToDelete);
-		verifyNoMoreInteractions(bookRepository);
 		
 	}
 	

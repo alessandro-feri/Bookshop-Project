@@ -163,6 +163,38 @@ public class BookRestControllerTest {
 				 "type", equalTo("testType"),
 				 "price", equalTo(10)
 				);
+		
+		verify(bookService, times(1)).editBookById(1L, requestBodyBook);
+		verifyNoMoreInteractions(bookService);
+	}
+	
+	@Test
+	public void testDELETE_deleteBookById() {
+		Book bookToDelete = new Book(1L, "title", "type", 10);
+		when(bookService.getBookById(1L)).thenReturn(bookToDelete);
+		
+		given().
+			contentType(MediaType.APPLICATION_JSON_VALUE).
+		when().
+			delete("api/books/delete/1").
+		then().
+			statusCode(200);
+		
+		verify(bookService, times(1)).getBookById(1L);
+		verify(bookService, times(1)).delete(bookToDelete);
+	}
+	
+	@Test
+	public void testDELETE_deleteBookByIdWBookNotFound() {
+		Book book = new Book(null, "title", "type", 10);
+		
+		given().
+		when().
+			delete("api/books/delete/1").
+		then().
+			statusCode(200);
+		verify(bookService, times(1)).getBookById(1L);
+		verify(bookService, times(0)).delete(book);
 	}
 
 }

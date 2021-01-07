@@ -66,11 +66,12 @@ public class BookServiceWithMockitoTest {
 	}
 	
 	@Test
-	public void test_getBookById_notFound_ShouldThrowsException() {
+	public void test_getBookById_notFound_ShouldThrowException() {
 		when(bookRepository.findById(anyLong())).thenReturn(Optional.empty());
 		assertThatThrownBy(() -> 
 			bookService.getBookById(1L)).
-				isInstanceOf(BookNotFoundException.class).hasMessage("Book not found!");
+				isInstanceOf(BookNotFoundException.class).
+					hasMessage("Book not found!");
 		
 	}
 	
@@ -116,7 +117,7 @@ public class BookServiceWithMockitoTest {
 	}
 	
 	@Test
-	public void test_editBookById_WhenIdNotFound_ShouldThrowsException() {
+	public void test_editBookById_WhenIdNotFound_ShouldThrowException() {
 		Book bookNotFound = new Book(1L, "titleNotFound", "typeNotFound", 0);
 		when(bookRepository.findById(1L)).thenReturn(Optional.empty());
 		
@@ -134,6 +135,19 @@ public class BookServiceWithMockitoTest {
 		verify(bookRepository, times(1)).findById(1L);
 		verify(bookRepository, times(1)).delete(bookToDelete);
 		
+	}
+	
+	@Test
+	public void test_deleteOneBook_WhenItsIdIsNotFound_ShouldThrowException() {
+		Book bookNotFound = new Book(1L, "titleNotFound", "typeNoyFound", 0);
+		when(bookRepository.findById(1L)).thenReturn(Optional.empty());
+		
+		assertThatThrownBy(() -> 
+			bookService.deleteOneBook(bookNotFound)).
+				isInstanceOf(BookNotFoundException.class).
+					hasMessage("Book not found!");
+		verify(bookRepository, times(1)).findById(1L);
+		verifyNoMoreInteractions(bookRepository);
 	}
 	
 	@Test

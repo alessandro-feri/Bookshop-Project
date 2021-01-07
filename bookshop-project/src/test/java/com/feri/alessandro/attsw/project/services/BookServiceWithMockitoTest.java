@@ -93,7 +93,7 @@ public class BookServiceWithMockitoTest {
 	}
 	
 	@Test
-	public void test_editBookById_setsIdToArgument_and_ShouldReturnsSavedBook() {
+	public void test_editBookById_setsIdToArgument_and_ShouldReturnsSavedBook() throws BookNotFoundException {
 		Book replacementBook = spy(new Book(null, "replacementBook", "replacementType", 5));
 		Book replacedBook= new Book(1L, "replacedBook", "replacedType", 10);
 		
@@ -104,12 +104,24 @@ public class BookServiceWithMockitoTest {
 		assertThat(resultBook).isSameAs(replacedBook);
 		
 		verify(bookRepository, times(1)).save(replacementBook);
-		verifyNoMoreInteractions(bookRepository);	
+		verify(bookRepository, times(1)).findById(1L);	
 		
-		InOrder inOrder = inOrder(replacementBook, bookRepository);
+		InOrder inOrder = inOrder(bookRepository, replacementBook, bookRepository);
+		inOrder.verify(bookRepository).findById(1L);
 		inOrder.verify(replacementBook).setId(1L);
 		inOrder.verify(bookRepository).save(replacementBook);
 		
+	}
+	
+	@Test
+	public void test_editBookById_WhenIdNotFound_ShouldThrowsException() {
+		Book bookNotFound = new Book(1L, "titleNotFound", "typeNotFound", 0);
+		when(bookRepository.findById(1L)).thenReturn(Optional.empty());
+		
+		assertThatThrownBy(() -> 
+			bookService.editBookById(1L, bookNotFound)).
+				isInstanceOf(BookNotFoundException.class).
+					hasMessage("Book not found!");
 	}
 	
 	@Test

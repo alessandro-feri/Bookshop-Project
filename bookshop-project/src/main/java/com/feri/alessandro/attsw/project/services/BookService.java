@@ -31,7 +31,7 @@ public class BookService {
 		return bookRepository.save(book);
 	}
 	
-	public Book editBookById(long id, Book replacementBook) throws BookNotFoundException{
+	public Book editBookById(Long id, Book replacementBook) throws BookNotFoundException{
 		
 		sanityCheck(id);
 		
@@ -49,7 +49,7 @@ public class BookService {
 		
 	}
 	
-	private void sanityCheck(long id) throws BookNotFoundException {
+	private void sanityCheck(Long id) throws BookNotFoundException {
 		getBookById(id);
 	}
 

@@ -60,7 +60,7 @@ public class BookServiceWithMockitoTest {
 	public void test_getBookById_found() throws BookNotFoundException {
 		Book book = new Book(1L, "testBook", "testType", 10);
 		when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
-		assertThat(bookService.getBookById(1)).isSameAs(book);
+		assertThat(bookService.getBookById(1L)).isSameAs(book);
 		verify(bookRepository, times(1)).findById(1L);
 	}
 	

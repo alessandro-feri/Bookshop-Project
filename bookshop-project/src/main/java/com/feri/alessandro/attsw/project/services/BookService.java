@@ -21,7 +21,7 @@ public class BookService {
 		return bookRepository.findAll();
 	}
 	
-	public Book getBookById(long id) throws BookNotFoundException {
+	public Book getBookById(Long id) throws BookNotFoundException {
 		return bookRepository.findById(id).
 				orElseThrow(() -> new BookNotFoundException("Book not found!"));
 	}

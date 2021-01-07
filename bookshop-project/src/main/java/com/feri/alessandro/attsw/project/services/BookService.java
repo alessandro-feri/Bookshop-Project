@@ -32,16 +32,14 @@ public class BookService {
 	}
 	
 	public Book editBookById(Long id, Book replacementBook) throws BookNotFoundException{
-		
 		sanityCheck(id);
-		
 		replacementBook.setId(id);
 		return bookRepository.save(replacementBook);
 	}	
 
-	public void deleteOneBook(Book book) {
+	public void deleteOneBook(Book book) throws BookNotFoundException {
+		sanityCheck(book.getId());
 		bookRepository.delete(book);
-		
 	}
 
 	public void deleteAllBooks() {

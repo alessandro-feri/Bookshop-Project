@@ -98,6 +98,7 @@ public class BookServiceWithMockitoTest {
 		Book replacedBook= new Book(1L, "replacedBook", "replacedType", 10);
 		
 		when(bookRepository.save(any(Book.class))).thenReturn(replacedBook);
+		when(bookRepository.findById(1L)).thenReturn(Optional.of(replacedBook));
 		
 		Book resultBook = bookService.editBookById(1L, replacementBook);
 		

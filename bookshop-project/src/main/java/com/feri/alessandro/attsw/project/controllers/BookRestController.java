@@ -3,6 +3,7 @@ package com.feri.alessandro.attsw.project.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,4 +39,11 @@ public class BookRestController {
 	public Book editBookById(@PathVariable Long id, @RequestBody Book replacementBook) {
 		return bookService.editBookById(id, replacementBook);
 	}
+	
+	@DeleteMapping("/api/books/delete/{id}")
+	public void deleteBookById(@PathVariable Long id) {
+		Book toDelete = bookService.getBookById(id);
+		bookService.delete(toDelete);
+	}
+	
 }

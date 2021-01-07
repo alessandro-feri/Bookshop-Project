@@ -2,6 +2,7 @@ package com.feri.alessandro.attsw.project.services;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 import java.util.Collections;
@@ -13,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
 import com.feri.alessandro.attsw.project.model.Book;
 import com.feri.alessandro.attsw.project.repositories.BookRepository;
 
@@ -55,7 +57,7 @@ public class BookServiceWithMockitoTest {
 	}
 	
 	@Test
-	public void test_getBookById_found() {
+	public void test_getBookById_found() throws BookNotFoundException {
 		Book book = new Book(1L, "testBook", "testType", 10);
 		when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
 		assertThat(bookService.getBookById(1)).isSameAs(book);
@@ -63,9 +65,12 @@ public class BookServiceWithMockitoTest {
 	}
 	
 	@Test
-	public void test_getBookById_notFound() {
+	public void test_getBookById_notFound_ShouldThrowsException() {
 		when(bookRepository.findById(anyLong())).thenReturn(Optional.empty());
-		assertThat(bookService.getBookById(1L)).isNull();
+		assertThatThrownBy(() -> 
+			bookService.getBookById(1L)).
+				isInstanceOf(BookNotFoundException.class).hasMessage("Book not found!");
+		
 	}
 	
 	@Test

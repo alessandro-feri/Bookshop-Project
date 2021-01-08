@@ -31,17 +31,21 @@ public class BookServiceWithMockitoTest {
 	@Test
 	public void test_getAllBooksWithZeroBooks() {
 		when(bookRepository.findAll()).thenReturn(Collections.emptyList());
-		assertThat(bookService.getAllBooks()).isEmpty();
-		verify(bookRepository, times(1)).findAll();
-		verifyNoMoreInteractions(bookRepository);
 		
+		assertThat(bookService.getAllBooks()).isEmpty();
+		
+		verify(bookRepository, times(1)).findAll();
+		verifyNoMoreInteractions(bookRepository);		
 	}
 	
 	@Test
 	public void test_getAllBooksWithOneBook() {
 		Book book = new Book(1L, "testBook", "testType", 10);
+		
 		when(bookRepository.findAll()).thenReturn(asList(book));
+		
 		assertThat(bookService.getAllBooks()).containsExactly(book);
+		
 		verify(bookRepository, times(1)).findAll();
 		verifyNoMoreInteractions(bookRepository);
 	}
@@ -50,35 +54,41 @@ public class BookServiceWithMockitoTest {
 	public void test_getAllBooksWithMoreThanOneBook() {
 		Book book1 = new Book(1L, "testBook1", "testType1", 10);
 		Book book2 = new Book(2L, "testBook2", "testType2", 20);
-		when(bookRepository.findAll()).thenReturn(asList(book1, book2));
-		assertThat(bookService.getAllBooks()).containsExactly(book1, book2);
-		verify(bookRepository, times(1)).findAll();
-		verifyNoMoreInteractions(bookRepository);
 		
+		when(bookRepository.findAll()).thenReturn(asList(book1, book2));
+		
+		assertThat(bookService.getAllBooks()).containsExactly(book1, book2);
+		
+		verify(bookRepository, times(1)).findAll();
+		verifyNoMoreInteractions(bookRepository);	
 	}
 	
 	@Test
 	public void test_getBookById_found() throws BookNotFoundException {
 		Book book = new Book(1L, "testBook", "testType", 10);
+		
 		when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
+		
 		assertThat(bookService.getBookById(1L)).isSameAs(book);
+		
 		verify(bookRepository, times(1)).findById(1L);
 	}
 	
 	@Test
 	public void test_getBookById_notFound_ShouldThrowException() {
 		when(bookRepository.findById(anyLong())).thenReturn(Optional.empty());
+		
 		assertThatThrownBy(() -> 
 			bookService.getBookById(1L)).
 				isInstanceOf(BookNotFoundException.class).
 					hasMessage("Book not found!");
-		
 	}
 	
 	@Test
 	public void test_insertNewBook_setsIdToNull_and_ReturnsSavedBook() {
 		Book bookToSave = spy(new Book(2L, "testBookToSave", "testTypeToSave", 0));
 		Book bookSaved = new Book(1L, "testBookSaved", "testTypeSaved", 10);
+		
 		when(bookRepository.save(any(Book.class))).thenReturn(bookSaved);
 
 		Book returnedBook = bookService.insertNewBook(bookToSave); 
@@ -91,7 +101,6 @@ public class BookServiceWithMockitoTest {
 		InOrder inOrder = inOrder(bookToSave, bookRepository);
 		inOrder.verify(bookToSave).setId(null);
 		inOrder.verify(bookRepository).save(bookToSave);
-
 	}
 	
 	@Test
@@ -112,13 +121,13 @@ public class BookServiceWithMockitoTest {
 		InOrder inOrder = inOrder(bookRepository, replacementBook, bookRepository);
 		inOrder.verify(bookRepository).findById(1L);
 		inOrder.verify(replacementBook).setId(1L);
-		inOrder.verify(bookRepository).save(replacementBook);
-		
+		inOrder.verify(bookRepository).save(replacementBook);		
 	}
 	
 	@Test
 	public void test_editBookById_WhenIdNotFound_ShouldThrowException() {
 		Book bookNotFound = new Book(1L, "titleNotFound", "typeNotFound", 0);
+		
 		when(bookRepository.findById(1L)).thenReturn(Optional.empty());
 		
 		assertThatThrownBy(() -> 
@@ -130,22 +139,26 @@ public class BookServiceWithMockitoTest {
 	@Test
 	public void test_deleteOneBook() {
 		Book bookToDelete = new Book(1L, "titleToDelete", "typeToDelete", 10);
+		
 		when(bookRepository.findById(1L)).thenReturn(Optional.of(bookToDelete));
+		
 		assertThatCode(() -> bookService.deleteOneBook(bookToDelete)).doesNotThrowAnyException();
+		
 		verify(bookRepository, times(1)).findById(1L);
 		verify(bookRepository, times(1)).delete(bookToDelete);
-		
 	}
 	
 	@Test
 	public void test_deleteOneBook_WhenItsIdIsNotFound_ShouldThrowException() {
 		Book bookNotFound = new Book(1L, "titleNotFound", "typeNoyFound", 0);
+		
 		when(bookRepository.findById(1L)).thenReturn(Optional.empty());
 		
 		assertThatThrownBy(() -> 
 			bookService.deleteOneBook(bookNotFound)).
 				isInstanceOf(BookNotFoundException.class).
 					hasMessage("Book not found!");
+		
 		verify(bookRepository, times(1)).findById(1L);
 		verifyNoMoreInteractions(bookRepository);
 	}
@@ -153,9 +166,9 @@ public class BookServiceWithMockitoTest {
 	@Test
 	public void test_deleteAllBooks() {
 		bookService.deleteAllBooks();
+		
 		verify(bookRepository, times(1)).deleteAll();
 		verifyNoMoreInteractions(bookRepository);
-
 	}	
 	
 }

@@ -16,8 +16,14 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.context.support.StaticApplicationContext;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
+import com.feri.alessandro.attsw.project.exception.BookExceptionHandler;
+import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
 import com.feri.alessandro.attsw.project.model.Book;
 import com.feri.alessandro.attsw.project.services.BookService;
 
@@ -32,9 +38,33 @@ public class BookRestControllerTest {
 	@InjectMocks
 	private BookRestController bookRestController;
 	
+	/**
+	 * Initializes BookExceptionController advice using the StaticApplicationContext with the single bean
+	 * 
+	 * @return HandlerExceptionResolver instantiated based on the BookExceptionController
+	 * 
+	 * So, my BookExceptionController is initialized using StaticApplicationContext and then I retrieve
+	 * handlerExceptionResolver from it and pass it into RestAssuredMockMvc standaloneSetup()
+	 */
+	private HandlerExceptionResolver initBookExceptionHandlerResolvers() {
+		StaticApplicationContext applicationContext = new StaticApplicationContext();
+		applicationContext.registerSingleton("exceptionHandler", BookExceptionHandler.class);
+		
+		WebMvcConfigurationSupport webMvcConfigurationSupport = new WebMvcConfigurationSupport();
+		webMvcConfigurationSupport.setApplicationContext(applicationContext);
+		
+		return webMvcConfigurationSupport.handlerExceptionResolver();
+	}
+	
 	@Before
 	public void setUp() {
-		RestAssuredMockMvc.standaloneSetup(bookRestController);
+		HandlerExceptionResolver handlerExceptionResolver = initBookExceptionHandlerResolvers();
+		
+		RestAssuredMockMvc.standaloneSetup(
+				MockMvcBuilders
+					.standaloneSetup(bookRestController)
+					.setHandlerExceptionResolvers(handlerExceptionResolver)
+		);
 	}
 	
 	@Test
@@ -82,17 +112,17 @@ public class BookRestControllerTest {
 	}
 	
 	@Test
-	public void testGET_getBookByIdWithNonExistingBook() {
-		when(bookService.getBookById(anyLong())).thenReturn(null);
+	public void testGET_getBookByIdWithNonExistingBook() throws BookNotFoundException {
+		when(bookService.getBookById(anyLong())).thenThrow(BookNotFoundException.class);
 		
 		given().
 			contentType(MediaType.APPLICATION_JSON_VALUE).
 		when().
 			get("api/books/1").
 		then().
-			statusCode(200).
+			statusCode(404).
 			assertThat().
-				body(is(equalTo(""))
+				body(is(equalTo("Book not found!"))
 			);
 		
 		verify(bookService, times(1)).getBookById(anyLong());
@@ -100,7 +130,7 @@ public class BookRestControllerTest {
 	}
 	
 	@Test
-	public void testGET_getBookByIdWithExistingBook() {
+	public void testGET_getBookByIdWithExistingBook() throws BookNotFoundException {
 		when(bookService.getBookById(anyLong())).
 				thenReturn(new Book(1L, "Il ritratto di Dorian Gray", "romanzo", 7));
 		

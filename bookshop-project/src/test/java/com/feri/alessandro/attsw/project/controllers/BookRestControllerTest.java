@@ -199,7 +199,7 @@ public class BookRestControllerTest {
 	}
 	
 	@Test
-	public void testDELETE_deleteBookById() {
+	public void testDELETE_deleteBookById() throws BookNotFoundException {
 		Book bookToDelete = new Book(1L, "title", "type", 10);
 		when(bookService.getBookById(1L)).thenReturn(bookToDelete);
 		
@@ -215,7 +215,7 @@ public class BookRestControllerTest {
 	}
 	
 	@Test
-	public void testDELETE_deleteBookByIdWBookNotFound() {
+	public void testDELETE_deleteBookByIdWBookNotFound() throws BookNotFoundException {
 		Book book = new Book(null, "title", "type", 10);
 		
 		given().
@@ -223,6 +223,7 @@ public class BookRestControllerTest {
 			delete("api/books/delete/1").
 		then().
 			statusCode(200);
+		
 		verify(bookService, times(1)).getBookById(1L);
 		verify(bookService, times(0)).delete(book);
 	}

@@ -37,7 +37,7 @@ public class BookRestController {
 	}
 	
 	@PutMapping("/api/books/edit/{id}")
-	public Book editBookById(@PathVariable Long id, @RequestBody Book replacementBook) {
+	public Book editBookById(@PathVariable Long id, @RequestBody Book replacementBook) throws BookNotFoundException {
 		return bookService.editBookById(id, replacementBook);
 	}
 	

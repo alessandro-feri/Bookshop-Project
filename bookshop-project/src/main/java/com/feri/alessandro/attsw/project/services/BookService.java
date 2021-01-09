@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
 import com.feri.alessandro.attsw.project.model.Book;
 
 /**
@@ -19,7 +20,7 @@ public class BookService {
 		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 	}
 
-	public Book getBookById(long id) {
+	public Book getBookById(long id) throws BookNotFoundException {
 		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 	}
 
@@ -31,7 +32,7 @@ public class BookService {
 		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 	}
 
-	public void delete(Book toDelete) {
+	public void delete(Book toDelete) throws BookNotFoundException {
 		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 	}
 

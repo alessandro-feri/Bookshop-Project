@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
 import com.feri.alessandro.attsw.project.model.Book;
 import com.feri.alessandro.attsw.project.services.BookService;
 
@@ -26,7 +27,7 @@ public class BookRestController {
 	}
 	
 	@GetMapping("api/books/{id}")
-	public Book getBookById(@PathVariable Long id) {
+	public Book getBookById(@PathVariable Long id) throws BookNotFoundException {
 		return bookService.getBookById(id);
 	}
 	
@@ -41,7 +42,7 @@ public class BookRestController {
 	}
 	
 	@DeleteMapping("/api/books/delete/{id}")
-	public void deleteBookById(@PathVariable Long id) {
+	public void deleteBookById(@PathVariable Long id) throws BookNotFoundException {
 		Book toDelete = bookService.getBookById(id);
 		bookService.delete(toDelete);
 	}

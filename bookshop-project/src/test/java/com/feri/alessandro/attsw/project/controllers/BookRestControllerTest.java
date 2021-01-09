@@ -175,7 +175,26 @@ public class BookRestControllerTest {
 	}
 	
 	@Test
-	public void testPUT_editBookById() {
+	public void testPUT_editBookById_WithNonExistingId() throws BookNotFoundException {
+		Book bookNotFound = new Book(null, "titleNotFound", "typeNotFound", 0);
+		when(bookService.editBookById(1L, bookNotFound)).thenThrow(BookNotFoundException.class);
+		
+		given().
+			contentType(MediaType.APPLICATION_JSON_VALUE).
+			body(bookNotFound).
+		when().
+			put("api/books/edit/1").
+		then().
+			statusCode(404).
+			assertThat().
+				body(is(equalTo("Book not found!")));
+		
+		verify(bookService, times(1)).editBookById(1L, bookNotFound);
+		//verify(bookService, times(1)).getBookById(1L);
+	}
+	
+	@Test
+	public void testPUT_editBookById() throws BookNotFoundException {
 		Book requestBodyBook = new Book(null, "testBook", "testType", 10);
 		when(bookService.editBookById(1L, requestBodyBook)).
 			thenReturn(new Book(1L, "testBook", "testType", 10));

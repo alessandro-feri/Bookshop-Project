@@ -112,7 +112,7 @@ public class BookRestControllerTest {
 	}
 	
 	@Test
-	public void testGET_getBookByIdWithNonExistingBook() throws BookNotFoundException {
+	public void testGET_getBookById_WithNonExistingId() throws BookNotFoundException {
 		when(bookService.getBookById(anyLong())).thenThrow(BookNotFoundException.class);
 		
 		given().
@@ -130,7 +130,7 @@ public class BookRestControllerTest {
 	}
 	
 	@Test
-	public void testGET_getBookByIdWithExistingBook() throws BookNotFoundException {
+	public void testGET_getBookById_WithExistingId() throws BookNotFoundException {
 		when(bookService.getBookById(anyLong())).
 				thenReturn(new Book(1L, "Il ritratto di Dorian Gray", "romanzo", 7));
 		
@@ -189,12 +189,12 @@ public class BookRestControllerTest {
 			assertThat().
 				body(is(equalTo("Book not found!")));
 		
-		verify(bookService, times(1)).editBookById(1L, bookNotFound);
 		//verify(bookService, times(1)).getBookById(1L);
+		verify(bookService, times(1)).editBookById(1L, bookNotFound);	
 	}
 	
 	@Test
-	public void testPUT_editBookById() throws BookNotFoundException {
+	public void testPUT_editBookById_WithExistingId() throws BookNotFoundException {
 		Book requestBodyBook = new Book(null, "testType", "testType", 10);
 		when(bookService.editBookById(1L, requestBodyBook)).
 			thenReturn(new Book(1L, "testBook", "testType", 10));
@@ -218,23 +218,7 @@ public class BookRestControllerTest {
 	}
 	
 	@Test
-	public void testDELETE_deleteBookById() throws BookNotFoundException {
-		Book bookToDelete = new Book(1L, "testTitle", "testType", 10);
-		when(bookService.getBookById(1L)).thenReturn(bookToDelete);
-		
-		given().
-			contentType(MediaType.APPLICATION_JSON_VALUE).
-		when().
-			delete("api/books/delete/1").
-		then().
-			statusCode(200);
-		
-		verify(bookService, times(1)).getBookById(1L);
-		verify(bookService, times(1)).delete(bookToDelete);
-	}
-	
-	@Test
-	public void testDELETE_deleteBookByIdWithNonExistingId() throws BookNotFoundException {
+	public void testDELETE_deleteBookById_WithNonExistingId() throws BookNotFoundException {
 		when(bookService.getBookById(anyLong())).thenThrow(BookNotFoundException.class);
 		
 		given().
@@ -248,6 +232,22 @@ public class BookRestControllerTest {
 			);
 		
 		verify(bookService, times(1)).getBookById(1L);
+	}
+	
+	@Test
+	public void testDELETE_deleteBookById() throws BookNotFoundException {
+		Book bookToDelete = new Book(1L, "testTitle", "testType", 10);
+		when(bookService.getBookById(1L)).thenReturn(bookToDelete);
+		
+		given().
+			contentType(MediaType.APPLICATION_JSON_VALUE).
+		when().
+			delete("api/books/delete/1").
+		then().
+			statusCode(200);
+		
+		verify(bookService, times(1)).getBookById(1L);
+		verify(bookService, times(1)).delete(bookToDelete);
 	}
 
 }

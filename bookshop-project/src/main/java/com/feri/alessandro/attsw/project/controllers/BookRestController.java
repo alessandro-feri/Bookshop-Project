@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
@@ -16,32 +17,33 @@ import com.feri.alessandro.attsw.project.model.Book;
 import com.feri.alessandro.attsw.project.services.BookService;
 
 @RestController
+@RequestMapping("/api/books")
 public class BookRestController {
 
 	@Autowired
 	private BookService bookService;
 	
-	@GetMapping("/api/books")
+	@GetMapping
 	public List<Book> getAllBooks() {
 		return bookService.getAllBooks();
 	}
 	
-	@GetMapping("api/books/{id}")
+	@GetMapping("/{id}")
 	public Book getBookById(@PathVariable Long id) throws BookNotFoundException {
 		return bookService.getBookById(id);
 	}
 	
-	@PostMapping("/api/books/new")
+	@PostMapping("/new")
 	public Book insertNewBook(@RequestBody Book book) {
 		return bookService.insertNewBook(book);
 	}
 	
-	@PutMapping("/api/books/edit/{id}")
+	@PutMapping("/edit/{id}")
 	public Book editBookById(@PathVariable Long id, @RequestBody Book replacementBook) throws BookNotFoundException {
 		return bookService.editBookById(id, replacementBook);
 	}
 	
-	@DeleteMapping("/api/books/delete/{id}")
+	@DeleteMapping("/delete/{id}")
 	public void deleteBookById(@PathVariable Long id) throws BookNotFoundException {
 		Book toDelete = bookService.getBookById(id);
 		bookService.delete(toDelete);

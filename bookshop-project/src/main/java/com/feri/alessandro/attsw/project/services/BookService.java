@@ -32,7 +32,7 @@ public class BookService {
 		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 	}
 
-	public void delete(Book toDelete) throws BookNotFoundException {
+	public void deleteOneBook(Book toDelete) throws BookNotFoundException {
 		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 	}
 

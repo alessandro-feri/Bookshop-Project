@@ -46,7 +46,7 @@ public class BookRestController {
 	@DeleteMapping("/delete/{id}")
 	public void deleteBookById(@PathVariable Long id) throws BookNotFoundException {
 		Book toDelete = bookService.getBookById(id);
-		bookService.delete(toDelete);
+		bookService.deleteOneBook(toDelete);
 	}
 	
 }

@@ -245,7 +245,7 @@ public class BookRestControllerTest {
 			statusCode(200);
 		
 		verify(bookService, times(1)).getBookById(1L);
-		verify(bookService, times(1)).delete(bookToDelete);
+		verify(bookService, times(1)).deleteOneBook(bookToDelete);
 	}
 
 }

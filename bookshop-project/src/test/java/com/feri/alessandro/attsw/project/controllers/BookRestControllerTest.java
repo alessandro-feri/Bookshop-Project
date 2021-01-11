@@ -32,6 +32,8 @@ import io.restassured.module.mockmvc.RestAssuredMockMvc;
 @RunWith(MockitoJUnitRunner.class)
 public class BookRestControllerTest {
 
+	private static final String BOOK_NOT_FOUND = "Book not found!";
+
 	@Mock
 	private BookService bookService;
 	
@@ -122,7 +124,7 @@ public class BookRestControllerTest {
 		then().
 			statusCode(404).
 			assertThat().
-				body(is(equalTo("Book not found!"))
+				body(is(equalTo(BOOK_NOT_FOUND))
 			);
 		
 		verify(bookService, times(1)).getBookById(anyLong());
@@ -187,7 +189,7 @@ public class BookRestControllerTest {
 		then().
 			statusCode(404).
 			assertThat().
-				body(is(equalTo("Book not found!")));
+				body(is(equalTo(BOOK_NOT_FOUND)));
 		
 		//verify(bookService, times(1)).getBookById(1L);
 		verify(bookService, times(1)).editBookById(1L, bookNotFound);	
@@ -227,7 +229,7 @@ public class BookRestControllerTest {
 		then().
 			statusCode(404).
 			assertThat().
-				body(is(equalTo("Book not found!"))
+				body(is(equalTo(BOOK_NOT_FOUND))
 			);
 		
 		verify(bookService, times(1)).getBookById(1L);

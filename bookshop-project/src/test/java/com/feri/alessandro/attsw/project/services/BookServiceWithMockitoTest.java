@@ -22,6 +22,8 @@ import com.feri.alessandro.attsw.project.repositories.BookRepository;
 @RunWith(MockitoJUnitRunner.class)
 public class BookServiceWithMockitoTest {
 
+	private static final String BOOK_NOT_FOUND = "Book not found!";
+
 	@Mock
 	BookRepository bookRepository;
 	
@@ -81,7 +83,7 @@ public class BookServiceWithMockitoTest {
 		assertThatThrownBy(() -> 
 			bookService.getBookById(1L)).
 				isInstanceOf(BookNotFoundException.class).
-					hasMessage("Book not found!");
+					hasMessage(BOOK_NOT_FOUND);
 	}
 	
 	@Test
@@ -133,7 +135,7 @@ public class BookServiceWithMockitoTest {
 		assertThatThrownBy(() -> 
 			bookService.editBookById(1L, bookNotFound)).
 				isInstanceOf(BookNotFoundException.class).
-					hasMessage("Book not found!");
+					hasMessage(BOOK_NOT_FOUND);
 	}
 	
 	@Test
@@ -157,7 +159,7 @@ public class BookServiceWithMockitoTest {
 		assertThatThrownBy(() -> 
 			bookService.deleteOneBook(bookNotFound)).
 				isInstanceOf(BookNotFoundException.class).
-					hasMessage("Book not found!");
+					hasMessage(BOOK_NOT_FOUND);
 		
 		verify(bookRepository, times(1)).findById(1L);
 		verifyNoMoreInteractions(bookRepository);

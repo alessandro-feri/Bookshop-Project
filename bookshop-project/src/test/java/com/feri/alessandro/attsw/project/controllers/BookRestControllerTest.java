@@ -77,6 +77,7 @@ public class BookRestControllerTest {
 		then().
 			statusCode(200).
 			assertThat().
+				contentType(MediaType.APPLICATION_JSON_VALUE).
 				body(is(equalTo("[]"))
 			);
 		
@@ -91,12 +92,12 @@ public class BookRestControllerTest {
 		when(bookService.getAllBooks()).thenReturn(asList(testBook1, testBook2));
 		
 		given().
-			contentType(MediaType.APPLICATION_JSON_VALUE).
 		when().
 			get("/api/books").
 		then().
 			statusCode(200).
 			assertThat().
+				contentType(MediaType.APPLICATION_JSON_VALUE).
 				body("id[0]", equalTo(1),
 					 "title[0]", equalTo("Il ritratto di Dorian Gray"),
 					 "type[0]", equalTo("romanzo"),
@@ -116,7 +117,6 @@ public class BookRestControllerTest {
 		when(bookService.getBookById(anyLong())).thenThrow(BookNotFoundException.class);
 		
 		given().
-			contentType(MediaType.APPLICATION_JSON_VALUE).
 		when().
 			get("api/books/1").
 		then().
@@ -135,12 +135,12 @@ public class BookRestControllerTest {
 				thenReturn(new Book(1L, "Il ritratto di Dorian Gray", "romanzo", 7));
 		
 		given().
-			contentType(MediaType.APPLICATION_JSON_VALUE).
 		when().
 			get("api/books/1").
 		then().
 			statusCode(200).
 			assertThat().
+				contentType(MediaType.APPLICATION_JSON_VALUE).
 				body("id", equalTo(1),
 					 "title", equalTo("Il ritratto di Dorian Gray"),
 				     "type", equalTo("romanzo"),
@@ -222,7 +222,6 @@ public class BookRestControllerTest {
 		when(bookService.getBookById(anyLong())).thenThrow(BookNotFoundException.class);
 		
 		given().
-			contentType(MediaType.APPLICATION_JSON_VALUE).
 		when().
 			delete("api/books/delete/1").
 		then().
@@ -240,7 +239,6 @@ public class BookRestControllerTest {
 		when(bookService.getBookById(1L)).thenReturn(bookToDelete);
 		
 		given().
-			contentType(MediaType.APPLICATION_JSON_VALUE).
 		when().
 			delete("api/books/delete/1").
 		then().

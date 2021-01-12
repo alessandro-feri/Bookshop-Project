@@ -2,12 +2,11 @@ package com.feri.alessandro.attsw.project.services;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.*;
 
 import java.util.Collections;
+import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import com.feri.alessandro.attsw.project.exception.UserNotFoundException;
 import com.feri.alessandro.attsw.project.model.User;
 import com.feri.alessandro.attsw.project.repositories.UserRepository;
 
@@ -62,6 +62,27 @@ public class UserServiceWithMockitoTest {
 		verifyNoMoreInteractions(userRepository);
 	}
 	
+	@Test
+	public void test_getUserById_found() throws UserNotFoundException {
+		User testUser = new User(1L, "email", "username", "password");
+		
+		when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
+		
+		assertThat(userService.getUserById(1L)).isSameAs(testUser);
+		
+		verify(userRepository, times(1)).findById(1L);
+		verifyNoMoreInteractions(userRepository);
+	}
+	
+	@Test
+	public void test_getUSerById_notFound_shouldThrowException() {
+		when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
+		
+		assertThatThrownBy(() ->
+				userService.getUserById(1L)).
+					isInstanceOf(UserNotFoundException.class).
+						hasMessage("User not found!");
+	}
 	
 	
 }

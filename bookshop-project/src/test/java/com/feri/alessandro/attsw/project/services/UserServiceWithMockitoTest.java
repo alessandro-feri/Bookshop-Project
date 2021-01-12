@@ -50,7 +50,7 @@ public class UserServiceWithMockitoTest {
 	}
 	
 	@Test
-	public void test_gettAllUsersWithMoreThanOneUser() {
+	public void test_getAllUsersWithMoreThanOneUser() {
 		User firstTestUser = new User(1L, "email1", "username1", "password1");
 		User secondTestUser = new User(2L, "email2", "username2", "password2");
 		
@@ -75,7 +75,7 @@ public class UserServiceWithMockitoTest {
 	}
 	
 	@Test
-	public void test_getUSerById_notFound_shouldThrowException() {
+	public void test_getUserById_notFound_shouldThrowException() {
 		when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
 		
 		assertThatThrownBy(() ->
@@ -84,5 +84,28 @@ public class UserServiceWithMockitoTest {
 						hasMessage("User not found!");
 	}
 	
+	@Test
+	public void test_getUserByUsername_found() throws UserNotFoundException {
+		User testUser = new User(1L, "email", "testUsername", "password");
+		
+		when(userRepository.findByUsername("testUsername")).thenReturn(Optional.of(testUser));
+		
+		User result = userService.getUserByUsername("testUsername");
+		
+		assertThat(result).isSameAs(testUser);
+		
+		verify(userRepository, times(1)).findByUsername("testUsername");
+		verifyNoMoreInteractions(userRepository);
+	}
+	
+	@Test
+	public void test_getUserByUsername_notFound_shouldThrowException() {
+		when(userRepository.findByUsername(anyString())).thenReturn(Optional.empty());
+		
+		assertThatThrownBy(() ->
+			userService.getUserByUsername("username")).
+				isInstanceOf(UserNotFoundException.class).
+					hasMessage("User not found!");
+	}
 	
 }

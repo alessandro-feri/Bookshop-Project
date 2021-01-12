@@ -10,11 +10,14 @@ import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import com.feri.alessandro.attsw.project.exception.EmailExixstException;
 import com.feri.alessandro.attsw.project.exception.UserNotFoundException;
+import com.feri.alessandro.attsw.project.exception.UsernameExistException;
 import com.feri.alessandro.attsw.project.model.User;
 import com.feri.alessandro.attsw.project.repositories.UserRepository;
 
@@ -133,4 +136,55 @@ public class UserServiceWithMockitoTest {
 						hasMessage("User not found!");
 		
 	}
+	
+	@Test
+	public void test_insertNewUser_setsIdToNull_and_returnsSavedUSer() throws UsernameExistException, EmailExixstException {
+		User userToSave = spy(new User(2L, "emailToSave", "usernameToSave", "passwordToSave"));
+		User savedUser = new User(1L, "savedEmail", "savedUsername", "savedPassword");
+		
+		when(userRepository.save(userToSave)).thenReturn(savedUser);
+		
+		User result = userService.insertNewUser(userToSave);
+		
+		assertThat(result).isSameAs(savedUser);
+		
+		verify(userRepository, times(1)).findByUsername("usernameToSave");
+		verify(userRepository, times(1)).save(userToSave);
+		
+		InOrder inOrder = inOrder(userRepository, userToSave, userRepository);
+		inOrder.verify(userRepository).findByUsername("usernameToSave");
+		inOrder.verify(userToSave).setId(null);;
+		inOrder.verify(userRepository).save(userToSave);
+	}
+	
+	@Test
+	public void test_insertNewUser_whenUsernameAlreadyExist_shouldThrowException() {
+		User userToSave = new User(null, "email", "usernameAlreadyExist", "password");
+		User userAlreadyExist = new User(1L, "email", "usernameAlreadyExist", "password");
+		
+		when(userRepository.findByUsername("usernameAlreadyExist")).thenReturn(Optional.of(userAlreadyExist));
+		
+		assertThatThrownBy(() -> 
+				userService.insertNewUser(userToSave)).
+					isInstanceOf(UsernameExistException.class).
+						hasMessage("There is an existent account with that username: " + userAlreadyExist.getUsername());
+		
+		verify(userRepository, times(1)).findByUsername("usernameAlreadyExist");
+	}
+	
+	@Test
+	public void test_insertNewUser_whenEmailAlreadyExixst_shoulThrowException() {
+		User userToSave = new User(null, "emailAlreadyExist", "username", "password");
+		User userAlreadyExist = new User(1L, "emailAlreadyExist", "username", "password");
+		
+		when(userRepository.findByEmail("emailAlreadyExist")).thenReturn(Optional.of(userAlreadyExist));
+		
+		assertThatThrownBy(() -> 
+				userService.insertNewUser(userToSave)).
+					isInstanceOf(EmailExixstException.class).
+						hasMessage("There is an existent account with that email: " + userAlreadyExist.getEmail());
+		
+		verify(userRepository, times(1)).findByEmail("emailAlreadyExist");
+	}
+	
 }

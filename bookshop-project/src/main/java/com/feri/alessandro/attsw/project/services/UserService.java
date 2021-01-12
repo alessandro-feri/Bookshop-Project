@@ -46,6 +46,12 @@ public class UserService {
 		user.setId(null);
 		return userRepository.save(user);
 	}
+	
+	public User editUserById(Long id, User replacementUser) throws UserNotFoundException {
+		sanityCheck(id);
+		replacementUser.setId(id);
+		return userRepository.save(replacementUser);
+	}
 
 	private void usernameVerification(String username) throws UsernameExistException {
 		if(userRepository.findByUsername(username).isPresent()){
@@ -59,7 +65,10 @@ public class UserService {
 		}
 		
 	}
-
 	
+	private void sanityCheck(Long id) throws UserNotFoundException {
+		getUserById(id);
+		
+	}
 	
 }

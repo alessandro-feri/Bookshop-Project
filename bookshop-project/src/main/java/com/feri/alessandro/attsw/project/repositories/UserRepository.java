@@ -32,6 +32,10 @@ public class UserRepository {
 	public Optional<User> findByEmail(String email) {
 		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 	}
+
+	public User save(User user) {
+		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+	}
 	
 
 	

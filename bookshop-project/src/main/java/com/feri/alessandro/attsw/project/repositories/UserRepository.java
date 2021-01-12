@@ -28,6 +28,10 @@ public class UserRepository {
 	public Optional<User> findByUsername(String username) {
 		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 	}
+
+	public Optional<User> findByEmail(String email) {
+		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+	}
 	
 
 	

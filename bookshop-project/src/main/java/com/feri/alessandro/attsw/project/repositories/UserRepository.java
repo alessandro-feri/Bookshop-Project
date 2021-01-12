@@ -1,6 +1,7 @@
 package com.feri.alessandro.attsw.project.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +18,14 @@ public class UserRepository {
 	private static final String TEMPORARY_IMPLEMENTATION = "Temporary implementation";
 
 	public List<User> findAll() {
+		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+	}
+
+	public Optional<User> findById(long id) {
+		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+	}
+
+	public Optional<User> findByUsername(String username) {
 		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 	}
 	

@@ -68,7 +68,8 @@ public class UserServiceWithMockitoTest {
 		
 		when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
 		
-		assertThat(userService.getUserById(1L)).isSameAs(testUser);
+		User result = userService.getUserById(1L);
+		assertThat(result).isSameAs(testUser);
 		
 		verify(userRepository, times(1)).findById(1L);
 		verifyNoMoreInteractions(userRepository);
@@ -86,15 +87,15 @@ public class UserServiceWithMockitoTest {
 	
 	@Test
 	public void test_getUserByUsername_found() throws UserNotFoundException {
-		User testUser = new User(1L, "email", "testUsername", "password");
+		User testUser = new User(1L, "email", "testedUsername", "password");
 		
-		when(userRepository.findByUsername("testUsername")).thenReturn(Optional.of(testUser));
+		when(userRepository.findByUsername("testedUsername")).thenReturn(Optional.of(testUser));
 		
-		User result = userService.getUserByUsername("testUsername");
+		User result = userService.getUserByUsername("testedUsername");
 		
 		assertThat(result).isSameAs(testUser);
 		
-		verify(userRepository, times(1)).findByUsername("testUsername");
+		verify(userRepository, times(1)).findByUsername("testedUsername");
 		verifyNoMoreInteractions(userRepository);
 	}
 	
@@ -108,4 +109,28 @@ public class UserServiceWithMockitoTest {
 					hasMessage("User not found!");
 	}
 	
+	@Test
+	public void test_getUserByEmail_found() throws UserNotFoundException {
+		User testUser = new User(1L, "testedEmail", "username", "password");
+		
+		when(userRepository.findByEmail("testedEmail")).thenReturn(Optional.of(testUser));
+		
+		User result = userService.getUserByEmail("testedEmail");
+		
+		assertThat(result).isSameAs(testUser);
+		
+		verify(userRepository, times(1)).findByEmail("testedEmail");
+		verifyNoMoreInteractions(userRepository);
+	}
+	
+	@Test
+	public void test_getUserByEmail_notFound_shouldThrowException() {
+		when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+		
+		assertThatThrownBy(() -> 
+				userService.getUserByEmail("email")).
+					isInstanceOf(UserNotFoundException.class).
+						hasMessage("User not found!");
+		
+	}
 }

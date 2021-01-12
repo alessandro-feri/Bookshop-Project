@@ -187,4 +187,39 @@ public class UserServiceWithMockitoTest {
 		verify(userRepository, times(1)).findByEmail("emailAlreadyExist");
 	}
 	
+	@Test
+	public void test_editUserById_setsIdToArgument_and_ShouldReturnsSavedUser() throws UserNotFoundException {
+		User replacementUser = spy(new User(null, "replacementEmail", "replacementUsername", "replacementPassword"));
+		User replacedUser = new User(1L, "replacedEmail", "replacedUsername", "replacedPassword");
+		
+		when(userRepository.save(any(User.class))).thenReturn(replacedUser);
+		when(userRepository.findById(1L)).thenReturn(Optional.of(replacedUser));
+		
+		User result = userService.editUserById(1L, replacementUser);
+		
+		assertThat(result).isSameAs(replacedUser);
+		
+		verify(userRepository, times(1)).findById(1L);
+		verify(userRepository, times(1)).save(replacementUser);
+		
+		InOrder inOrder = inOrder(userRepository, replacementUser, userRepository);
+		inOrder.verify(userRepository).findById(1L);
+		inOrder.verify(replacementUser).setId(1L);
+		inOrder.verify(userRepository).save(replacementUser);
+				
+	}
+	
+	@Test
+	public void test_editUserById_notFound_shouldThrowException() {
+		User user = new User(1L, "noFound", "notFound" , "notFound");
+		when(userRepository.findById(1L)).thenReturn(Optional.empty());
+		
+		assertThatThrownBy(() ->
+				userService.editUserById(1L, user)).
+					isInstanceOf(UserNotFoundException.class).
+						hasMessage("User not found!");
+		
+		verify(userRepository, times(1)).findById(1L);
+	}
+	
 }

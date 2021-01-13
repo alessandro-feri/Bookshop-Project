@@ -2,6 +2,7 @@ package com.feri.alessandro.attsw.project.services;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
@@ -222,4 +223,28 @@ public class UserServiceWithMockitoTest {
 		verify(userRepository, times(1)).findById(1L);
 	}
 	
+	@Test
+	public void test_deleteOneUser() {
+		User toDelete = new User(1L, "emailToDelete", "usernameToDelete", "passwordToDelete");
+		
+		when(userRepository.findById(1L)).thenReturn(Optional.of(toDelete));
+		
+		assertThatCode(() -> userService.deleteOneUser(toDelete)).doesNotThrowAnyException();
+		
+		verify(userRepository, times(1)).findById(1L);
+		verify(userRepository, times(1)).delete(toDelete);
+	}
+	
+	@Test
+	public void test_deleteOneUser_whenIdNotFound_shouldThrowException() {
+		User userNotFound = new User(1L, "emailNotFound", "usernameNotFound", "passwordNotFound");
+		when(userRepository.findById(1L)).thenReturn(Optional.empty());
+		
+		assertThatThrownBy(() -> 
+				userService.deleteOneUser(userNotFound)).
+					isInstanceOf(UserNotFoundException.class).
+						hasMessage("User not found!");
+		
+		verify(userRepository, times(1)).findById(1L);
+	}
 }

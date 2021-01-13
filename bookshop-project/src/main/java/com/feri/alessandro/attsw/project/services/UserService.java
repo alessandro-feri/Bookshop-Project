@@ -52,6 +52,11 @@ public class UserService {
 		replacementUser.setId(id);
 		return userRepository.save(replacementUser);
 	}
+	
+	public void deleteOneUser(User user) throws UserNotFoundException {
+		sanityCheck(user.getId());
+		userRepository.delete(user);
+	}
 
 	private void usernameVerification(String username) throws UsernameExistException {
 		if(userRepository.findByUsername(username).isPresent()){

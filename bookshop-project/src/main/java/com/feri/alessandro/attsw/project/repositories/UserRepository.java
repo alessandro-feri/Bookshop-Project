@@ -36,7 +36,9 @@ public class UserRepository {
 	public User save(User user) {
 		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 	}
-	
 
-	
+	public void delete(User user) {
+		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+		
+	}
 }

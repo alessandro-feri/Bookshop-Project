@@ -13,6 +13,7 @@ import com.feri.alessandro.attsw.project.repositories.UserRepository;
 @Service
 public class UserService {
 
+	private static final String USER_NOT_FOUND = "User not found!";
 	private UserRepository userRepository;
 	
 	public UserService(UserRepository userRepository) {
@@ -25,17 +26,17 @@ public class UserService {
 
 	public User getUserById(Long id) throws UserNotFoundException {
 		return userRepository.findById(id).
-				orElseThrow(() -> new UserNotFoundException("User not found!"));
+				orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 	}
 
 	public User getUserByUsername(String username) throws UserNotFoundException {
 		return userRepository.findByUsername(username).
-				orElseThrow(() -> new UserNotFoundException("User not found!"));
+				orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 	}
 
 	public User getUserByEmail(String email) throws UserNotFoundException {
 		return userRepository.findByEmail(email).
-				orElseThrow(() -> new UserNotFoundException("User not found!"));
+				orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 	}
 
 	public User insertNewUser(User user) throws UsernameExistException, EmailExixstException {

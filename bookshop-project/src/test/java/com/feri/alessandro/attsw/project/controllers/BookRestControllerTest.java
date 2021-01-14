@@ -120,7 +120,7 @@ public class BookRestControllerTest {
 		
 		given().
 		when().
-			get("api/books/1").
+			get("api/books/id/1").
 		then().
 			statusCode(404).
 			assertThat().
@@ -138,7 +138,7 @@ public class BookRestControllerTest {
 		
 		given().
 		when().
-			get("api/books/1").
+			get("api/books/id/1").
 		then().
 			statusCode(200).
 			assertThat().
@@ -150,6 +150,44 @@ public class BookRestControllerTest {
 				);
 		
 		verify(bookService, times(1)).getBookById(1L);
+		verifyNoMoreInteractions(bookService);
+	}
+	
+	@Test
+	public void test_getBookByTitle_WithNonExistingTitle() throws BookNotFoundException {
+		when(bookService.getBookByTitle(anyString())).thenThrow(BookNotFoundException.class);
+		
+		given().
+		when().
+			get("api/books/title/testTitle").
+		then().
+			statusCode(404).
+			assertThat().
+				body(is(equalTo(BOOK_NOT_FOUND)));
+		
+		verify(bookService, times(1)).getBookByTitle(anyString());
+		verifyNoMoreInteractions(bookService);
+	}
+	
+	@Test
+	public void test_getBookByTitle_WithExistingTitle() throws BookNotFoundException {
+		when(bookService.getBookByTitle(anyString())).
+			thenReturn(new Book(1L, "testTitle", "type", 10));
+		
+		given().
+		when().
+			get("api/books/title/testTitle").
+		then().
+			statusCode(200).
+			assertThat().
+			contentType(MediaType.APPLICATION_JSON_VALUE).
+				body("id", equalTo(1),
+					 "title", equalTo("testTitle"),
+					 "type", equalTo("type"),
+					 "price", equalTo(10)
+				);
+		
+		verify(bookService, times(1)).getBookByTitle("testTitle");
 		verifyNoMoreInteractions(bookService);
 	}
 	

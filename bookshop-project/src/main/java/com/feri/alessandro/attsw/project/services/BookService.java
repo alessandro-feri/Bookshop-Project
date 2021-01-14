@@ -26,6 +26,11 @@ public class BookService {
 				orElseThrow(() -> new BookNotFoundException("Book not found!"));
 	}
 
+	public Book getBookByTitle(String title) throws BookNotFoundException {
+		return bookRepository.findByTitle(title).
+				orElseThrow(() -> new BookNotFoundException("Book not found!"));
+	}
+	
 	public Book insertNewBook(Book book) {
 		book.setId(null);
 		return bookRepository.save(book);

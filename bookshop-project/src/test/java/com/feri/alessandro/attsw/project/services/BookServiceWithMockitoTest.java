@@ -87,6 +87,29 @@ public class BookServiceWithMockitoTest {
 	}
 	
 	@Test
+	public void test_getBookByTitle_found() throws BookNotFoundException {
+		Book book = new Book(1L, "tesedtTitle", "type", 10);
+		
+		when(bookRepository.findByTitle("testedTitle")).thenReturn(Optional.of(book));
+		
+		assertThat(bookService.getBookByTitle("testedTitle")).isSameAs(book);
+		
+		verify(bookRepository, times(1)).findByTitle("testedTitle");
+		
+	}
+	
+	@Test
+	public void test_getBookByTitle_notFound_ShouldThrowException() {
+		when(bookRepository.findByTitle("testedTitle")).thenReturn(Optional.empty());
+		
+		assertThatThrownBy(() -> 
+				bookService.getBookByTitle("testedTitle")).
+					isInstanceOf(BookNotFoundException.class).
+						hasMessage(BOOK_NOT_FOUND);
+	}
+	
+	
+	@Test
 	public void test_insertNewBook_setsIdToNull_and_ReturnsSavedBook() {
 		Book bookToSave = spy(new Book(2L, "testBookToSave", "testTypeToSave", 0));
 		Book bookSaved = new Book(1L, "testBookSaved", "testTypeSaved", 10);

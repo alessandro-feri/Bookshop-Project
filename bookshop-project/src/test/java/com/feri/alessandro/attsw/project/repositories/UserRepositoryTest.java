@@ -3,6 +3,7 @@ package com.feri.alessandro.attsw.project.repositories;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,6 +48,15 @@ public class UserRepositoryTest {
 		User userSaved = userRepository.save(new User(1L, "email", "username", "password"));
 		List<User> users = userRepository.findAll();
 		assertThat(users).containsExactly(userSaved);		
+	}
+	
+	@Test
+	public void test_findByUsername() {
+		User user = entityManager.persistFlushFind(new User(null, "email", "username", "password"));
+		
+		Optional<User> found = userRepository.findByUsername("username");
+		
+		assertThat(found.get()).isEqualTo(user);
 	}
 	
 	

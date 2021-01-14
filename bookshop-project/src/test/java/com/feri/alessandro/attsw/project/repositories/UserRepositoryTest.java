@@ -68,6 +68,20 @@ public class UserRepositoryTest {
 		assertThat(found.get()).isEqualTo(user);
 	}
 	
+	@Test
+	public void test_findByUsernameAndPassword() {
+		User user = new User(null, "email1@gmail", "username1", "samePassword");
+		User notFound = new User(null, "email2@gmail", "username2", "samePassword");
+		
+		entityManager.persistFlushFind(user);
+		entityManager.persistFlushFind(notFound);
+		
+		Optional<User> found = userRepository.findByUsernameAndPassword("username1", "samePassword");
+		
+		assertThat(found.get()).isEqualTo(user);
+		assertThat(found.get()).isNotEqualTo(notFound);
+	}
+	
 	
 	
 

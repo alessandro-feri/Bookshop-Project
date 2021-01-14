@@ -1,6 +1,8 @@
 package com.feri.alessandro.attsw.project.repositories;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,14 +41,18 @@ public class UserRepositoryTest {
 	
 	@Test
 	public void test_findAllWithEmptyDatabase() {
+		
 		List<User> users = userRepository.findAll();
+		
 		assertThat(users).isEmpty();
 	}
 	
 	@Test
 	public void test_findAllUsingSave() {
 		User userSaved = userRepository.save(new User(1L, "email", "username", "password"));
+		
 		List<User> users = userRepository.findAll();
+		
 		assertThat(users).containsExactly(userSaved);		
 	}
 	
@@ -56,7 +62,7 @@ public class UserRepositoryTest {
 		
 		Optional<User> found = userRepository.findByUsername("username");
 		
-		assertThat(found.get()).isEqualTo(user);
+		assertEquals(found.get(), user);
 	}
 	
 	@Test
@@ -65,7 +71,7 @@ public class UserRepositoryTest {
 		
 		Optional<User> found = userRepository.findByEmail("email");
 		
-		assertThat(found.get()).isEqualTo(user);
+		assertEquals(found.get(), user);
 	}
 	
 	@Test
@@ -77,12 +83,9 @@ public class UserRepositoryTest {
 		entityManager.persistFlushFind(notFound);
 		
 		Optional<User> found = userRepository.findByUsernameAndPassword("username1", "samePassword");
-		
-		assertThat(found.get()).isEqualTo(user);
-		assertThat(found.get()).isNotEqualTo(notFound);
+
+		assertEquals(found.get(), user);
+		assertNotEquals(found.get(), notFound);
 	}
-	
-	
-	
 
 }

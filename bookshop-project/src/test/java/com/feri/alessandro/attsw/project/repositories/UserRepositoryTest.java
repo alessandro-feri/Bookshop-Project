@@ -59,6 +59,15 @@ public class UserRepositoryTest {
 		assertThat(found.get()).isEqualTo(user);
 	}
 	
+	@Test
+	public void test_findByEmail() {
+		User user = entityManager.persistFlushFind(new User(null, "email", "username", "password"));
+		
+		Optional<User> found = userRepository.findByEmail("email");
+		
+		assertThat(found.get()).isEqualTo(user);
+	}
+	
 	
 	
 

@@ -28,9 +28,14 @@ public class BookRestController {
 		return bookService.getAllBooks();
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/id/{id}")
 	public Book getBookById(@PathVariable Long id) throws BookNotFoundException {
 		return bookService.getBookById(id);
+	}
+	
+	@GetMapping("/title/{title}")
+	public Book getBookByTitle(@PathVariable String title) throws BookNotFoundException {
+		return bookService.getBookByTitle(title);
 	}
 	
 	@PostMapping("/new")

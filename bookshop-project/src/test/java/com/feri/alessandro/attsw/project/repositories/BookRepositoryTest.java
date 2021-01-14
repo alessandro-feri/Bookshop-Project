@@ -1,6 +1,7 @@
 package com.feri.alessandro.attsw.project.repositories;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,43 +39,28 @@ public class BookRepositoryTest {
 	@Test
 	public void test_findAllWithEmptyDatabase() {
 		List<Book> books = bookRepository.findAll();
+		
 		assertThat(books).isEmpty();;
 	}
 
 	@Test
 	public void test_findAllUsingSave() {
 		Book bookSaved = bookRepository.save(new Book(null, "testBook", "testType", 10));
+		
 		List<Book> books = bookRepository.findAll();
+		
 		assertThat(books).containsExactly(bookSaved);
 	}
-
+	
 	@Test
-	public void test_deleteUsingJPARepositoryMethod() {
-		Book bookSaved1 = entityManager.persistFlushFind(new Book(null, "testBook", "testType", 10));
-		Book bookSaved2 = entityManager.persistFlushFind(new Book(null, "testBook", "testType", 10));
-		assertThat(bookRepository.findAll()).containsExactly(bookSaved1, bookSaved2);
-
-		bookRepository.delete(bookSaved1);
-
-		List<Book> bookListAfterDelete = bookRepository.findAll();
-
-		assertThat(bookListAfterDelete).containsExactly(bookSaved2);
-
-	}
-
-	@Test
-	public void test_deleteAllUsingJPARepositoryMethod() {
-		Book bookSaved1 = bookRepository.save(new Book(null, "testBook", "testType", 10));
-		Book bookSaved2 = bookRepository.save(new Book(null, "testBook", "testType", 10));
-		assertThat(bookRepository.findAll()).containsExactly(bookSaved1, bookSaved2);
-
-		bookRepository.deleteAll();
-
-		List<Book> bookListAfterDeleteAll = bookRepository.findAll();
-
-		assertThat(bookListAfterDeleteAll).doesNotContain(bookSaved1, bookSaved2);
-		assertThat(bookListAfterDeleteAll).isEmpty();
-
+	public void test_findBookByTitle() {
+		Book bookSaved = new Book(null, "testBook", "testType", 10);
+		
+		entityManager.persistFlushFind(bookSaved);
+		
+		Optional<Book> found = bookRepository.findByTitle("testBook");
+		
+		assertEquals(found.get(), bookSaved);
 	}
 	
 	@Test
@@ -119,8 +105,7 @@ public class BookRepositoryTest {
 
 		Optional<Book> book = bookRepository.findBookByTitleAndPrice("testTitle1", 10);
 
-		assertThat(book.get()).isEqualTo(testBook1);
-		
+		assertEquals(book.get(), testBook1);		
 	}
 	
 	@Test
@@ -146,8 +131,7 @@ public class BookRepositoryTest {
 		List<Book> books = bookRepository.findAllBooksByTypeOrderByTitle("type1");
 		
 		assertThat(books).containsExactly(testBook4, testBook3, testBook1);
-		assertThat(books).doesNotContain(testBook2);
-		
+		assertThat(books).doesNotContain(testBook2);		
 	}
 	
 }

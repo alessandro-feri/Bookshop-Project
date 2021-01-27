@@ -40,4 +40,9 @@ public class BookService {
 		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 	}
 
+	public void deleteAllBooks() {
+		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+		
+	}
+
 }

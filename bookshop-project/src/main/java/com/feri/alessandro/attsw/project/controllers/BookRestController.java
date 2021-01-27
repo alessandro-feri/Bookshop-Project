@@ -54,4 +54,8 @@ public class BookRestController {
 		bookService.deleteOneBook(toDelete);
 	}
 	
+	@DeleteMapping("/deleteAll")
+	public void deleteAllBooks() {
+		bookService.deleteAllBooks();
+	}
 }

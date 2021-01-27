@@ -1,6 +1,7 @@
 package com.feri.alessandro.attsw.project.web;
 
 import static java.util.Arrays.asList;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -17,6 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
 import com.feri.alessandro.attsw.project.model.Book;
 import com.feri.alessandro.attsw.project.services.BookService;
 
@@ -68,6 +70,36 @@ public class BookWebControllerTest {
 		 
 		 verify(bookService, times(1)).getAllBooks();
 		 verifyNoMoreInteractions(bookService);	 
+	 }
+	 
+	 @Test
+	 public void test_editBookById_WhenIdIsNotFound() throws Exception {
+		 when(bookService.getBookById(1L)).thenThrow(BookNotFoundException.class);
+		 
+		 mvc.perform(get("/edit/1"))
+		 	.andExpect(view().name("bookNotFound"))
+		 	.andExpect(model().attribute("book", nullValue()))
+		 	.andExpect(model().attribute("message", "Book not found!"))
+		 	.andExpect(status().is(404));
+		 
+		 verify(bookService, times(1)).getBookById(1L);
+		 verifyNoMoreInteractions(bookService);
+	 }
+	 
+	 @Test
+	 public void test_editBookById_WhenIdIsFound() throws Exception {
+		 Book found = new Book(1L, "title", "type", 10);
+		 
+		 when(bookService.getBookById(1L)).thenReturn(found);
+		 
+		 mvc.perform(get("/edit/1"))
+		 	.andExpect(view().name("edit"))
+		 	.andExpect(model().attribute("book", found))
+		 	.andExpect(model().attribute("message", ""));
+		 
+		 verify(bookService, times(1)).getBookById(1L);
+		 verifyNoMoreInteractions(bookService);
+		 
 	 }
 	 
 }

@@ -287,5 +287,17 @@ public class BookRestControllerTest {
 		verify(bookService, times(1)).getBookById(1L);
 		verify(bookService, times(1)).deleteOneBook(bookToDelete);
 	}
+	
+	@Test
+	public void testDELETE_deleteAllBooks() {
+		
+		given().
+		when().
+			delete("api/books/deleteAll").
+		then().
+			statusCode(200);
+		
+		verify(bookService, times(1)).deleteAllBooks();
+	}
 
 }

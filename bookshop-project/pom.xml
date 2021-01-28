@@ -39,7 +39,9 @@
    <!-- Exclude non covered files -->  
     <sonar.coverage.exclusions>
       **/*Application.*,
-      **/*model/*
+      **/*model/*,
+      **/*exception/*,
+      **/*services/*
     </sonar.coverage.exclusions>
   </properties>
 
@@ -140,6 +142,8 @@
 	        <excludes>
 	          <exclude>**/*Application.*</exclude>
 	          <exclude>**/model/*</exclude>
+	          <exclude>**/*exception/*</exclude>
+	          <exclude>**/*services/*</exclude>
 	        </excludes>
 	      </configuration>
 	      <executions>
@@ -184,6 +188,8 @@
 	        <excludedClasses>
 	          <param>com.feri.alessandro.attsw.project.BookshopProjectApplication</param>
 	          <param>com.feri.alessandro.attsw.project.model.*</param>
+	          <param>com.feri.alessandro.attsw.project.exception.*</param>
+	          <param>com.feri.alessandro.attsw.project.services.*</param>
 	        </excludedClasses>
 	        <targetTests>
 	          <param>com.feri.alessandro.attsw.project.*</param>

@@ -80,4 +80,11 @@ public class BookWebController {
 		
 		return "redirect:/";
 	}
+	
+	@GetMapping("/deleteAll")
+	public String deleteAll() {
+		bookService.deleteAllBooks();
+		
+		return "redirect:/";
+	}
 }

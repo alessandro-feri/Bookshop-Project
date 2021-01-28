@@ -102,4 +102,14 @@ public class BookWebControllerTest {
 		 
 	 }
 	 
+	 @Test
+	 public void test_editNewBook() throws Exception {
+		 mvc.perform(get("/new"))
+		 	.andExpect(view().name("edit"))
+		 	.andExpect(model().attribute("book", new Book()))
+		 	.andExpect(model().attribute("message", ""));
+		 
+		 verifyZeroInteractions(bookService);
+	 }
+	 
 }

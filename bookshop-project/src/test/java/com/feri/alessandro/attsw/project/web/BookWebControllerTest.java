@@ -3,7 +3,7 @@ package com.feri.alessandro.attsw.project.web;
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.Collections;
@@ -110,6 +110,34 @@ public class BookWebControllerTest {
 		 	.andExpect(model().attribute("message", ""));
 		 
 		 verifyZeroInteractions(bookService);
+	 }
+	 
+	 @Test
+	 public void test_PostBookWithoutId_ShouldInsertNewBook() throws Exception {
+		 mvc.perform(post("/save")
+				 .param("title", "testedTitle")
+				 .param("type", "testedType")
+				 .param("price", "10"))
+		 	.andExpect(view().name("redirect:/"));
+		 	
+			verify(bookService, times(1)).insertNewBook(
+					new Book(null, "testedTitle", "testedType", 10));
+			verifyNoMoreInteractions(bookService);
+	 }
+	 
+	 @Test
+	 public void test_PostBookBookWithId_ShouldUpdateExistingBook() throws Exception {
+		 mvc.perform(post("/save")
+				 .param("id", "1")
+				 .param("title", "testedTitle")
+				 .param("type", "testedType")
+				 .param("price", "10"))
+		 	.andExpect(view().name("redirect:/"));
+		 
+		 //verify(bookService, times(1)).getBookById(1L);
+		 verify(bookService, times(1)).editBookById(
+				 1L, new Book(1L, "testedTitle", "testedType", 10));
+		 verifyNoMoreInteractions(bookService);
 	 }
 	 
 }

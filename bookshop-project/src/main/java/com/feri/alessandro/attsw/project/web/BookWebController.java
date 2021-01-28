@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
 import com.feri.alessandro.attsw.project.model.Book;
@@ -43,5 +44,17 @@ public class BookWebController {
 		model.addAttribute("message", "");
 		
 		return "edit";
+	}
+	
+	@PostMapping("/save")
+	public String saveBook(Book book, Model model) {
+		Long id = book.getId();
+		if(id == null) {
+			bookService.insertNewBook(book);
+		} else {
+			bookService.editBookById(id, book);
+		}
+		
+		return "redirect:/";
 	}
 }

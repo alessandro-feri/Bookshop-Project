@@ -16,8 +16,18 @@ public class BookService {
 		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
 	}
 
-	public Book getBookById(long id) throws BookNotFoundException {
+	public Book getBookById(Long id) throws BookNotFoundException {
 		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+	}
+
+	public Book insertNewBook(Book book) {
+		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+		
+	}
+
+	public Book editBookById(Long id, Book book) {
+		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+		
 	}
 
 }

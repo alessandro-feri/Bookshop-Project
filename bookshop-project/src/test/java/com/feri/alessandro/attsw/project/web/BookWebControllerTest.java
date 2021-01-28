@@ -160,5 +160,52 @@ public class BookWebControllerTest {
 		 verify(bookService, times(1)).editBookById(1L, replacement);
 		 verifyNoMoreInteractions(bookService);
 	 }
+	
+	 @Test
+	 public void test_Search_ShouldShowSearchedBook() throws Exception {
+		 String search = "title";
+		 
+		 Book searched =  new Book(1L, "title", "type", 10);
+		 
+		 when(bookService.getBookByTitle(search)).thenReturn(searched);
+		 
+		 mvc.perform(get("/search")
+				 .param("title_searched", search))
+		 	.andExpect(model().attribute("book", equalTo(searched)))
+		 	.andExpect(model().attribute("message", ""))
+		 	.andExpect(view().name("search"));
+		 
+		 verify(bookService, times(1)).getBookByTitle(search);
+		 verifyNoMoreInteractions(bookService);
+	 }
 	 
-	}
+	 @Test
+	 public void test_SearchWithBookNotFound() throws Exception {
+		 String search = "not_found";
+		 
+		 when(bookService.getBookByTitle(search)).thenThrow(BookNotFoundException.class);
+		 
+		 mvc.perform(get("/search")
+				 .param("title_searched", search))
+		 	.andExpect(model().attribute("message", "Book not found!"))
+		 	.andExpect(model().attribute("book", nullValue()))
+		 	.andExpect(view().name("bookNotFound"))
+		 	.andExpect(status().is(404));
+		 
+		 verify(bookService, times(1)).getBookByTitle(search);
+		 verifyNoMoreInteractions(bookService);
+	 }
+	 
+	 @Test
+	 public void test_Search_WithEmptySearchField_shouldShowErrorMessage() throws Exception {
+		 String search = "";
+		 
+		 mvc.perform(get("/search")
+				 .param("title_searched", search))
+		 	.andExpect(model().attribute("message", "Error! Please, insert a valid title."))
+		 	.andExpect(view().name("search"));
+	 }
+	 
+	 
+
+}

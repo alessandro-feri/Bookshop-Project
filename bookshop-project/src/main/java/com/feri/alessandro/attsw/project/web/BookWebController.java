@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
 import com.feri.alessandro.attsw.project.model.Book;
@@ -56,5 +57,19 @@ public class BookWebController {
 		}
 		
 		return "redirect:/";
+	}
+	
+	@GetMapping("/search")
+	public String search (@RequestParam("title_searched") String title, Model model) throws BookNotFoundException {
+		if(title == "") {
+			model.addAttribute("message", "Error! Please, insert a valid title.");
+		} else {
+		
+		Book book = bookService.getBookByTitle(title);
+		model.addAttribute("book", book);
+		model.addAttribute("message", "");
+		
+		}
+		return "search";
 	}
 }

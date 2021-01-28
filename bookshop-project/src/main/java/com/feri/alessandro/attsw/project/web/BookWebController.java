@@ -72,4 +72,12 @@ public class BookWebController {
 		}
 		return "search";
 	}
+	
+	@GetMapping("/delete")
+	public String deleteBook(@RequestParam("id") Long id, Model model) throws BookNotFoundException {
+		Book toDelete = bookService.getBookById(id);
+		bookService.deleteOneBook(toDelete);
+		
+		return "redirect:/";
+	}
 }

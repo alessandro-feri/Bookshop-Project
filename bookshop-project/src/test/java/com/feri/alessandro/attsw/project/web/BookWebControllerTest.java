@@ -231,5 +231,14 @@ public class BookWebControllerTest {
 		 verify(bookService, times(1)).getBookById(1L);
 		 verifyNoMoreInteractions(bookService);
 	 }
+	 
+	 @Test
+	 public void test_deleteAll() throws Exception {
+		 mvc.perform(get("/deleteAll"))
+		 	.andExpect(view().name("redirect:/"));
+		 
+		 verify(bookService, times(1)).deleteAllBooks();
+		 verifyNoMoreInteractions(bookService);
+	 }
 
 }

@@ -206,6 +206,30 @@ public class BookWebControllerTest {
 		 	.andExpect(view().name("search"));
 	 }
 	 
+	 @Test
+	 public void test_deleteBook() throws Exception {
+		 Book toDelete = new Book(1L, "title", "type", 10);
+		 
+		 when(bookService.getBookById(1L)).thenReturn(toDelete);
+		 
+		 mvc.perform(get("/delete?id=1"))
+		 	.andExpect(view().name("redirect:/"));
+		 
+		 verify(bookService, times(1)).getBookById(1L);
+		 verify(bookService, times(1)).deleteOneBook(toDelete);
+	 }
 	 
+	 @Test
+	 public void test_deleteBook_whenBookNotFound() throws Exception {
+		 when(bookService.getBookById(1L)).thenThrow(BookNotFoundException.class);
+		 
+		 mvc.perform(get("/delete?id=1"))
+		 	.andExpect(view().name("bookNotFound"))
+		 	.andExpect(model().attribute("message", "Book not found!"))
+		 	.andExpect(status().is(404));
+		 
+		 verify(bookService, times(1)).getBookById(1L);
+		 verifyNoMoreInteractions(bookService);
+	 }
 
 }

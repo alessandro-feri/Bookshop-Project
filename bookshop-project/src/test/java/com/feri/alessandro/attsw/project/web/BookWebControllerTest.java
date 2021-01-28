@@ -1,7 +1,7 @@
 package com.feri.alessandro.attsw.project.web;
 
 import static java.util.Arrays.asList;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -140,4 +140,25 @@ public class BookWebControllerTest {
 		 verifyNoMoreInteractions(bookService);
 	 }
 	 
-}
+	 @Test
+	 public void test_PostBookWhenIdNotFound() throws Exception {
+		 Book replacement = new Book(1L, "title", "type", 10);
+		 
+		 when(bookService.editBookById(1L, replacement)).thenThrow(BookNotFoundException.class);
+		 
+		 mvc.perform(post("/save")
+				 .param("id", "1")
+				 .param("title", "title")
+				 .param("type", "type")
+				 .param("price", "10"))
+		 	.andExpect(view().name("bookNotFound"))
+		 	.andExpect(model().attribute("book", nullValue()))
+		 	.andExpect(model().attribute("message", "Book not found!"))
+		 	.andExpect(status().is(404));	 	
+		 
+		 //verify(bookService, times(1)).getBookById(1L);
+		 verify(bookService, times(1)).editBookById(1L, replacement);
+		 verifyNoMoreInteractions(bookService);
+	 }
+	 
+	}

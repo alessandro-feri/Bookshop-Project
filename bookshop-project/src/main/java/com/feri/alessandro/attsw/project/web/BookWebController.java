@@ -47,7 +47,7 @@ public class BookWebController {
 	}
 	
 	@PostMapping("/save")
-	public String saveBook(Book book, Model model) {
+	public String saveBook(Book book, Model model) throws BookNotFoundException {
 		Long id = book.getId();
 		if(id == null) {
 			bookService.insertNewBook(book);

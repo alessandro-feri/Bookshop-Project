@@ -1,5 +1,6 @@
 package com.feri.alessandro.attsw.project.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.feri.alessandro.attsw.project.exception.EmailExistException;
@@ -10,6 +11,7 @@ import com.feri.alessandro.attsw.project.repositories.UserRepository;
 @Service
 public class UserService {
 
+	@Autowired
 	private UserRepository userRepository;
 	
 	public User findUserByEmail(String email) throws EmailExistException {

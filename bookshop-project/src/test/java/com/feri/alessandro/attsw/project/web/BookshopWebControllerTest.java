@@ -32,6 +32,9 @@ public class BookshopWebControllerTest {
 	@MockBean
 	private BookService bookService;
 	
+	@MockBean
+	private UserService userService;
+	
 	
 	@Test
 	public void test_status200Login() throws Exception {
@@ -55,6 +58,22 @@ public class BookshopWebControllerTest {
 	public void test_returnRegistrationViewName() throws Exception {
 		ModelAndViewAssert.assertViewName(
 				mvc.perform(get("/registration")).andReturn().getModelAndView(), "registration");
+	}
+	
+	
+	@Test
+	public void test_createNewUser() throws Exception {
+		mvc.perform(post("/saveUser")
+				.param("id", "1")
+				.param("email", "email@gmail")
+				.param("username", "username")
+				.param("password", "password")).
+		andExpect(view().name("registrationResult")).
+		andExpect(model().attribute("message", ""));
+		
+		verify(userService.findUserByEmail("email@gmail"));
+		verify(userService.findUserByUsername("username"));
+		verify(userService).saveUser(new User("1", "email@gmail", "username", "password"));
 	}
 	
 	@Test

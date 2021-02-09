@@ -40,6 +40,12 @@ public class BookshopWebControllerTest {
 	}
 	
 	@Test
+	public void test_returnLoginView() throws Exception {
+		ModelAndViewAssert.assertViewName(
+				mvc.perform(get("/login")).andReturn().getModelAndView(), "login");
+	}
+	
+	@Test
 	public void test_status200() throws Exception {
 		mvc.perform(get("/")).
 			andExpect(status().is2xxSuccessful());

@@ -14,13 +14,16 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
 import com.feri.alessandro.attsw.project.model.Book;
+import com.feri.alessandro.attsw.project.model.User;
 import com.feri.alessandro.attsw.project.services.BookService;
+import com.feri.alessandro.attsw.project.services.UserService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = BookshopWebController.class)
@@ -71,24 +74,27 @@ public class BookshopWebControllerTest {
 		andExpect(view().name("registrationResult")).
 		andExpect(model().attribute("message", ""));
 		
-		verify(userService.findUserByEmail("email@gmail"));
-		verify(userService.findUserByUsername("username"));
+		verify(userService).findUserByEmail("email@gmail");
+		verify(userService).findUserByUsername("username");
 		verify(userService).saveUser(new User("1", "email@gmail", "username", "password"));
 	}
 	
 	@Test
+	@WithUserDetails
 	public void test_status200() throws Exception {
 		mvc.perform(get("/")).
 			andExpect(status().is2xxSuccessful());
 	}
 	
 	@Test
+	@WithUserDetails
 	public void test_returnHomeView() throws Exception {
 		ModelAndViewAssert.assertViewName(mvc.perform(get("/")).
 					andReturn().getModelAndView(), "index");
 	}
 	
 	 @Test
+	 @WithUserDetails
 	 public void test_HomeView_showsMessageWhenThereAreNoBooks() throws Exception {
 		 when(bookService.getAllBooks()).thenReturn(Collections.emptyList());
 		 
@@ -102,6 +108,7 @@ public class BookshopWebControllerTest {
 	 }
 	 
 	 @Test
+	 @WithUserDetails
 	 public void test_HomeView_showsBooks() throws Exception {
 		 List<Book> books = asList(new Book(1L, "title", "type", 10));
 		 
@@ -117,6 +124,7 @@ public class BookshopWebControllerTest {
 	 }
 	 
 	 @Test
+	 @WithUserDetails
 	 public void test_editBookById_WhenIdIsNotFound() throws Exception {
 		 when(bookService.getBookById(1L)).thenThrow(BookNotFoundException.class);
 		 
@@ -131,6 +139,7 @@ public class BookshopWebControllerTest {
 	 }
 	 
 	 @Test
+	 @WithUserDetails
 	 public void test_editBookById_WhenIdIsFound() throws Exception {
 		 Book found = new Book(1L, "title", "type", 10);
 		 
@@ -147,6 +156,7 @@ public class BookshopWebControllerTest {
 	 }
 	 
 	 @Test
+	 @WithUserDetails
 	 public void test_editNewBook() throws Exception {
 		 mvc.perform(get("/new"))
 		 	.andExpect(view().name("edit"))
@@ -157,6 +167,7 @@ public class BookshopWebControllerTest {
 	 }
 	 
 	 @Test
+	 @WithUserDetails
 	 public void test_PostBookWithoutId_ShouldInsertNewBook() throws Exception {
 		 mvc.perform(post("/save")
 				 .param("title", "testedTitle")
@@ -170,6 +181,7 @@ public class BookshopWebControllerTest {
 	 }
 	 
 	 @Test
+	 @WithUserDetails
 	 public void test_PostBookBookWithId_ShouldUpdateExistingBook() throws Exception {
 		 mvc.perform(post("/save")
 				 .param("id", "1")
@@ -185,6 +197,7 @@ public class BookshopWebControllerTest {
 	 }
 	 
 	 @Test
+	 @WithUserDetails
 	 public void test_PostBookWhenIdNotFound() throws Exception {
 		 Book replacement = new Book(1L, "title", "type", 10);
 		 
@@ -206,6 +219,7 @@ public class BookshopWebControllerTest {
 	 }
 	
 	 @Test
+	 @WithUserDetails
 	 public void test_Search_ShouldShowSearchedBook() throws Exception {
 		 String search = "title";
 		 
@@ -224,6 +238,7 @@ public class BookshopWebControllerTest {
 	 }
 	 
 	 @Test
+	 @WithUserDetails
 	 public void test_SearchWithBookNotFound() throws Exception {
 		 String search = "not_found";
 		 
@@ -241,6 +256,7 @@ public class BookshopWebControllerTest {
 	 }
 	 
 	 @Test
+	 @WithUserDetails
 	 public void test_Search_WithEmptySearchField_shouldShowErrorMessage() throws Exception {
 		 String search = "";
 		 
@@ -251,6 +267,7 @@ public class BookshopWebControllerTest {
 	 }
 	 
 	 @Test
+	 @WithUserDetails
 	 public void test_deleteBook() throws Exception {
 		 Book toDelete = new Book(1L, "title", "type", 10);
 		 
@@ -264,6 +281,7 @@ public class BookshopWebControllerTest {
 	 }
 	 
 	 @Test
+	 @WithUserDetails
 	 public void test_deleteBook_whenBookNotFound() throws Exception {
 		 when(bookService.getBookById(1L)).thenThrow(BookNotFoundException.class);
 		 
@@ -277,6 +295,7 @@ public class BookshopWebControllerTest {
 	 }
 	 
 	 @Test
+	 @WithUserDetails
 	 public void test_deleteAll() throws Exception {
 		 mvc.perform(get("/deleteAll"))
 		 	.andExpect(view().name("redirect:/"));

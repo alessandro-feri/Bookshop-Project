@@ -16,7 +16,7 @@ import com.feri.alessandro.attsw.project.services.BookService;
 
 
 @Controller
-public class BookWebController {
+public class BookshopWebController {
 	
 	@Autowired
 	private BookService bookService;

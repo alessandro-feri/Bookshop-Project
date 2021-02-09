@@ -23,8 +23,8 @@ import com.feri.alessandro.attsw.project.model.Book;
 import com.feri.alessandro.attsw.project.services.BookService;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(controllers = BookWebController.class)
-public class BookWebControllerTest {
+@WebMvcTest(controllers = BookshopWebController.class)
+public class BookshopWebControllerTest {
 
 	@Autowired
 	private MockMvc mvc;

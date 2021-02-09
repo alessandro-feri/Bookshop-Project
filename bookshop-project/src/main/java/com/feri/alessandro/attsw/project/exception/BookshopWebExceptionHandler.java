@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class BookWebExceptionHandler extends ResponseEntityExceptionHandler {
+public class BookshopWebExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(value = BookNotFoundException.class)
 	public String handleBookNotFoundException(Model model, HttpServletResponse response) {

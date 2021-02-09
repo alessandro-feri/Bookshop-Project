@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
+import com.feri.alessandro.attsw.project.exception.EmailExistException;
 import com.feri.alessandro.attsw.project.model.Book;
 import com.feri.alessandro.attsw.project.model.User;
 import com.feri.alessandro.attsw.project.services.BookService;
@@ -37,7 +38,7 @@ public class BookshopWebController {
 	}
 	
 	@PostMapping("/saveUser")
-	public String createNewUser(User user, Model model) {
+	public String createNewUser(User user, Model model) throws EmailExistException {
 		
 		userService.findUserByEmail(user.getEmail());
 		userService.findUserByUsername(user.getUsername());

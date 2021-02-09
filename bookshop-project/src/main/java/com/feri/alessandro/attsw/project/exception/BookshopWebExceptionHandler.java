@@ -28,5 +28,14 @@ public class BookshopWebExceptionHandler extends ResponseEntityExceptionHandler 
 		
 		return "registrationResult";
 	}
+	
+	@ExceptionHandler(value = UsernameExistException.class)
+	public String handleUsernameExistException(Model model, HttpServletResponse response) {
+		model.addAttribute("message", "There is already a user registered with the username provided."
+				+ "Please, try with another username.");
+		response.setStatus(409);
+		
+		return "registrationResult";
+	}
 
 }

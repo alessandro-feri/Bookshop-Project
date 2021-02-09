@@ -2,12 +2,12 @@ package com.feri.alessandro.attsw.project.model;
 
 public class User {
 	
-	private Long id;
+	private String id;
 	private String email;
 	private String username;
 	private String password;	
 	
-	public User(Long id, String email, String username, String password) {
+	public User(String id, String email, String username, String password) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -15,11 +15,11 @@ public class User {
 		this.password = password;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 	
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	

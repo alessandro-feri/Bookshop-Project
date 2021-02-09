@@ -32,6 +32,13 @@ public class BookshopWebControllerTest {
 	@MockBean
 	private BookService bookService;
 	
+	
+	@Test
+	public void test_status200Login() throws Exception {
+		mvc.perform(get("/login")).
+			andExpect(status().is2xxSuccessful());
+	}
+	
 	@Test
 	public void test_status200() throws Exception {
 		mvc.perform(get("/")).

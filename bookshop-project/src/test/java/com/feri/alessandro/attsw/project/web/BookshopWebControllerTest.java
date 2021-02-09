@@ -46,6 +46,18 @@ public class BookshopWebControllerTest {
 	}
 	
 	@Test
+	public void test_status200Registration() throws Exception {
+		mvc.perform(get("/registration")).
+			andExpect(status().is2xxSuccessful());
+	}
+	
+	@Test
+	public void test_returnRegistrationViewName() throws Exception {
+		ModelAndViewAssert.assertViewName(
+				mvc.perform(get("/registration")).andReturn().getModelAndView(), "registration");
+	}
+	
+	@Test
 	public void test_status200() throws Exception {
 		mvc.perform(get("/")).
 			andExpect(status().is2xxSuccessful());

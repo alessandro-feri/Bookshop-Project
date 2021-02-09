@@ -21,6 +21,12 @@ public class BookshopWebController {
 	@Autowired
 	private BookService bookService;
 	
+	@GetMapping
+	public String getLoginPage() {
+		return "login";
+	}
+	
+	
 	@GetMapping("/")
 	public String getIndex(Model model) {
 		List<Book> allBooks = bookService.getAllBooks();

@@ -26,6 +26,11 @@ public class BookshopWebController {
 		return "login";
 	}
 	
+	@GetMapping("/registration")
+	public String getRegistrationPage() {
+		return "registration";
+	}
+	
 	
 	@GetMapping("/")
 	public String getIndex(Model model) {

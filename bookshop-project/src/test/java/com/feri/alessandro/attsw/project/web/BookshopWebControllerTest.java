@@ -20,6 +20,7 @@ import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
+import com.feri.alessandro.attsw.project.exception.EmailExistException;
 import com.feri.alessandro.attsw.project.model.Book;
 import com.feri.alessandro.attsw.project.model.User;
 import com.feri.alessandro.attsw.project.services.BookService;
@@ -77,6 +78,22 @@ public class BookshopWebControllerTest {
 		verify(userService).findUserByEmail("email@gmail");
 		verify(userService).findUserByUsername("username");
 		verify(userService).saveUser(new User("1", "email@gmail", "username", "password"));
+	}
+	
+	@Test
+	public void test_createNewUser_whenEmailAlreadyExist() throws Exception {
+		when(userService.findUserByEmail("tested_email@gmail")).thenThrow(EmailExistException.class);
+		
+		mvc.perform(post("/saveUser")
+				.param("id", "1")
+				.param("email", "tested_email@gmail")
+				.param("username", "username")
+				.param("password", "password"))
+			.andExpect(view().name("registrationResult"))
+			.andExpect(status().is(409));
+		
+		verify(userService).findUserByEmail("tested_email@gmail");
+		verifyNoMoreInteractions(userService);
 	}
 	
 	@Test

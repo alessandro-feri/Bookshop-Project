@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
 import com.feri.alessandro.attsw.project.model.Book;
+import com.feri.alessandro.attsw.project.model.User;
 import com.feri.alessandro.attsw.project.services.BookService;
+import com.feri.alessandro.attsw.project.services.UserService;
 
 
 @Controller
@@ -20,6 +22,9 @@ public class BookshopWebController {
 	
 	@Autowired
 	private BookService bookService;
+	
+	@Autowired
+	private UserService userService;
 	
 	@GetMapping
 	public String getLoginPage() {
@@ -29,6 +34,18 @@ public class BookshopWebController {
 	@GetMapping("/registration")
 	public String getRegistrationPage() {
 		return "registration";
+	}
+	
+	@PostMapping("/saveUser")
+	public String createNewUser(User user, Model model) {
+		
+		userService.findUserByEmail(user.getEmail());
+		userService.findUserByUsername(user.getUsername());
+		
+		model.addAttribute("message", "");
+		userService.saveUser(user);
+		
+		return "registrationResult";
 	}
 	
 	

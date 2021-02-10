@@ -1,7 +1,13 @@
 package com.feri.alessandro.attsw.project.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class User {
 	
+	@Id @GeneratedValue
 	private Long id;
 	private String email;
 	private String username;
@@ -13,6 +19,10 @@ public class User {
 		this.email = email;
 		this.username = username;
 		this.password = password;
+	}
+	
+	public User() {
+		super();
 	}
 
 	public Long getId() {

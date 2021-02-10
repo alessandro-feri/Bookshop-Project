@@ -1,44 +1,20 @@
 package com.feri.alessandro.attsw.project.repositories;
 
-import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.feri.alessandro.attsw.project.model.User;
 
-/**
- *
- *Temporary fake implementation of repository
- *
- */
-@Repository
-public class UserRepository {
-	
-	private static final String TEMPORARY_IMPLEMENTATION = "Temporary implementation";
+public interface UserRepository extends JpaRepository<User, Long> {
 
-	public List<User> findAll() {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-	}
+	Optional<User> findByUsername(String username);
 
-	public Optional<User> findById(long id) {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-	}
+	Optional<User> findByEmail(String email);
 
-	public Optional<User> findByUsername(String username) {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-	}
+	@Query("Select u from User u where u.username = :username and u.password = :password")
+	Optional<User> findByUsernameAndPassword(@Param("username") String username, @Param("password") String password);
 
-	public Optional<User> findByEmail(String email) {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-	}
-
-	public User save(User user) {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-	}
-
-	public void delete(User user) {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-		
-	}
 }

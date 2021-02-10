@@ -17,6 +17,7 @@
 
   <properties>
     <java.version>1.8</java.version>
+    <sonar.scanner.force-deprecated-java-version-grace-period>true</sonar.scanner.force-deprecated-java-version-grace-period>
     
     <!-- For SonarQube -->
     <sonar.coverage.jacoco.xmlReportPaths>

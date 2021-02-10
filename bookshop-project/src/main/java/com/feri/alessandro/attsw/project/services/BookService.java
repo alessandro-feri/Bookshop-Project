@@ -6,42 +6,54 @@ import org.springframework.stereotype.Service;
 
 import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
 import com.feri.alessandro.attsw.project.model.Book;
+import com.feri.alessandro.attsw.project.repositories.BookRepository;
 
 @Service
 public class BookService {
 
-	private static final String TEMPORARY_IMPLEMENTATION = "temporary_implementation";
+	private BookRepository bookRepository;
+
+	public BookService(BookRepository bookRepository) {
+		this.bookRepository = bookRepository;
+	}
 
 	public List<Book> getAllBooks() {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-	}
-
-	public Book getBookById(Long id) throws BookNotFoundException {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-	}
-
-	public Book insertNewBook(Book book) {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-		
-	}
-
-	public Book editBookById(Long id, Book book) throws BookNotFoundException {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-		
+		return bookRepository.findAll();
 	}
 	
-	public Book getBookByTitle(String title) throws BookNotFoundException {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+	public Book getBookById(Long id) throws BookNotFoundException {
+		return bookRepository.findById(id).
+				orElseThrow(() -> new BookNotFoundException("Book not found!"));
 	}
 
-	public void deleteOneBook(Book toDelete) {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-		
+	public Book getBookByTitle(String title) throws BookNotFoundException {
+		return bookRepository.findByTitle(title).
+				orElseThrow(() -> new BookNotFoundException("Book not found!"));
+	}
+	
+	public Book insertNewBook(Book book) {
+		book.setId(null);
+		return bookRepository.save(book);
+	}
+	
+	public Book editBookById(Long id, Book replacementBook) throws BookNotFoundException{
+		sanityCheck(id);
+		replacementBook.setId(id);
+		return bookRepository.save(replacementBook);
+	}	
+
+	public void deleteOneBook(Book book) throws BookNotFoundException {
+		sanityCheck(book.getId());
+		bookRepository.delete(book);
 	}
 
 	public void deleteAllBooks() {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
+		bookRepository.deleteAll();
 		
+	}
+	
+	private void sanityCheck(Long id) throws BookNotFoundException {
+		getBookById(id);
 	}
 
 }

@@ -13,7 +13,6 @@ public class Book {
 	private String type;
 	private int price;
 
-
 	public Book(Long id, String title, String type, int price) {
 		super();
 		this.id = id;

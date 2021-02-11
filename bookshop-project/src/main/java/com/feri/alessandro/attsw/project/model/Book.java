@@ -1,11 +1,18 @@
 package com.feri.alessandro.attsw.project.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Book {
 	
+	@Id @GeneratedValue
 	private Long id;
 	private String title;
 	private String type;
 	private int price;
+
 
 	public Book(Long id, String title, String type, int price) {
 		super();

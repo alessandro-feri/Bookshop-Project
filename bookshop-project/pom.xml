@@ -42,8 +42,7 @@
       **/*Application.*,
       **/*model/*,
       **/*exception/*,
-      **/*security/*,
-      **/*repositories/*
+      **/*security/*
     </sonar.coverage.exclusions>
   </properties>
 
@@ -159,7 +158,6 @@
 	          <exclude>**/model/*</exclude>
 	          <exclude>**/*exception/*</exclude>
 	          <exclude>**/*security/*</exclude>
-	          <exclude>**/*repositories/*</exclude>
 	        </excludes>
 	      </configuration>
 	      <executions>
@@ -205,7 +203,6 @@
 	          <param>com.feri.alessandro.attsw.project.BookshopProjectApplication</param>
 	          <param>com.feri.alessandro.attsw.project.model.*</param>
 	          <param>com.feri.alessandro.attsw.project.exception.*</param>
-	          <param>com.feri.alessandro.attsw.project.repositories.*</param>
 	          <param>com.feri.alessandro.attsw.project.security.*</param>
 	        </excludedClasses>
 	        <targetTests>

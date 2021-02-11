@@ -17,6 +17,7 @@
 
   <properties>
     <java.version>1.8</java.version>
+    <sonar.scanner.force-deprecated-java-version-grace-period>true</sonar.scanner.force-deprecated-java-version-grace-period>
     
     <!-- For SonarQube -->
     <sonar.coverage.jacoco.xmlReportPaths>
@@ -39,7 +40,10 @@
    <!-- Exclude non covered files -->  
     <sonar.coverage.exclusions>
       **/*Application.*,
-      **/*model/*
+      **/*model/*,
+      **/*exception/*,
+      **/*security/*,
+      **/*repositories/*
     </sonar.coverage.exclusions>
   </properties>
 
@@ -75,6 +79,19 @@
 	  <groupId>org.springframework.boot</groupId>
 	  <artifactId>spring-boot-starter-test</artifactId>
 	  <scope>test</scope>
+	</dependency>
+	<dependency>
+	  <groupId>org.springframework.boot</groupId>
+	  <artifactId>spring-boot-starter-security</artifactId>
+	</dependency>
+	<dependency>
+	  <groupId>org.springframework.security</groupId>
+	  <artifactId>spring-security-test</artifactId>
+	  <scope>test</scope>
+	</dependency>
+	<dependency>
+  	  <groupId>org.springframework.boot</groupId>
+	  <artifactId>spring-boot-starter-data-mongodb</artifactId>
 	</dependency>
   </dependencies>
 
@@ -140,6 +157,9 @@
 	        <excludes>
 	          <exclude>**/*Application.*</exclude>
 	          <exclude>**/model/*</exclude>
+	          <exclude>**/*exception/*</exclude>
+	          <exclude>**/*security/*</exclude>
+	          <exclude>**/*repositories/*</exclude>
 	        </excludes>
 	      </configuration>
 	      <executions>
@@ -184,6 +204,9 @@
 	        <excludedClasses>
 	          <param>com.feri.alessandro.attsw.project.BookshopProjectApplication</param>
 	          <param>com.feri.alessandro.attsw.project.model.*</param>
+	          <param>com.feri.alessandro.attsw.project.exception.*</param>
+	          <param>com.feri.alessandro.attsw.project.repositories.*</param>
+	          <param>com.feri.alessandro.attsw.project.security.*</param>
 	        </excludedClasses>
 	        <targetTests>
 	          <param>com.feri.alessandro.attsw.project.*</param>

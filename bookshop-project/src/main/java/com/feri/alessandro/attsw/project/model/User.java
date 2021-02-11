@@ -1,13 +1,28 @@
 package com.feri.alessandro.attsw.project.model;
 
-public class User {
+import java.util.Collection;
+import java.util.Collections;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+@Document(collection = "user")
+public class User implements UserDetails {
 	
-	private Long id;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Id
+	private String id;
 	private String email;
 	private String username;
 	private String password;	
+	private Boolean enabled;
 	
-	public User(Long id, String email, String username, String password) {
+	public User(String id, String email, String username, String password) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -15,11 +30,15 @@ public class User {
 		this.password = password;
 	}
 
-	public Long getId() {
+	public User() {
+		
+	}
+	
+	public String getId() {
 		return id;
 	}
 	
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	
@@ -47,6 +66,15 @@ public class User {
 		this.password = password;
 	}
 
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+	
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", email=" + email + ", username=" + username + ", password=" + password + "]";
@@ -94,7 +122,35 @@ public class User {
 			return false;
 		return true;
 	}
-	
-	
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return Collections.emptyList();
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 	
 }

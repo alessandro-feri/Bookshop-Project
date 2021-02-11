@@ -3,42 +3,29 @@ package com.feri.alessandro.attsw.project.repositories;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.feri.alessandro.attsw.project.model.Book;
 
-/**
- * Temporary fake repository implementation.
- */
-@Repository
-public class BookRepository {
+public interface BookRepository extends JpaRepository<Book, Long> {
+
+	Optional<Book> findByTitle(String title);
 	
-	private static final String TEMPORARY_IMPLEMENTATION = "Temporary implementation";
-
-	public List<Book> findAll() {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-		
-	}
+	@Query("Select b from Book b where b.type = :type")
+	List<Book> findBooksByType(@Param("type") String type);
 	
-	public Optional<Book> findById(long id) {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-	}
+	@Query("Select b from Book b where b.title = :title or b.type = :type")
+	List<Book> findBooksByTitleOrType(@Param("title") String title, @Param("type") String type);
+
+	@Query("Select b from Book b where b.title = :title and b.price = :price")
+	Optional<Book> findBookByTitleAndPrice(@Param("title") String title, @Param("price") int price);
+
+	@Query("Select b from Book b where b.price > :min and b.price < :max")
+	List<Book> findAllBooksWhosePriceIsWithinAnInterval(@Param("min") int min, @Param("max") int max);
 	
-	public Optional<Book> findByTitle(String title) {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-	}
-
-	public Book save(Book book) {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-	}
-
-	public void delete(Book book) {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-		
-	}
-
-	public void deleteAll() {
-		throw new UnsupportedOperationException(TEMPORARY_IMPLEMENTATION);
-		
-	}
+	@Query("Select b from Book b where b.type = :type order by b.title")
+	List<Book> findAllBooksByTypeOrderByTitle(@Param("type") String type);
+	
 }

@@ -21,24 +21,19 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
+	
 	public User findUserByEmail(String email) throws EmailExistException {
-		User exist = userRepository.findByEmail(email);
+		if(userRepository.findByEmail(email).isPresent())
+			throw new EmailExistException("Email already exist");
 		
-		if(exist != null) {
-			throw new EmailExistException("There is already a user registered with the email provided."
-					+ "Please, try with another email address.");
-		}
-		return exist;
+		return null;
 	}
 
 	public User findUserByUsername(String username) throws UsernameExistException {
-		User exist = userRepository.findByUsername(username);
+		if(userRepository.findByUsername(username).isPresent())
+			throw new UsernameExistException("Username already exist");
 		
-		if(exist != null) {
-			throw new UsernameExistException("There is already a user registered with the username provided."
-					+ "Please, try with another username.");
-		}
-		return exist;
+		return null;
 	}
 
 	public void saveUser(User user) {
@@ -50,14 +45,9 @@ public class UserService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		User user = userRepository.findByEmail(email);
-		
-		if(user != null) {
-			return user;
-		} else {
-			throw new UsernameNotFoundException("username not found");
-		}
-	
+		return userRepository.findByEmail(email).
+				orElseThrow(() ->
+						new UsernameNotFoundException("user not found"));
 	}
 
 }

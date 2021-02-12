@@ -28,7 +28,7 @@ public class BookshopWebController {
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping
+	@GetMapping("/login")
 	public String getLoginPage() {
 		return "login";
 	}

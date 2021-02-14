@@ -283,4 +283,64 @@ public class BookshopWebViewsHtmlUnitTest {
 			.insertNewBook(new Book(null, "new_title", "new_type", 10));
 	}
 	
+	@Test
+	@WithMockUser
+	public void test_searchView_withEmptyText_shouldShowErrorMessage() throws Exception {
+		HtmlPage page = webClient.getPage("/");
+		
+		final HtmlForm form = page.getFormByName("search_form");
+		
+		form.getInputByName("title_searched").setValueAttribute("");
+		
+		HtmlPage search = form.getButtonByName("search_button").click();
+		
+		assertTextPresent(search, "Error! Please, insert a valid title.");
+		assertThat(search.getAnchorByText("Home").getHrefAttribute()).isEqualTo("/");
+		assertThat(search.getTextContent()).isNull();
+	}
+	
+	@Test
+	@WithMockUser
+	public void test_searchView_whenBookNotFound() throws Exception {
+		when(bookService.getBookByTitle(anyString())).thenThrow(BookNotFoundException.class);
+		
+		HtmlPage page = webClient.getPage("/");
+		
+		final HtmlForm form = page.getFormByName("search_form");
+		
+		form.getInputByName("title_searched").setValueAttribute("notFound");
+		
+		HtmlPage search = form.getButtonByName("search_button").click();
+		
+		assertThat(search.getTextContent()).isNull();
+		
+		assertTextPresent(search, "Book not found!");
+		assertLinkPresentWithText(search, "Back to homepage");
+	}
+	
+	@Test
+	@WithMockUser
+	public void test_searchView_WhenBookIsFound() throws Exception {
+		Book found = new Book(1L, "test_title", "type", 10);
+		when(bookService.getBookByTitle("test_title")).thenReturn(found);
+		
+		HtmlPage page = webClient.getPage("/");
+		
+		final HtmlForm form = page.getFormByName("search_form");
+		
+		form.getInputByName("title_searched").setValueAttribute("test_title");
+		
+		HtmlPage search = form.getButtonByName("search_button").click();
+		
+		search.getAnchorByHref("/");
+		
+		assertThat(search.getElementById("bookSearchedResult").getTextContent()).
+			contains("Result", "Title", "Type", "Price", "test_title", "type", "10");
+		
+		assertThat(search.getAnchorByText("Home").getHrefAttribute()).isEqualTo("/");
+		
+		
+		verify(bookService).getBookByTitle("test_title");
+	}
+	
 }

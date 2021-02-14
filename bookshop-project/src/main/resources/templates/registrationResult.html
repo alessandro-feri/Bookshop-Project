@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Result</title>
+</head>
+<body>
+  <div>
+    <div th:unless="${message.empty}">
+      <h3 th:text="${message}"></h3>
+        <div>
+          <a th:href="@{/registration}">Go back to Registration page</a>
+        </div>
+    </div>
+    <div th:if="${message.empty}">
+      <h1>You have been registered successfully!</h1>
+      <a th:href="@{/login}">Login Page</a>
+    </div> 
+
+  </div>
+</body>
+</html>

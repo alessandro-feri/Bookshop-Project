@@ -1,0 +1,40 @@
+@charset "UTF-8";
+
+form {
+	display: inline;
+}
+
+.center-elements {
+	text-align: center;
+}
+
+.left-elements {
+	text-align: left;
+}
+
+.right-elements {
+	text-align: right;
+}
+
+
+.headers {
+	color: blue;
+}
+
+.table {
+	border: 1px solid #000000;
+	background-color: #8FBC8F;
+}
+
+
+
+.buttons-color {
+	background-color: teal;
+	font-size: 15px;
+	color: white;
+	padding: 5px 13px;
+	border-radius: 8px;
+	border: 1px solid black;
+	-webkit-transition-duration: 0.4;
+	transition-duration: 0.4;
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title>Bookshop</title>
+<link rel="stylesheet" th:href="@{/css/style.css}" href="../../css/style.css"/>
+</head>
+<body>
+  <div class="left-elements">
+    <form name="logout" th:action="@{/logout}" method="post">
+      <input type="submit" value="Logout"/>
+    </form>
+  </div>
+  
+  <div class="center-elements">
+    <form name="search_form" th:action="@{/search}" method="get">
+      <h4 class="headers">Search by title</h4>
+      <input type="text" name="title_searched"
+        placeholder="Type a book title..."/>
+        <button id="btn_search" type="submit" name="search_button">Search</button> 
+      <br>
+    </form>
+  </div>
+    
+  <br>
+  
+  <div class="center-elements">
+    <h3 class="headers">Book List</h3>
+    <a th:href="@{/new}"><button>Insert</button></a>
+    or
+    <form name="deleteAll" th:action="@{/deleteAll}" method="get">
+      <button type="submit" name="deleteAll_button">Delete All</button>
+    </form>
+    <!-- or
+    <a th:href="@{/deleteAll}"><button>Delete All</button></a> -->
+  </div>
+  <br>
+  <!-- IF NO NOOKS -->
+  <div class="center-elements" th:if="${books.empty}">
+    <div>There are no books.</div>
+  </div>
+  <!-- ELSE -->
+  <div th:unless="${books.empty}">
+    <table class="table" id="book_table" align="center" cellspacing=7 cellpadding=7>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Type</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="book : ${books}">
+          <td th:text="${book.id}"></td>
+          <td th:text="${book.title}"></td>
+          <td th:text="${book.type}"></td>
+          <td th:text="${book.price}"></td>
+          <td><a id="edit" th:href="@{'/edit/' + ${book.id}}"><button>Edit</button></a></td>
+          <td><a th:href="@{/delete(id=${book.id})}"><button>Delete</button></a></td>        
+        </tr>
+      </tbody>
+    </table>
+  </div>
+ <!--  <div>
+    <form name="deleteAll" th:action="@{/deleteAll}" method="get">
+      <button class="buttons-color" type="submit" name="deleteAll_button">Delete All</button>
+    </form>
+  </div> 
+  <div>
+    <form th:action="@{/clear}" method="get">
+      <button class="buttons-color" type="submit" name="clear_button">Clear</button>
+    </form>
+  </div>  -->
+</body>
+</html>

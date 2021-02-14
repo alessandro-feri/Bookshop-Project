@@ -343,4 +343,33 @@ public class BookshopWebViewsHtmlUnitTest {
 		verify(bookService).getBookByTitle("test_title");
 	}
 	
+	@Test
+	@WithMockUser
+	public void testDelete() throws Exception {
+		Book book = new Book(1L, "title1", "type1", 10);
+		List<Book> books = asList(book);
+		
+		when(bookService.getAllBooks()).thenReturn(books);
+		when(bookService.getBookById(1L)).thenReturn(book);
+		
+		HtmlPage page = webClient.getPage("/");
+		page.getAnchorByHref("/delete?id=1").click();
+		
+		verify(bookService).getBookById(1L);
+		verify(bookService).deleteOneBook(book);
+	}
+	
+	
+	@Test
+	@WithMockUser
+	public void test_deleteAll() throws Exception {
+		HtmlPage home = webClient.getPage("/");
+		
+		final HtmlForm form = home.getFormByName("deleteAll");
+		
+		form.getButtonByName("deleteAll_button").click();
+		
+		verify(bookService).deleteAllBooks();
+	}
+	
 }

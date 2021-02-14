@@ -16,6 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
 import com.feri.alessandro.attsw.project.exception.EmailExistException;
 import com.feri.alessandro.attsw.project.exception.UsernameExistException;
 import com.feri.alessandro.attsw.project.model.Book;
@@ -211,6 +212,75 @@ public class BookshopWebViewsHtmlUnitTest {
 		page.getAnchorByHref("/edit/2");
 		page.getAnchorByHref("/delete?id=1");
 		page.getAnchorByHref("/delete?id=2");
+	}
+	
+	@Test
+	public void test_Edit_And_New_PageStructure() throws Exception {
+		when(bookService.getBookById(1L)).
+		thenReturn(new Book(1L, "title", "type", 10));
+	
+		HtmlPage page = webClient.getPage("/edit/1");
+		
+		assertThat(page.getTitleText()).isEqualTo("Edit Page");
+		assertTextPresent(page, "Edit Book");
+		assertFormPresent(page, "book_form");
+		assertElementPresent(page, "btn_save");
+		assertTextPresent(page, "Title:");
+		assertInputPresent(page, "title");
+		assertTextPresent(page, "Type:");
+		assertInputPresent(page, "type");
+		assertTextPresent(page, "Price:");
+		assertInputPresent(page, "price");
+	}
+	
+	@Test
+	@WithMockUser
+	public void test_editWithNonExistentBook_shouldReturnBookNotFound () throws Exception {
+		when(bookService.getBookById(1L)).thenThrow(BookNotFoundException.class);
+		webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+		
+		HtmlPage page = webClient.getPage("/edit/1");
+		
+		assertThat(page.getTitleText()).isEqualTo("Book not found!");
+		
+		assertThat(page.getBody().getTextContent().contains("Book not found!"));
+	}
+	
+	@Test
+	@WithMockUser
+	public void test_editWithExistentBook() throws Exception {
+		when(bookService.getBookById(1L)).
+			thenReturn(new Book(1L, "title", "type", 10));
+		
+		HtmlPage page = webClient.getPage("/edit/1");
+		
+		final HtmlForm form = page.getFormByName("book_form");
+		
+		form.getInputByValue("title").setValueAttribute("modified_title");
+		form.getInputByValue("type").setValueAttribute("modified_type");
+		form.getInputByValue("10").setValueAttribute("15");
+		
+		form.getButtonByName("btn_submit").click();
+		
+		verify(bookService, times(1))
+			.editBookById(1L, new Book(1L, "modified_title", "modified_type", 15));
+	}
+	
+	@Test
+	@WithMockUser
+	public void test_editNewBook() throws Exception {
+		HtmlPage page = webClient.getPage("/new");
+		
+		final HtmlForm form = page.getFormByName("book_form");
+		
+		form.getInputByName("title").setValueAttribute("new_title");
+		form.getInputByName("type").setValueAttribute("new_type");
+		form.getInputByName("price").setValueAttribute("10");
+		
+		form.getButtonByName("btn_submit").click();
+		
+		verify(bookService)
+			.insertNewBook(new Book(null, "new_title", "new_type", 10));
 	}
 	
 }

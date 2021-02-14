@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Search</title>
+</head>
+<body>
+    <div>
+      <div th:unless="${message.empty}">
+        <h3 th:text="${message}"></h3>
+      </div>
+      <div th:if="${message.empty}">
+        <!-- Book result -->
+        <div id="bookSearchedResult">
+          <div th:if="${book == null}">
+            <h5>No book</h5>
+          </div>
+          <div th:unless="${book == null}">
+            <h2>Result:</h2>
+            <div>
+              <table id="result_table">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td th:text="${book.title}"></td>
+                    <td th:text="${book.type}"></td>
+                    <td th:text="${book.price}"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <a th:href="@{/}">Home</a>
+    </div>
+</body>
+</html>

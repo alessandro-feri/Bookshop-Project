@@ -24,5 +24,5 @@ cache:
     
 script:
   - mvn -f bookshop-project/pom.xml clean verify -Pjacoco
+  - mvn -f bookshop-project/pom.xml verify -Pjacoco,integration-tests
   - mvn -f bookshop-project/pom.xml coveralls:report sonar:sonar
-  - mvn -f bookshop-project/pom.xml verify -Pintegration-tests

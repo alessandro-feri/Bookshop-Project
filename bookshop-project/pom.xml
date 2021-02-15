@@ -297,6 +297,7 @@
         </plugins>
       </build>
     </profile>
+    
     <profile>
       <id>pit</id>
       <activation>
@@ -320,8 +321,12 @@
         </plugins>
       </build>
     </profile>
+    
     <profile>
       <id>integration-tests</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
       <build>
         <plugins>
           <plugin>

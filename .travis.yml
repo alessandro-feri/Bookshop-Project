@@ -4,6 +4,9 @@ dist: xenial
 
 jdk: openjdk11
 
+services: 
+  - docker
+
 git:
   depth: false
   
@@ -22,3 +25,4 @@ cache:
 script:
   - mvn -f bookshop-project/pom.xml clean verify -Pjacoco
   - mvn -f bookshop-project/pom.xml coveralls:report sonar:sonar
+  - mvn -f bookshop-project/pom.xml verify -Pintegration-tests

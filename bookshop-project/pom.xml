@@ -19,6 +19,8 @@
     <java.version>1.8</java.version>
     <sonar.scanner.force-deprecated-java-version-grace-period>true</sonar.scanner.force-deprecated-java-version-grace-period>
     <groovy.version>3.0.6</groovy.version>
+    <skip.unit-tests>false</skip.unit-tests>
+    
     <!-- For SonarQube -->
     <sonar.coverage.jacoco.xmlReportPaths>
       ${project.reporting.outputDirectory}/jacoco/jacoco.xml
@@ -334,6 +336,9 @@
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
+      <properties>
+        <skip.unit-tests>true</skip.unit-tests>
+      </properties>
       <build>
         <plugins>
           <plugin>

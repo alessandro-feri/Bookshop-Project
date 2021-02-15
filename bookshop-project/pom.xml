@@ -239,6 +239,39 @@
 	      <artifactId>sonar-maven-plugin</artifactId>
 	      <version>3.7.0.1746</version>
 	    </plugin> 
+	    <plugin>
+	      <groupId>io.fabric8</groupId>
+	      <artifactId>docker-maven-plugin</artifactId>  
+          <version>0.30.0</version>
+          <configuration>
+            <images>
+              <image>
+                <name>mongo:4.2.3</name>
+                <run>
+                  <ports>
+                    <port>27017:27017</port>
+                  </ports>
+                </run>
+              </image>
+            </images>
+          </configuration>
+          <executions>
+            <execution>
+              <id>docker:start</id>
+              <phase>pre-integration-test</phase>
+              <goals>
+                <goal>start</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>docker:stop</id>
+              <phase>post-integration-test</phase>
+              <goals>
+                <goal>stop</goal>
+              </goals>
+            </execution>
+          </executions>
+	    </plugin>
 	  </plugins>
     </pluginManagement>
   </build>

@@ -31,14 +31,6 @@ public class BookServiceRepositoryIT {
 		
 		assertThat(bookRepository.findById(saved.getId())).isPresent();
 	}
-	
-	@Test
-	public void test_serviceCanInsertIntoRepository_usingFindByTitle() {
-		Book saved = bookService.insertNewBook(
-				new Book(1L, "testing_title", "testing_type", 10));
-		
-		assertThat(bookRepository.findByTitle(saved.getTitle())).isPresent();
-	}
 
 	@Test
 	public void test_serviceCanUpdateIntoRepository() throws BookNotFoundException {

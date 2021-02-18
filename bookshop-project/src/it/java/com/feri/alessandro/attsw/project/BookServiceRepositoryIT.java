@@ -25,7 +25,7 @@ public class BookServiceRepositoryIT {
 	private BookRepository bookRepository;
 	
 	@Test
-	public void test_serviceCanInsertIntoRepository_usingFindById() {
+	public void test_serviceCanInsertIntoRepository() {
 		Book saved = bookService.insertNewBook(
 				new Book(null, "testing_title", "testing_type", 10));
 		

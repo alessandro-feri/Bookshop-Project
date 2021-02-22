@@ -31,11 +31,9 @@
     <form name="deleteAll" th:action="@{/deleteAll}" method="get">
       <button type="submit" name="deleteAll_button">Delete All</button>
     </form>
-    <!-- or
-    <a th:href="@{/deleteAll}"><button>Delete All</button></a> -->
   </div>
   <br>
-  <!-- IF NO NOOKS -->
+  <!-- IF NO BOOKS -->
   <div class="center-elements" th:if="${books.empty}">
     <div>There are no books.</div>
   </div>
@@ -62,15 +60,5 @@
       </tbody>
     </table>
   </div>
- <!--  <div>
-    <form name="deleteAll" th:action="@{/deleteAll}" method="get">
-      <button class="buttons-color" type="submit" name="deleteAll_button">Delete All</button>
-    </form>
-  </div> 
-  <div>
-    <form th:action="@{/clear}" method="get">
-      <button class="buttons-color" type="submit" name="clear_button">Clear</button>
-    </form>
-  </div>  -->
 </body>
 </html>

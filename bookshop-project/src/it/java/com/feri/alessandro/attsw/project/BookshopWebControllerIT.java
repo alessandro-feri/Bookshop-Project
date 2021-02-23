@@ -1,11 +1,17 @@
 package com.feri.alessandro.attsw.project;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.util.Collections;
+import java.util.List;
+
+import org.apache.bcel.generic.NEW;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,12 +21,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.feri.alessandro.attsw.project.model.Book;
 import com.feri.alessandro.attsw.project.model.User;
 import com.feri.alessandro.attsw.project.repositories.BookRepository;
 import com.feri.alessandro.attsw.project.repositories.UserRepository;
@@ -137,5 +145,42 @@ public class BookshopWebControllerIT {
 		assertThat(userRepository.findAll()).containsExactly(saved);
 	}
 	
+	@Test
+	@WithMockUser
+	public void test_returnHomePageView() throws Exception {
+		ModelAndViewAssert.assertViewName(
+				mvc.perform(get("/")).
+					andReturn().getModelAndView(), "index");
+	}
+	
+	@Test
+	@WithMockUser
+	public void test_homePage_shouldContainEmptyBookList() throws Exception {
+		mvc.perform(get("/")).
+			andExpect(view().name("index")).
+			andExpect(model().attribute("books", Collections.emptyList())).
+			andExpect(model().attribute("message", "No books!"));
+		
+		assertThat(bookRepository.findAll()).isEmpty();
+	}
+	
+	@Test
+	@WithMockUser
+	public void test_homePage_shouldContainBooks() throws Exception {
+		List<Book> books = asList(
+				new Book(null, "title1", "type1", 10),
+				new Book(null, "title2", "type2", 15),
+				new Book(null, "title3", "type3", 20));
+		
+		bookRepository.saveAll(books);
+	
+		mvc.perform(get("/")).
+			andExpect(view().name("index")).
+			andExpect(model().attribute("books", books)).
+			andExpect(model().attribute("message", ""));
+		 
+		assertThat(bookRepository.findAll().size()).isEqualTo(3);
+			
+	}
 	
 }

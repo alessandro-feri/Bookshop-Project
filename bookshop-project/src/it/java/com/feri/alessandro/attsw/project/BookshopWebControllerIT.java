@@ -1,6 +1,7 @@
 package com.feri.alessandro.attsw.project;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -84,7 +85,6 @@ public class BookshopWebControllerIT {
 	@Test
 	public void test_createNewUser_shouldReturnResultPage() throws Exception {
 		ModelAndViewAssert.assertViewName(mvc.perform(post("/saveUser")
-				.param("id", "1")
 				.param("email", "email@gmail")
 				.param("username", "test")
 				.param("password", "password")).andReturn().getModelAndView(), "registrationResult");
@@ -93,11 +93,48 @@ public class BookshopWebControllerIT {
 		
 		User saved = userRepository.findAll().get(0);
 		
-		assertEquals(saved.getId(), "1");
 		assertEquals(saved.getEmail(), "email@gmail");
 		assertEquals(saved.getUsername(), "test");
 		assertThat(bCryptPasswordEncoder.matches("password", saved.getPassword()));
 		
+	}
+	
+	@Test
+	public void test_createNewUser_WhenEmailAlreadyExistShouldNotSaveTheUser_andShouldReturnResultPage() throws Exception {
+		User saved = new User();
+		saved.setEmail("already_exist@gmail");
+		saved.setUsername("username");
+		saved.setPassword("password");
+		
+		userRepository.save(saved);
+		
+		ModelAndViewAssert.assertViewName(mvc.perform(post("/saveUser")
+				.param("email", "already_exist@gmail")
+				.param("username", "user")
+				.param("password", "pass")).andReturn().getModelAndView(), "registrationResult");
+		
+		assertEquals(userRepository.findAll().size(), 1);
+		assertThat(userRepository.findAll()).containsExactly(saved);
+		
+		
+	}
+	
+	@Test
+	public void test_createNewUser_WhenUsernamaAlreadyExistShouldNotSaveTheUser_andShouldReturnResultPage() throws Exception {
+		User saved = new User();
+		saved.setEmail("email@gmail");
+		saved.setUsername("already_exist");
+		saved.setPassword("password");
+		
+		userRepository.save(saved);
+		
+		ModelAndViewAssert.assertViewName(mvc.perform(post("/saveUser")
+				.param("email", "not_exist@gmail")
+				.param("username", "already_exist")
+				.param("password", "pass")).andReturn().getModelAndView(), "registrationResult");
+		
+		assertEquals(userRepository.findAll().size(), 1);
+		assertThat(userRepository.findAll()).containsExactly(saved);
 	}
 	
 	

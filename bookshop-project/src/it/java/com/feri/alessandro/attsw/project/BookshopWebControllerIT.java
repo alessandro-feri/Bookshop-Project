@@ -218,4 +218,47 @@ public class BookshopWebControllerIT {
 			andExpect(model().attribute("message", ""));
 		
 	}
+	
+	@Test
+	@WithMockUser
+	public void test_saveWithoutId_shouldInsertBookIntoRepository_andRedirectToHomePage() throws Exception {
+		
+		assertThat(bookRepository.findAll()).isEmpty();
+		
+		mvc.perform(post("/save")
+				.param("title", "title1")
+				.param("type", "type1")
+				.param("price", "10")).
+			andExpect(view().name("redirect:/"));
+		
+		assertEquals(bookRepository.findAll().size(), 1);
+	}
+	
+	@Test
+	@WithMockUser
+	public void test_saveWithExistingId_shouldUpdateBookIntoRepository_andRedirectToHomePage() throws Exception {
+		Book saved = new Book(null, "original_title", "original_type", 10);
+		
+		bookRepository.save(saved);
+		
+		assertEquals(bookRepository.findAll().size(), 1);
+		
+		Long id = bookRepository.findAll().get(0).getId();
+		
+		mvc.perform(post("/save")
+				.param("id", id.toString())
+				.param("title", "modified_title")
+				.param("type", "modified_type")
+				.param("price", "15")).
+			andExpect(view().name("redirect:/"));
+		
+		assertEquals(bookRepository.findAll().size(), 1);
+		
+		Book updated = bookRepository.findAll().get(0);
+		
+		assertEquals(saved.getId(), updated.getId());
+		assertThat(updated.getTitle()).isEqualTo("modified_title");
+		assertThat(updated.getType()).isEqualTo("modified_type");
+		assertThat(updated.getPrice()).isEqualTo(15);
+	}
 }

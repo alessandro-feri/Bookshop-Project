@@ -183,7 +183,7 @@ public class BookshopWebControllerIT {
 	
 	@Test
 	@WithMockUser
-	public void test_EditBook_withExistingBookIntoRepository() throws Exception {
+	public void test_editBook_withExistingBookIntoRepository() throws Exception {
 		Book saved = new Book(null, "title", "type", 10);
 		
 		bookRepository.save(saved);
@@ -198,7 +198,7 @@ public class BookshopWebControllerIT {
 	
 	@Test
 	@WithMockUser
-	public void test_EditBook_withNonExistingBookIntoRepository_shouldReturnBookNotFoundView() throws Exception {
+	public void test_editBook_withNonExistingBookIntoRepository_shouldReturnBookNotFoundView() throws Exception {
 		
 		mvc.perform(get("/edit/1")).
 			andExpect(view().name("bookNotFound")).
@@ -206,5 +206,16 @@ public class BookshopWebControllerIT {
 			andExpect(model().attribute("message", "Book not found!"));
 		
 		assertThat(userRepository.findAll()).isEmpty();
+	}
+	
+	@Test
+	@WithMockUser
+	public void test_newBook_shouldReturnEditView() throws Exception {
+		
+		mvc.perform(get("/new")).
+			andExpect(view().name("edit")).
+			andExpect(model().attribute("book", new Book())).
+			andExpect(model().attribute("message", ""));
+		
 	}
 }

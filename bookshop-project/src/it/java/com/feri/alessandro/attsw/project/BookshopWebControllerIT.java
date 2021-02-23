@@ -261,4 +261,64 @@ public class BookshopWebControllerIT {
 		assertThat(updated.getType()).isEqualTo("modified_type");
 		assertThat(updated.getPrice()).isEqualTo(15);
 	}
+	
+	@Test
+	@WithMockUser
+	public void test_searchView() throws Exception {
+		Book saved = new Book(null, "existing_title", "type", 10);
+		
+		bookRepository.save(saved);
+		
+		mvc.perform(get("/search").
+				param("title_searched", saved.getTitle())).
+			andExpect(view().name("search")).
+			andExpect(model().attribute("book", saved)).
+			andExpect(model().attribute("message", ""));
+		
+		assertThat(bookRepository.findByTitle(saved.getTitle())).isPresent();
+	}
+	
+	@Test
+	@WithMockUser
+	public void test_searchWithEmptyText_shouldShowError() throws Exception {
+		mvc.perform(get("/search").
+				param("title_searched", "")).
+			andExpect(view().name("search")).
+			andExpect(model().attribute("message", "Error! Please, insert a valid title."));
+	}
+	
+	@Test
+	@WithMockUser
+	public void test_deleteBook_shouldDeleteFromRepository_andRedirectToHomepage() throws Exception {
+		Book saved = new Book(null, "title", "type", 10);
+		bookRepository.save(saved);
+		
+		assertThat(bookRepository.findAll()).containsExactly(saved);
+		
+		Long id = bookRepository.findAll().get(0).getId();
+		
+		mvc.perform(get("/delete?id=" + id)).
+			andExpect(view().name("redirect:/"));
+		
+		assertThat(bookRepository.findAll()).isEmpty();
+	}
+	
+	@Test
+	@WithMockUser
+	public void test_deleteAll_souldDeleteAllBooksFromRepository_andRedirectToHomepage() throws Exception {
+		List<Book> books = asList(
+				new Book(null, "title1", "type1", 10),
+				new Book(null, "title2", "type2", 15),
+				new Book(null, "title3", "type3", 20));
+		
+		bookRepository.saveAll(books);
+		
+		assertEquals(bookRepository.findAll().size(), 3);
+		
+		mvc.perform(get("/deleteAll")).
+			andExpect(view().name("redirect:/"));
+		
+		assertThat(bookRepository.findAll()).isEmpty();
+	}
+	
 }

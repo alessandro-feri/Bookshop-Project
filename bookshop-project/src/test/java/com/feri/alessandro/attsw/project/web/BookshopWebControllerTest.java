@@ -69,7 +69,6 @@ public class BookshopWebControllerTest {
 	@Test
 	public void test_createNewUser() throws Exception {
 		mvc.perform(post("/saveUser")
-				.param("id", "1")
 				.param("email", "email@gmail")
 				.param("username", "username")
 				.param("password", "password")).
@@ -78,7 +77,8 @@ public class BookshopWebControllerTest {
 		
 		verify(userService).findUserByEmail("email@gmail");
 		verify(userService).findUserByUsername("username");
-		verify(userService).saveUser(new User("1", "email@gmail", "username", "password"));
+		
+		verify(userService).saveUser(new User(null, "email@gmail", "username", "password"));
 	}
 	
 	@Test
@@ -86,7 +86,6 @@ public class BookshopWebControllerTest {
 		when(userService.findUserByEmail("tested_email@gmail")).thenThrow(EmailExistException.class);
 		
 		mvc.perform(post("/saveUser")
-				.param("id", "1")
 				.param("email", "tested_email@gmail")
 				.param("username", "username")
 				.param("password", "password"))
@@ -102,7 +101,6 @@ public class BookshopWebControllerTest {
 		when(userService.findUserByUsername("tested_username")).thenThrow(UsernameExistException.class);
 		
 		mvc.perform(post("/saveUser").
-				param("id", "1").
 				param("email", "email@gmail").
 				param("username", "tested_username").
 				param("password", "password")).

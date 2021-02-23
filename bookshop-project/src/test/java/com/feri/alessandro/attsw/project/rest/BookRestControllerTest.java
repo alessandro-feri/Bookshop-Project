@@ -1,4 +1,4 @@
-package com.feri.alessandro.attsw.project.controllers;
+package com.feri.alessandro.attsw.project.rest;
 
 import static java.util.Arrays.asList;
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;

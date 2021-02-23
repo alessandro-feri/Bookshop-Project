@@ -2,6 +2,7 @@ package com.feri.alessandro.attsw.project;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -11,7 +12,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.bcel.generic.NEW;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -178,9 +178,33 @@ public class BookshopWebControllerIT {
 			andExpect(view().name("index")).
 			andExpect(model().attribute("books", books)).
 			andExpect(model().attribute("message", ""));
-		 
-		assertThat(bookRepository.findAll().size()).isEqualTo(3);
 			
 	}
 	
+	@Test
+	@WithMockUser
+	public void test_EditBook_withExistingBookIntoRepository() throws Exception {
+		Book saved = new Book(null, "title", "type", 10);
+		
+		bookRepository.save(saved);
+		
+		Long id = bookRepository.findAll().get(0).getId();
+		
+		mvc.perform(get("/edit/" + id)).
+			andExpect(view().name("edit")).
+			andExpect(model().attribute("book", saved)).
+			andExpect(model().attribute("message", ""));
+	}
+	
+	@Test
+	@WithMockUser
+	public void test_EditBook_withNonExistingBookIntoRepository_shouldReturnBookNotFoundView() throws Exception {
+		
+		mvc.perform(get("/edit/1")).
+			andExpect(view().name("bookNotFound")).
+			andExpect(model().attribute("book", nullValue())).
+			andExpect(model().attribute("message", "Book not found!"));
+		
+		assertThat(userRepository.findAll()).isEmpty();
+	}
 }

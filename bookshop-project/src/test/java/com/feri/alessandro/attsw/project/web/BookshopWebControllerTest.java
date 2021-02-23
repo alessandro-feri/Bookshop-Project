@@ -143,7 +143,7 @@ public class BookshopWebControllerTest {
 	 @Test
 	 @WithMockUser
 	 public void test_HomeView_showsBooks() throws Exception {
-		 List<Book> books = asList(new Book(1L, "title", "type", 10));
+		 List<Book> books = asList(new Book(null, "title", "type", 10));
 		 
 		 when(bookService.getAllBooks()).thenReturn(books);
 		 
@@ -246,7 +246,6 @@ public class BookshopWebControllerTest {
 		 	.andExpect(model().attribute("message", "Book not found!"))
 		 	.andExpect(status().is(404));	 	
 		 
-		 //verify(bookService, times(1)).getBookById(1L);
 		 verify(bookService, times(1)).editBookById(1L, replacement);
 		 verifyNoMoreInteractions(bookService);
 	 }

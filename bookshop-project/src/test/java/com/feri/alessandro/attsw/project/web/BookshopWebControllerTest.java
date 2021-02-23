@@ -222,8 +222,7 @@ public class BookshopWebControllerTest {
 				 .param("type", "testedType")
 				 .param("price", "10"))
 		 	.andExpect(view().name("redirect:/"));
-		 
-		 //verify(bookService, times(1)).getBookById(1L);
+
 		 verify(bookService, times(1)).editBookById(
 				 1L, new Book(1L, "testedTitle", "testedType", 10));
 		 verifyNoMoreInteractions(bookService);

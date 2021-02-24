@@ -25,7 +25,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 import com.feri.alessandro.attsw.project.exception.BookExceptionHandler;
 import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
 import com.feri.alessandro.attsw.project.model.Book;
-import com.feri.alessandro.attsw.project.rest.BookRestController;
 import com.feri.alessandro.attsw.project.services.BookService;
 
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
@@ -230,7 +229,6 @@ public class BookRestControllerTest {
 			assertThat().
 				body(is(equalTo(BOOK_NOT_FOUND)));
 		
-		//verify(bookService, times(1)).getBookById(1L);
 		verify(bookService, times(1)).editBookById(1L, bookNotFound);	
 	}
 	

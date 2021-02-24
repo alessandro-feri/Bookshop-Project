@@ -37,6 +37,8 @@ import com.feri.alessandro.attsw.project.repositories.UserRepository;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class BookshopWebControllerIT {
 	
+	private static final String EMPTY_MESSAGE = "";
+
 	@Autowired
 	private UserRepository userRepository;
 	
@@ -177,7 +179,7 @@ public class BookshopWebControllerIT {
 		mvc.perform(get("/")).
 			andExpect(view().name("index")).
 			andExpect(model().attribute("books", books)).
-			andExpect(model().attribute("message", ""));
+			andExpect(model().attribute("message", EMPTY_MESSAGE));
 			
 	}
 	
@@ -193,7 +195,7 @@ public class BookshopWebControllerIT {
 		mvc.perform(get("/edit/" + id)).
 			andExpect(view().name("edit")).
 			andExpect(model().attribute("book", saved)).
-			andExpect(model().attribute("message", ""));
+			andExpect(model().attribute("message", EMPTY_MESSAGE));
 	}
 	
 	@Test
@@ -215,7 +217,7 @@ public class BookshopWebControllerIT {
 		mvc.perform(get("/new")).
 			andExpect(view().name("edit")).
 			andExpect(model().attribute("book", new Book())).
-			andExpect(model().attribute("message", ""));
+			andExpect(model().attribute("message", EMPTY_MESSAGE));
 		
 	}
 	
@@ -273,7 +275,7 @@ public class BookshopWebControllerIT {
 				param("title_searched", saved.getTitle())).
 			andExpect(view().name("search")).
 			andExpect(model().attribute("book", saved)).
-			andExpect(model().attribute("message", ""));
+			andExpect(model().attribute("message", EMPTY_MESSAGE));
 		
 		assertThat(bookRepository.findByTitle(saved.getTitle())).isPresent();
 	}

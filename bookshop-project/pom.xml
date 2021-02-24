@@ -19,6 +19,7 @@
     <java.version>1.8</java.version>
     <sonar.scanner.force-deprecated-java-version-grace-period>true</sonar.scanner.force-deprecated-java-version-grace-period>
     <groovy.version>3.0.6</groovy.version>
+    <cucumber.version>5.5.0</cucumber.version>
     
     <skip.unit-tests>false</skip.unit-tests>
     <skip.integration-tests>false</skip.integration-tests>
@@ -104,6 +105,19 @@
     <dependency>
 	  <groupId>net.sourceforge.htmlunit</groupId>
 	  <artifactId>htmlunit</artifactId>
+	  <scope>test</scope>
+	</dependency>
+	
+	<dependency>
+	  <groupId>io.cucumber</groupId>
+	  <artifactId>cucumber-java</artifactId>
+	  <version>${cucumber.version}</version>
+	  <scope>test</scope>
+	</dependency>
+	<dependency>
+	  <groupId>io.cucumber</groupId>
+	  <artifactId>cucumber-junit</artifactId>
+	  <version>${cucumber.version}</version>
 	  <scope>test</scope>
 	</dependency>
   </dependencies>

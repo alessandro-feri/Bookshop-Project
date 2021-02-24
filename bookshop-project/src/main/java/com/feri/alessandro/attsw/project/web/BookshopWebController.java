@@ -22,13 +22,15 @@ import com.feri.alessandro.attsw.project.services.UserService;
 @Controller
 public class BookshopWebController {
 	
+	private static final String EMPTY_MESSAGE = "";
+
 	@Autowired
 	private BookService bookService;
 	
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping
+	@GetMapping("/login")
 	public String getLoginPage() {
 		return "login";
 	}
@@ -44,7 +46,7 @@ public class BookshopWebController {
 		userService.findUserByEmail(user.getEmail());
 		userService.findUserByUsername(user.getUsername());
 		
-		model.addAttribute("message", "");
+		model.addAttribute("message", EMPTY_MESSAGE);
 		userService.saveUser(user);
 		
 		return "registrationResult";
@@ -55,7 +57,7 @@ public class BookshopWebController {
 	public String getIndex(Model model) {
 		List<Book> allBooks = bookService.getAllBooks();
 		model.addAttribute("books", allBooks);
-		model.addAttribute("message", allBooks.isEmpty() ? "No books!" : "");
+		model.addAttribute("message", allBooks.isEmpty() ? "No books!" : EMPTY_MESSAGE);
 		
 		return "index";
 	}
@@ -64,7 +66,7 @@ public class BookshopWebController {
 	public String editBookById(@PathVariable Long id, Model model) throws BookNotFoundException {
 		Book book = bookService.getBookById(id);
 		model.addAttribute("book", book);
-		model.addAttribute("message", "");
+		model.addAttribute("message", EMPTY_MESSAGE);
 			
 		return "edit";
 	}
@@ -72,13 +74,13 @@ public class BookshopWebController {
 	@GetMapping("/new")
 	public String newBook(Model model) {
 		model.addAttribute("book", new Book());
-		model.addAttribute("message", "");
+		model.addAttribute("message", EMPTY_MESSAGE);
 		
 		return "edit";
 	}
 	
 	@PostMapping("/save")
-	public String saveBook(Book book, Model model) throws BookNotFoundException {
+	public String saveBook(Book book) throws BookNotFoundException {
 		Long id = book.getId();
 		if(id == null) {
 			bookService.insertNewBook(book);
@@ -91,13 +93,13 @@ public class BookshopWebController {
 	
 	@GetMapping("/search")
 	public String search (@RequestParam("title_searched") String title, Model model) throws BookNotFoundException {
-		if(title == "") {
+		if(title == EMPTY_MESSAGE) {
 			model.addAttribute("message", "Error! Please, insert a valid title.");
 		} else {
 		
 		Book book = bookService.getBookByTitle(title);
 		model.addAttribute("book", book);
-		model.addAttribute("message", "");
+		model.addAttribute("message", EMPTY_MESSAGE);
 		
 		}
 		return "search";

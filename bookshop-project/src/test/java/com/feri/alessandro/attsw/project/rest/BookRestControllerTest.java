@@ -1,4 +1,4 @@
-package com.feri.alessandro.attsw.project.controllers;
+package com.feri.alessandro.attsw.project.rest;
 
 import static java.util.Arrays.asList;
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
@@ -229,7 +229,6 @@ public class BookRestControllerTest {
 			assertThat().
 				body(is(equalTo(BOOK_NOT_FOUND)));
 		
-		//verify(bookService, times(1)).getBookById(1L);
 		verify(bookService, times(1)).editBookById(1L, bookNotFound);	
 	}
 	

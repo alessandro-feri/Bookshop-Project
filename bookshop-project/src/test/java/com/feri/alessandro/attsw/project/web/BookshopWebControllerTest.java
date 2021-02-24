@@ -31,6 +31,10 @@ import com.feri.alessandro.attsw.project.services.UserService;
 @WebMvcTest(controllers = BookshopWebController.class)
 public class BookshopWebControllerTest {
 
+	private static final String BOOK_NOT_FOUND = "Book not found!";
+
+	private static final String EMPTY_MESSAGE = "";
+
 	@Autowired
 	private MockMvc mvc;
 	
@@ -69,16 +73,16 @@ public class BookshopWebControllerTest {
 	@Test
 	public void test_createNewUser() throws Exception {
 		mvc.perform(post("/saveUser")
-				.param("id", "1")
 				.param("email", "email@gmail")
 				.param("username", "username")
 				.param("password", "password")).
 		andExpect(view().name("registrationResult")).
-		andExpect(model().attribute("message", ""));
+		andExpect(model().attribute("message", EMPTY_MESSAGE));
 		
 		verify(userService).findUserByEmail("email@gmail");
 		verify(userService).findUserByUsername("username");
-		verify(userService).saveUser(new User("1", "email@gmail", "username", "password"));
+		
+		verify(userService).saveUser(new User(null, "email@gmail", "username", "password"));
 	}
 	
 	@Test
@@ -86,7 +90,6 @@ public class BookshopWebControllerTest {
 		when(userService.findUserByEmail("tested_email@gmail")).thenThrow(EmailExistException.class);
 		
 		mvc.perform(post("/saveUser")
-				.param("id", "1")
 				.param("email", "tested_email@gmail")
 				.param("username", "username")
 				.param("password", "password"))
@@ -102,7 +105,6 @@ public class BookshopWebControllerTest {
 		when(userService.findUserByUsername("tested_username")).thenThrow(UsernameExistException.class);
 		
 		mvc.perform(post("/saveUser").
-				param("id", "1").
 				param("email", "email@gmail").
 				param("username", "tested_username").
 				param("password", "password")).
@@ -145,14 +147,14 @@ public class BookshopWebControllerTest {
 	 @Test
 	 @WithMockUser
 	 public void test_HomeView_showsBooks() throws Exception {
-		 List<Book> books = asList(new Book(1L, "title", "type", 10));
+		 List<Book> books = asList(new Book(null, "title", "type", 10));
 		 
 		 when(bookService.getAllBooks()).thenReturn(books);
 		 
 		 mvc.perform(get("/"))
 		 	.andExpect(view().name("index"))
 		 	.andExpect(model().attribute("books", books))
-		 	.andExpect(model().attribute("message", ""));
+		 	.andExpect(model().attribute("message", EMPTY_MESSAGE));
 		 
 		 verify(bookService, times(1)).getAllBooks();
 		 verifyNoMoreInteractions(bookService);	 
@@ -166,7 +168,7 @@ public class BookshopWebControllerTest {
 		 mvc.perform(get("/edit/1"))
 		 	.andExpect(view().name("bookNotFound"))
 		 	.andExpect(model().attribute("book", nullValue()))
-		 	.andExpect(model().attribute("message", "Book not found!"))
+		 	.andExpect(model().attribute("message", BOOK_NOT_FOUND))
 		 	.andExpect(status().is(404));
 		 
 		 verify(bookService, times(1)).getBookById(1L);
@@ -183,7 +185,7 @@ public class BookshopWebControllerTest {
 		 mvc.perform(get("/edit/1"))
 		 	.andExpect(view().name("edit"))
 		 	.andExpect(model().attribute("book", found))
-		 	.andExpect(model().attribute("message", ""));
+		 	.andExpect(model().attribute("message", EMPTY_MESSAGE));
 		 
 		 verify(bookService, times(1)).getBookById(1L);
 		 verifyNoMoreInteractions(bookService);
@@ -196,7 +198,7 @@ public class BookshopWebControllerTest {
 		 mvc.perform(get("/new"))
 		 	.andExpect(view().name("edit"))
 		 	.andExpect(model().attribute("book", new Book()))
-		 	.andExpect(model().attribute("message", ""));
+		 	.andExpect(model().attribute("message", EMPTY_MESSAGE));
 		 
 		 verifyZeroInteractions(bookService);
 	 }
@@ -224,8 +226,7 @@ public class BookshopWebControllerTest {
 				 .param("type", "testedType")
 				 .param("price", "10"))
 		 	.andExpect(view().name("redirect:/"));
-		 
-		 //verify(bookService, times(1)).getBookById(1L);
+
 		 verify(bookService, times(1)).editBookById(
 				 1L, new Book(1L, "testedTitle", "testedType", 10));
 		 verifyNoMoreInteractions(bookService);
@@ -245,10 +246,9 @@ public class BookshopWebControllerTest {
 				 .param("price", "10"))
 		 	.andExpect(view().name("bookNotFound"))
 		 	.andExpect(model().attribute("book", nullValue()))
-		 	.andExpect(model().attribute("message", "Book not found!"))
+		 	.andExpect(model().attribute("message", BOOK_NOT_FOUND))
 		 	.andExpect(status().is(404));	 	
 		 
-		 //verify(bookService, times(1)).getBookById(1L);
 		 verify(bookService, times(1)).editBookById(1L, replacement);
 		 verifyNoMoreInteractions(bookService);
 	 }
@@ -265,7 +265,7 @@ public class BookshopWebControllerTest {
 		 mvc.perform(get("/search")
 				 .param("title_searched", search))
 		 	.andExpect(model().attribute("book", equalTo(searched)))
-		 	.andExpect(model().attribute("message", ""))
+		 	.andExpect(model().attribute("message", EMPTY_MESSAGE))
 		 	.andExpect(view().name("search"));
 		 
 		 verify(bookService, times(1)).getBookByTitle(search);
@@ -281,7 +281,7 @@ public class BookshopWebControllerTest {
 		 
 		 mvc.perform(get("/search")
 				 .param("title_searched", search))
-		 	.andExpect(model().attribute("message", "Book not found!"))
+		 	.andExpect(model().attribute("message", BOOK_NOT_FOUND))
 		 	.andExpect(model().attribute("book", nullValue()))
 		 	.andExpect(view().name("bookNotFound"))
 		 	.andExpect(status().is(404));
@@ -322,7 +322,7 @@ public class BookshopWebControllerTest {
 		 
 		 mvc.perform(get("/delete?id=1"))
 		 	.andExpect(view().name("bookNotFound"))
-		 	.andExpect(model().attribute("message", "Book not found!"))
+		 	.andExpect(model().attribute("message", BOOK_NOT_FOUND))
 		 	.andExpect(status().is(404));
 		 
 		 verify(bookService, times(1)).getBookById(1L);

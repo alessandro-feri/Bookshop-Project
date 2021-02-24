@@ -116,9 +116,9 @@ public class BookServiceWithMockitoTest {
 		
 		when(bookRepository.save(any(Book.class))).thenReturn(bookSaved);
 
-		Book returnedBook = bookService.insertNewBook(bookToSave); 
+		Book resultBook = bookService.insertNewBook(bookToSave); 
 		
-		assertThat(returnedBook).isSameAs(bookSaved);
+		assertThat(resultBook).isSameAs(bookSaved);
 		
 		verify(bookRepository, times(1)).save(bookToSave);
 		verifyNoMoreInteractions(bookRepository);

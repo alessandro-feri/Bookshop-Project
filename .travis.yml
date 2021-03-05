@@ -4,9 +4,6 @@ dist: xenial
 
 jdk: openjdk11
 
-services: 
-  - docker
-
 git:
   depth: false
   
@@ -14,7 +11,10 @@ addons:
   sonarcloud:
     organization: "alessandroferi-github"
     
-# skip installation step
+services: 
+  - xvfb
+  - docker
+    
 install: true
 
 cache:
@@ -24,5 +24,6 @@ cache:
     
 script:
   - mvn -f bookshop-project/pom.xml clean verify -Pjacoco
-  - mvn -f bookshop-project/pom.xml verify -Pjacoco,integration-tests
+  - mvn -f bookshop-project/pom.xml verify -Pintegration-tests
+  - mvn -f bookshop-project/pom.xml verify -Pe2e-tests
   - mvn -f bookshop-project/pom.xml coveralls:report sonar:sonar

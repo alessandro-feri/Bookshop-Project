@@ -95,7 +95,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		form.getInputByName("username").setValueAttribute("username");
 		form.getInputByName("password").setValueAttribute("password");
 		
-		HtmlPage result = form.getButtonByName("reg_button").click();
+		HtmlPage result = form.getButtonByName("Register").click();
 		
 		assertThat(result.getTitleText()).isEqualTo("Result");
 		assertLinkPresentWithText(result, "Go back to Registration page");
@@ -122,7 +122,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		form.getInputByName("username").setValueAttribute("username_exist");
 		form.getInputByName("password").setValueAttribute("password");
 	
-		HtmlPage result = form.getButtonByName("reg_button").click();
+		HtmlPage result = form.getButtonByName("Register").click();
 	
 		assertThat(result.getTitleText()).isEqualTo("Result");
 		assertLinkPresentWithText(result, "Go back to Registration page");
@@ -143,11 +143,11 @@ public class BookshopWebViewsHtmlUnitTest {
 		form.getInputByName("username").setValueAttribute("username");
 		form.getInputByName("password").setValueAttribute("password");
 		
-		HtmlPage result = form.getButtonByName("reg_button").click();
+		HtmlPage result = form.getButtonByName("Register").click();
 		
 		assertThat(result.getTitleText()).isEqualTo("Result");
 		assertThat(result.getBody().getTextContent().contains(
-				"You have been registered successfully!"));
+				"You have successfully registered!"));
 		assertLinkPresentWithText(result, "Login Page");
 		
 	}

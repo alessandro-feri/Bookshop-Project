@@ -57,10 +57,33 @@ public class BookshopSteps {
 	public void i_click_the_button(String button) {
 		webDriver.findElement(By.name(button)).click();
 	}
+	
+	@Then("I am on the {string} page")
+	public void i_am_on_the_page(String pageTitle) {
+		assertThat(webDriver.getTitle()).isEqualTo(pageTitle);
+	}
+	
+	@Then("{string} message is shown")
+	public void message_is_shown(String message) {
+		assertThat(webDriver.getPageSource()).contains(message);
+	}
+	
+	@When("I click on {string} link")
+	public void i_click_on_link(String link) {
+	    webDriver.findElement(By.linkText(link)).click();
+	    assertThat(webDriver.getTitle()).isEqualTo("Login");
+	}
 
-	@Then("I am on the {string} page and {string} message is shown")
-	public void i_am_on_the_page_and_message_is_shown(String pageTitle, String message) {
-	    assertThat(webDriver.getTitle()).isEqualTo(pageTitle);
-	    assertThat(webDriver.getPageSource()).contains(message);
+	@When("I insert {string} into email field and {string} into password field")
+	public void i_insert_into_email_field_and_into_password_field(String email, String password) {
+	    webDriver.findElement(By.name("login_form"));
+	    
+	    webDriver.findElement(By.name("email")).sendKeys(email);
+	    webDriver.findElement(By.name("password")).sendKeys(password);
+	}
+	
+	@Then("I am on the Home Page")
+	public void i_am_on_the_Home_Page() {
+	    assertThat(webDriver.getTitle()).isEqualTo("Home");
 	}
 }

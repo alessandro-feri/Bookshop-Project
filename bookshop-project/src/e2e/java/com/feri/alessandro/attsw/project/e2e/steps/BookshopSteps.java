@@ -54,8 +54,9 @@ public class BookshopSteps {
 	}
 
 	@When("I click the {string} button")
-	public void i_click_the_button(String button) {
+	public void i_click_the_button(String button) throws Exception {
 		webDriver.findElement(By.name(button)).click();
+		Thread.sleep(1500);
 	}
 	
 	@Then("I am on the {string} page")
@@ -69,8 +70,9 @@ public class BookshopSteps {
 	}
 	
 	@When("I click on {string} link")
-	public void i_click_on_link(String link) {
+	public void i_click_on_link(String link) throws Exception {
 	    webDriver.findElement(By.linkText(link)).click();
+	    Thread.sleep(1500);
 	    assertThat(webDriver.getTitle()).isEqualTo("Login");
 	}
 

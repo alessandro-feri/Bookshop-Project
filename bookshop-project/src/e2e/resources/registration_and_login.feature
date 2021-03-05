@@ -27,3 +27,14 @@ Feature: Registration and Login processes
   	And I click the "Register" button
   	Then I am on the "Result" page and "There is already a user registered with the username provided.Please, try with another username." message is shown
   	
+  Scenario: Failing Login process
+		Given I am on the Registration page
+  	When I insert "my_email@gmail" into email field, "my_username" into username field and "my_password" into password field
+  	And I click the "Register" button
+  	Then I am on the "Result" page and "You have successfully registered!" message is shown
+  	When I click on "Login Page" link
+  	And I insert "wrong_email@gmail" into email field and "wrong_password" into password field
+  	And I click the "Sign in" button
+  	Then I am on the "Login" page and "Invalid email and password." message is shown
+  
+  	

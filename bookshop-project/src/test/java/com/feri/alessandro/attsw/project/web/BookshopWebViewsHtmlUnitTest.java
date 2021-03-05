@@ -157,7 +157,7 @@ public class BookshopWebViewsHtmlUnitTest {
 	@WithMockUser
 	public void test_HomePageTitle() throws Exception {
 		HtmlPage page = webClient.getPage("/");
-		assertThat(page.getTitleText()).isEqualTo("Bookshop");
+		assertThat(page.getTitleText()).isEqualTo("Home");
 	}
 
 	@Test
@@ -174,7 +174,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		assertInputPresent(page, "title_searched");
 		assertElementPresent(page, "btn_search");
 		assertFormPresent(page, "deleteAll");
-		assertFormPresent(page, "logout");
+		assertFormPresent(page, "Logout");
 
 	}	
 	

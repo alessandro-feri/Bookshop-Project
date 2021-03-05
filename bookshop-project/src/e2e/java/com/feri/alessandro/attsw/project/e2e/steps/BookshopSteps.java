@@ -58,8 +58,8 @@ public class BookshopSteps {
 		webDriver.findElement(By.name(button)).click();
 	}
 
-	@Then("I am on the {string} page and {string} is shown")
-	public void i_am_on_the_page_and_is_shown(String pageTitle, String message) {
+	@Then("I am on the {string} page and {string} message is shown")
+	public void i_am_on_the_page_and_message_is_shown(String pageTitle, String message) {
 	    assertThat(webDriver.getTitle()).isEqualTo(pageTitle);
 	    assertThat(webDriver.getPageSource()).contains(message);
 	}

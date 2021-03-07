@@ -26,7 +26,7 @@
   
   <div class="center-elements">
     <h3 class="headers">Book List</h3>
-    <a th:href="@{/new}"><button>Insert</button></a>
+    <a th:href="@{/new}"><button name= "Insert">Insert</button></a>
     or
     <form name="deleteAll" th:action="@{/deleteAll}" method="get">
       <button type="submit" name="deleteAll_button">Delete All</button>
@@ -39,7 +39,7 @@
   </div>
   <!-- ELSE -->
   <div th:unless="${books.empty}">
-    <table class="table" id="book_table" align="center" cellspacing=7 cellpadding=7>
+    <table class="table" id="Book Table" align="center" cellspacing=7 cellpadding=7>
       <thead>
         <tr>
           <th>ID</th>
@@ -55,7 +55,7 @@
           <td th:text="${book.type}"></td>
           <td th:text="${book.price}"></td>
           <td><a id="edit" th:href="@{'/edit/' + ${book.id}}"><button>Edit</button></a></td>
-          <td><a th:href="@{/delete(id=${book.id})}"><button>Delete</button></a></td>        
+          <td><a th:href="@{/delete(id=${book.id})}"><button name="Delete">Delete</button></a></td>        
         </tr>
       </tbody>
     </table>

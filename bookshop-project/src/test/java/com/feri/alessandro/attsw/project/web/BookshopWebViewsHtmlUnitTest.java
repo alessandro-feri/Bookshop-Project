@@ -199,7 +199,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		HtmlPage page = webClient.getPage("/");
 		
 		assertThat(page.getBody().getTextContent()).doesNotContain("No books");
-		HtmlTable table = page.getHtmlElementById("book_table");
+		HtmlTable table = page.getHtmlElementById("Book Table");
 		
 		assertThat(table.asText()).isEqualTo(
 				"ID	Title	Type	Price\n" + 
@@ -260,7 +260,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		form.getInputByValue("type").setValueAttribute("modified_type");
 		form.getInputByValue("10").setValueAttribute("15");
 		
-		form.getButtonByName("btn_submit").click();
+		form.getButtonByName("Save").click();
 		
 		verify(bookService, times(1))
 			.editBookById(1L, new Book(1L, "modified_title", "modified_type", 15));
@@ -277,7 +277,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		form.getInputByName("type").setValueAttribute("new_type");
 		form.getInputByName("price").setValueAttribute("10");
 		
-		form.getButtonByName("btn_submit").click();
+		form.getButtonByName("Save").click();
 		
 		verify(bookService)
 			.insertNewBook(new Book(null, "new_title", "new_type", 10));

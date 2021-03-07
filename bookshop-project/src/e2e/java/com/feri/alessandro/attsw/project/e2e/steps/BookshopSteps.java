@@ -8,6 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.feri.alessandro.attsw.project.repositories.BookRepository;
 import com.feri.alessandro.attsw.project.repositories.UserRepository;
 
 import cucumber.api.java.After;
@@ -26,11 +27,16 @@ public class BookshopSteps {
 	@Autowired
 	UserRepository userRepository;
 	
+	@Autowired
+	BookRepository bookRepository;
+	
 	@Before
 	public void setUpWebDriver() {
 		baseUrl = "http://localhost:" + port;
 		webDriver = new ChromeDriver();
 		userRepository.deleteAll();
+		bookRepository.deleteAll();
+		
 	}
 	
 	@After
@@ -87,5 +93,26 @@ public class BookshopSteps {
 	@Then("I am on the Home Page")
 	public void i_am_on_the_Home_Page() {
 	    assertThat(webDriver.getTitle()).isEqualTo("Home");
+	}
+	
+	@When("I insert {string} in title field, {string} in type field and {string} in price field")
+	public void i_insert_in_title_field_in_type_field_and_in_price_field(String title, String type, String price) throws Exception {
+	    assertThat(webDriver.getTitle()).isEqualTo("Edit Page");
+		
+		webDriver.findElement(By.name("book_form"));
+		
+		webDriver.findElement(By.name("title")).sendKeys(title);
+	    webDriver.findElement(By.name("type")).sendKeys(type);
+	    webDriver.findElement(By.name("price")).clear();
+	    webDriver.findElement(By.name("price")).sendKeys(price);
+
+	}
+	
+	@Then("the {string} is shown and it contains a book with {string}, {string}, and price {string}")
+	public void the_is_shown_and_it_contains_a_book_with_and_price(String table, String title, String type, String price) {
+	    webDriver.findElement(By.id(table));
+	    
+	    assertThat(webDriver.findElement(By.id(table)).getText()).
+	    		contains(title, type, price);
 	}
 }

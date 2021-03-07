@@ -14,7 +14,7 @@ import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.*;
 
-@SpringBootTest
+@SpringBootTest(properties = "spring.main.allow-bean-definition-overriding=true")
 public class BookshopSteps {
 	
 	private static int port = Integer.parseInt(System.getProperty("server.port", "8080"));

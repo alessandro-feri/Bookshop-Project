@@ -22,6 +22,10 @@ import com.feri.alessandro.attsw.project.services.UserService;
 @Controller
 public class BookshopWebController {
 	
+	private static final String REDIRECT = "redirect:/";
+
+	private static final String MESSAGE = "message";
+
 	private static final String EMPTY_MESSAGE = "";
 
 	@Autowired
@@ -46,7 +50,7 @@ public class BookshopWebController {
 		userService.findUserByEmail(user.getEmail());
 		userService.findUserByUsername(user.getUsername());
 		
-		model.addAttribute("message", EMPTY_MESSAGE);
+		model.addAttribute(MESSAGE, EMPTY_MESSAGE);
 		userService.saveUser(user);
 		
 		return "registrationResult";
@@ -57,7 +61,7 @@ public class BookshopWebController {
 	public String getIndex(Model model) {
 		List<Book> allBooks = bookService.getAllBooks();
 		model.addAttribute("books", allBooks);
-		model.addAttribute("message", allBooks.isEmpty() ? "No books!" : EMPTY_MESSAGE);
+		model.addAttribute(MESSAGE, allBooks.isEmpty() ? "No books!" : EMPTY_MESSAGE);
 		
 		return "index";
 	}
@@ -66,7 +70,7 @@ public class BookshopWebController {
 	public String editBookById(@PathVariable Long id, Model model) throws BookNotFoundException {
 		Book book = bookService.getBookById(id);
 		model.addAttribute("book", book);
-		model.addAttribute("message", EMPTY_MESSAGE);
+		model.addAttribute(MESSAGE, EMPTY_MESSAGE);
 			
 		return "edit";
 	}
@@ -74,7 +78,7 @@ public class BookshopWebController {
 	@GetMapping("/new")
 	public String newBook(Model model) {
 		model.addAttribute("book", new Book());
-		model.addAttribute("message", EMPTY_MESSAGE);
+		model.addAttribute(MESSAGE, EMPTY_MESSAGE);
 		
 		return "edit";
 	}
@@ -88,18 +92,18 @@ public class BookshopWebController {
 			bookService.editBookById(id, book);
 		}
 		
-		return "redirect:/";
+		return REDIRECT;
 	}
 	
 	@GetMapping("/search")
 	public String search (@RequestParam("title_searched") String title, Model model) throws BookNotFoundException {
 		if(title.equals(EMPTY_MESSAGE)) {
-			model.addAttribute("message", "Error! Please, insert a valid title.");
+			model.addAttribute(MESSAGE, "Error! Please, insert a valid title.");
 		} else {
 		
 		Book book = bookService.getBookByTitle(title);
 		model.addAttribute("book", book);
-		model.addAttribute("message", EMPTY_MESSAGE);
+		model.addAttribute(MESSAGE, EMPTY_MESSAGE);
 		
 		}
 		return "search";
@@ -110,13 +114,13 @@ public class BookshopWebController {
 		Book toDelete = bookService.getBookById(id);
 		bookService.deleteOneBook(toDelete);
 		
-		return "redirect:/";
+		return REDIRECT;
 	}
 	
 	@GetMapping("/deleteAll")
 	public String deleteAll() {
 		bookService.deleteAllBooks();
 		
-		return "redirect:/";
+		return REDIRECT;
 	}
 }

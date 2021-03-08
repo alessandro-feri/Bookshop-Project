@@ -95,7 +95,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		form.getInputByName("username").setValueAttribute("username");
 		form.getInputByName("password").setValueAttribute("password");
 		
-		HtmlPage result = form.getButtonByName("reg_button").click();
+		HtmlPage result = form.getButtonByName("Register").click();
 		
 		assertThat(result.getTitleText()).isEqualTo("Result");
 		assertLinkPresentWithText(result, "Go back to Registration page");
@@ -122,7 +122,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		form.getInputByName("username").setValueAttribute("username_exist");
 		form.getInputByName("password").setValueAttribute("password");
 	
-		HtmlPage result = form.getButtonByName("reg_button").click();
+		HtmlPage result = form.getButtonByName("Register").click();
 	
 		assertThat(result.getTitleText()).isEqualTo("Result");
 		assertLinkPresentWithText(result, "Go back to Registration page");
@@ -143,11 +143,11 @@ public class BookshopWebViewsHtmlUnitTest {
 		form.getInputByName("username").setValueAttribute("username");
 		form.getInputByName("password").setValueAttribute("password");
 		
-		HtmlPage result = form.getButtonByName("reg_button").click();
+		HtmlPage result = form.getButtonByName("Register").click();
 		
 		assertThat(result.getTitleText()).isEqualTo("Result");
 		assertThat(result.getBody().getTextContent().contains(
-				"You have been registered successfully!"));
+				"You have successfully registered!"));
 		assertLinkPresentWithText(result, "Login Page");
 		
 	}
@@ -157,7 +157,7 @@ public class BookshopWebViewsHtmlUnitTest {
 	@WithMockUser
 	public void test_HomePageTitle() throws Exception {
 		HtmlPage page = webClient.getPage("/");
-		assertThat(page.getTitleText()).isEqualTo("Bookshop");
+		assertThat(page.getTitleText()).isEqualTo("Home");
 	}
 
 	@Test
@@ -174,7 +174,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		assertInputPresent(page, "title_searched");
 		assertElementPresent(page, "btn_search");
 		assertFormPresent(page, "deleteAll");
-		assertFormPresent(page, "logout");
+		assertFormPresent(page, "Logout");
 
 	}	
 	
@@ -199,12 +199,12 @@ public class BookshopWebViewsHtmlUnitTest {
 		HtmlPage page = webClient.getPage("/");
 		
 		assertThat(page.getBody().getTextContent()).doesNotContain("No books");
-		HtmlTable table = page.getHtmlElementById("book_table");
+		HtmlTable table = page.getHtmlElementById("Book Table");
 		
 		assertThat(table.asText()).isEqualTo(
-				"ID	Title	Type	Price\n" + 
-				"1	title1	type1	10	Edit	Delete\n" + 
-				"2	title2	type2	15	Edit	Delete"
+				"Title	Type	Price\n" + 
+				"title1	type1	10	Edit	Delete\n" + 
+				"title2	type2	15	Edit	Delete"
 				
 			);	
 		
@@ -260,7 +260,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		form.getInputByValue("type").setValueAttribute("modified_type");
 		form.getInputByValue("10").setValueAttribute("15");
 		
-		form.getButtonByName("btn_submit").click();
+		form.getButtonByName("Save").click();
 		
 		verify(bookService, times(1))
 			.editBookById(1L, new Book(1L, "modified_title", "modified_type", 15));
@@ -277,7 +277,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		form.getInputByName("type").setValueAttribute("new_type");
 		form.getInputByName("price").setValueAttribute("10");
 		
-		form.getButtonByName("btn_submit").click();
+		form.getButtonByName("Save").click();
 		
 		verify(bookService)
 			.insertNewBook(new Book(null, "new_title", "new_type", 10));
@@ -292,7 +292,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		
 		form.getInputByName("title_searched").setValueAttribute("");
 		
-		HtmlPage search = form.getButtonByName("search_button").click();
+		HtmlPage search = form.getButtonByName("Search").click();
 		
 		assertTextPresent(search, "Error! Please, insert a valid title.");
 		assertThat(search.getAnchorByText("Home").getHrefAttribute()).isEqualTo("/");
@@ -310,7 +310,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		
 		form.getInputByName("title_searched").setValueAttribute("notFound");
 		
-		HtmlPage search = form.getButtonByName("search_button").click();
+		HtmlPage search = form.getButtonByName("Search").click();
 		
 		assertThat(search.getTextContent()).isNull();
 		
@@ -330,7 +330,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		
 		form.getInputByName("title_searched").setValueAttribute("test_title");
 		
-		HtmlPage search = form.getButtonByName("search_button").click();
+		HtmlPage search = form.getButtonByName("Search").click();
 		
 		search.getAnchorByHref("/");
 		
@@ -367,7 +367,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		
 		final HtmlForm form = home.getFormByName("deleteAll");
 		
-		form.getButtonByName("deleteAll_button").click();
+		form.getButtonByName("Delete All").click();
 		
 		verify(bookService).deleteAllBooks();
 	}

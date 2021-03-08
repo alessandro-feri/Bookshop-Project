@@ -292,7 +292,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		
 		form.getInputByName("title_searched").setValueAttribute("");
 		
-		HtmlPage search = form.getButtonByName("search_button").click();
+		HtmlPage search = form.getButtonByName("Search").click();
 		
 		assertTextPresent(search, "Error! Please, insert a valid title.");
 		assertThat(search.getAnchorByText("Home").getHrefAttribute()).isEqualTo("/");
@@ -310,7 +310,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		
 		form.getInputByName("title_searched").setValueAttribute("notFound");
 		
-		HtmlPage search = form.getButtonByName("search_button").click();
+		HtmlPage search = form.getButtonByName("Search").click();
 		
 		assertThat(search.getTextContent()).isNull();
 		
@@ -330,7 +330,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		
 		form.getInputByName("title_searched").setValueAttribute("test_title");
 		
-		HtmlPage search = form.getButtonByName("search_button").click();
+		HtmlPage search = form.getButtonByName("Search").click();
 		
 		search.getAnchorByHref("/");
 		

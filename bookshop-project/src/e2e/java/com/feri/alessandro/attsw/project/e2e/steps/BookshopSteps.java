@@ -76,10 +76,9 @@ public class BookshopSteps {
 	}
 	
 	@When("I click on {string} link")
-	public void i_click_on_link(String link) throws Exception {
-	    webDriver.findElement(By.linkText(link)).click();
-	    Thread.sleep(1500);
-	    assertThat(webDriver.getTitle()).isEqualTo("Login");
+	public void i_click_on_link(String linkName) throws Exception {
+	    webDriver.findElement(By.linkText(linkName)).click();
+	    Thread.sleep(1500);	    
 	}
 
 	@When("I insert {string} into email field and {string} into password field")
@@ -108,7 +107,7 @@ public class BookshopSteps {
 
 	}
 	
-	@Then("the {string} is shown and it contains a book with {string}, {string}, and price {string}")
+	@Then("The {string} is shown and it contains a book with {string}, {string}, and price {string}")
 	public void the_is_shown_and_it_contains_a_book_with_and_price(String table, String title, String type, String price) {
 	    webDriver.findElement(By.id(table));
 	    
@@ -125,5 +124,14 @@ public class BookshopSteps {
 		webDriver.findElement(By.name("type")).sendKeys(updatedType);
 		webDriver.findElement(By.name("price")).clear();
 		webDriver.findElement(By.name("price")).sendKeys(updatedPrice);
+	}
+	
+	@When("I insert {string} in the search field")
+	public void i_insert_in_the_search_field(String searchedTitle) {
+		webDriver.findElement(By.name("search_form"));
+		
+		webDriver.findElement(By.name("title_searched")).clear();
+	    webDriver.findElement(By.name("title_searched")).sendKeys(searchedTitle);
+	    
 	}
 }

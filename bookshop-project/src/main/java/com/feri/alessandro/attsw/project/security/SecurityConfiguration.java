@@ -15,6 +15,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @ComponentScan("com.feri.alessandro.attsw.project.security")
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+	private static final String LOGIN = "/login";
+
 	@Bean
 	public AuthenticationSuccessHandler getSuccessHandler() {
 		return new UserAuthenticationSuccessHandler();
@@ -29,16 +31,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
-			.antMatchers("/login").permitAll()
+			.antMatchers(LOGIN).permitAll()
 			.antMatchers("/registration").permitAll()
 			.antMatchers("/", "/new", "/save", "/edit/**", "/search", "/delete", "/deleteAll").authenticated()
 			.and().csrf().disable()
 			.formLogin().successHandler(getSuccessHandler())
-			.loginPage("/login").failureUrl("/login?error=true")
+			.loginPage(LOGIN).failureUrl("/login?error=true")
 			.usernameParameter("email")
 			.passwordParameter("password")
 			.and().logout()
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-			.logoutSuccessUrl("/login").and().exceptionHandling();
+			.logoutSuccessUrl(LOGIN).and().exceptionHandling();
 	}
 }

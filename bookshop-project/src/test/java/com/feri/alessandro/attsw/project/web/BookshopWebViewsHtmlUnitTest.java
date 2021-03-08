@@ -202,9 +202,9 @@ public class BookshopWebViewsHtmlUnitTest {
 		HtmlTable table = page.getHtmlElementById("Book Table");
 		
 		assertThat(table.asText()).isEqualTo(
-				"ID	Title	Type	Price\n" + 
-				"1	title1	type1	10	Edit	Delete\n" + 
-				"2	title2	type2	15	Edit	Delete"
+				"Title	Type	Price\n" + 
+				"title1	type1	10	Edit	Delete\n" + 
+				"title2	type2	15	Edit	Delete"
 				
 			);	
 		
@@ -367,7 +367,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		
 		final HtmlForm form = home.getFormByName("deleteAll");
 		
-		form.getButtonByName("deleteAll_button").click();
+		form.getButtonByName("Delete All").click();
 		
 		verify(bookService).deleteAllBooks();
 	}

@@ -69,3 +69,20 @@ Feature: Operations inside the bookshop site
 		Then The "Result Table" is shown and it contains a book with "TestTitleToSearch", "TestType", and price "10"
 		When I click on "Home" link
 		Then I am on the "Home" page
+		
+	Scenario: Delete All books from the table
+  	Given I am on the Registration page
+  	When I insert "my_email@gmail" into email field, "my_username" into username field and "my_password" into password field
+  	And I click the "Register" button
+  	Then I am on the "Result" page
+  	And "You have successfully registered!" message is shown
+  	When I click on "Login Page" link
+  	And I insert "my_email@gmail" into email field and "my_password" into password field
+  	And I click the "Sign in" button
+  	Then I am on the "Home" page
+		When I click the "Insert" button
+		And I insert "TestTitleForDeleteAll" in title field, "TestTypeForDeleteAll" in type field and "50" in price field 
+		And I click the "Save" button
+		Then The "Book Table" is shown and it contains a book with "TestTitleForDeleteAll", "TestTypeForDeleteAll", and price "50"
+		When I click the "Delete All" button
+		Then "There are no books" message is shown

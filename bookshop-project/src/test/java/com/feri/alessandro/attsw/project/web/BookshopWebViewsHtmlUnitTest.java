@@ -202,6 +202,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		HtmlTable table = page.getHtmlElementById("Book Table");
 		
 		assertThat(table.asText()).isEqualTo(
+				"Books\n" + 
 				"Title	Type	Price\n" + 
 				"title1	type1	10	Edit	Delete\n" + 
 				"title2	type2	15	Edit	Delete"

@@ -93,7 +93,7 @@ public class BookshopWebController {
 	
 	@GetMapping("/search")
 	public String search (@RequestParam("title_searched") String title, Model model) throws BookNotFoundException {
-		if(title == EMPTY_MESSAGE) {
+		if(title.equals(EMPTY_MESSAGE)) {
 			model.addAttribute("message", "Error! Please, insert a valid title.");
 		} else {
 		

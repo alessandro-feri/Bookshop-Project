@@ -54,7 +54,7 @@
           <td th:text="${book.title}"></td>
           <td th:text="${book.type}"></td>
           <td th:text="${book.price}"></td>
-          <td><a id="edit" th:href="@{'/edit/' + ${book.id}}"><button>Edit</button></a></td>
+          <td><a id="edit" th:href="@{'/edit/' + ${book.id}}"><button name="Edit">Edit</button></a></td>
           <td><a th:href="@{/delete(id=${book.id})}"><button name="Delete">Delete</button></a></td>        
         </tr>
       </tbody>

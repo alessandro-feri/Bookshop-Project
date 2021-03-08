@@ -115,4 +115,15 @@ public class BookshopSteps {
 	    assertThat(webDriver.findElement(By.id(table)).getText()).
 	    		contains(title, type, price);
 	}
+	
+	@When("I update the type field with {string} and the price field with {string}")
+	public void i_update_the_type_field_with_and_the_price_field_with(String updatedType, String updatedPrice) {
+		
+		webDriver.findElement(By.name("book_form"));
+		
+		webDriver.findElement(By.name("type")).clear();
+		webDriver.findElement(By.name("type")).sendKeys(updatedType);
+		webDriver.findElement(By.name("price")).clear();
+		webDriver.findElement(By.name("price")).sendKeys(updatedPrice);
+	}
 }

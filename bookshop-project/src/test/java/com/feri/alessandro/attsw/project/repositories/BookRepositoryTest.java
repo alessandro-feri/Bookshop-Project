@@ -76,7 +76,6 @@ public class BookRepositoryTest {
 		List<Book> books = bookRepository.findBooksByType("type1");
 		
 		assertThat(books).containsExactly(testBook1, testBook3).doesNotContain(testBook2);
-		assertThat(books).doesNotContain(testBook2);
 	}
 	
 
@@ -89,8 +88,7 @@ public class BookRepositoryTest {
 		
 		List<Book> books = bookRepository.findBooksByTitleOrType("testTitle2", "type1");
 		
-		assertThat(books).containsExactly(testBook1, testBook2, testBook4);
-		assertThat(testBook3).isNotIn(books);
+		assertThat(books).containsExactly(testBook1, testBook2, testBook4).doesNotContain(testBook3);
 	}
 	
 	@Test
@@ -117,8 +115,7 @@ public class BookRepositoryTest {
 		
 		List<Book> books = bookRepository.findAllBooksWhosePriceIsWithinAnInterval(10, 35);
 		
-		assertThat(books).containsExactly(testBook1, testBook2, testBook3);
-		assertThat(testBook4).isNotIn(books);
+		assertThat(books).containsExactly(testBook1, testBook2, testBook3).doesNotContain(testBook4);
 	}
 	
 	@Test
@@ -130,8 +127,7 @@ public class BookRepositoryTest {
 		
 		List<Book> books = bookRepository.findAllBooksByTypeOrderByTitle("type1");
 		
-		assertThat(books).containsExactly(testBook4, testBook3, testBook1);
-		assertThat(books).doesNotContain(testBook2);		
+		assertThat(books).containsExactly(testBook4, testBook3, testBook1).doesNotContain(testBook2);
 	}
 	
 }

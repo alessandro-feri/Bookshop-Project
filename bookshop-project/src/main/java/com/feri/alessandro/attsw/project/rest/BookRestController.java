@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
 import com.feri.alessandro.attsw.project.model.Book;
+import com.feri.alessandro.attsw.project.model.BookDTO;
 import com.feri.alessandro.attsw.project.services.BookService;
 
 @RestController
@@ -39,12 +40,23 @@ public class BookRestController {
 	}
 	
 	@PostMapping("/new")
-	public Book insertNewBook(@RequestBody Book book) {
+	public Book insertNewBook(@RequestBody BookDTO bookDTO) {
+		Book book = new Book();
+		book.setId(bookDTO.getId());
+		book.setTitle(bookDTO.getTitle());
+		book.setType(bookDTO.getType());
+		book.setPrice(bookDTO.getPrice());
+		
 		return bookService.insertNewBook(book);
 	}
 	
 	@PutMapping("/edit/{id}")
-	public Book editBookById(@PathVariable Long id, @RequestBody Book replacementBook) throws BookNotFoundException {
+	public Book editBookById(@PathVariable Long id, @RequestBody BookDTO replacementBookDTO) throws BookNotFoundException {
+		Book replacementBook = new Book();
+		replacementBook.setTitle(replacementBookDTO.getTitle());
+		replacementBook.setType(replacementBookDTO.getType());
+		replacementBook.setPrice(replacementBookDTO.getPrice());
+			
 		return bookService.editBookById(id, replacementBook);
 	}
 	

@@ -198,7 +198,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		
 		HtmlPage page = webClient.getPage("/");
 		
-		assertThat(page.getBody().getTextContent()).doesNotContain("No books");
+		assertThat(page.getBody().getTextContent()).doesNotContain("There are no books.");
 		HtmlTable table = page.getHtmlElementById("Book Table");
 		
 		assertThat(table.asText()).isEqualTo(
@@ -241,7 +241,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		
 		HtmlPage page = webClient.getPage("/edit/1");
 		
-		assertThat(page.getTitleText()).isEqualTo("Book not found!");
+		assertThat(page.getTitleText()).isEqualTo("Book not found");
 		
 		assertThat(page.getBody().getTextContent().contains("Book not found!"));
 	}

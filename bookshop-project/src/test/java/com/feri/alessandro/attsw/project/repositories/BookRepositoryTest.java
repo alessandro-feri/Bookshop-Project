@@ -31,7 +31,7 @@ public class BookRepositoryTest {
 		assertThat(savedBook.getType()).isEqualTo("testType");
 		assertThat(savedBook.getPrice()).isEqualTo(10);
 		assertThat(savedBook.getId()).isNotNull();
-		assertThat(savedBook.getId()).isGreaterThan(0);
+		assertThat(savedBook.getId()).isPositive();
 
 		LoggerFactory.getLogger(BookRepositoryTest.class).info("Saved Book: " + savedBook.toString());
 	}
@@ -75,7 +75,7 @@ public class BookRepositoryTest {
 		
 		List<Book> books = bookRepository.findBooksByType("type1");
 		
-		assertThat(books).containsExactly(testBook1, testBook3);
+		assertThat(books).containsExactly(testBook1, testBook3).doesNotContain(testBook2);
 		assertThat(books).doesNotContain(testBook2);
 	}
 	

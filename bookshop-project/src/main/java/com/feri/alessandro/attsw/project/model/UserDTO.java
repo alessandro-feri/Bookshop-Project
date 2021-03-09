@@ -7,6 +7,18 @@ public class UserDTO {
 	private String username;
 	private String password;	
 	
+	public UserDTO(String id, String email, String username, String password, Boolean enabled) {
+		super();
+		this.id = id;
+		this.email = email;
+		this.username = username;
+		this.password = password;
+		this.enabled = enabled;
+	}
+	
+	public UserDTO() {
+		
+	}
 	
 	public String getId() {
 		return id;

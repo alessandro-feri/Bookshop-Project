@@ -14,7 +14,9 @@ import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
 import com.feri.alessandro.attsw.project.exception.EmailExistException;
 import com.feri.alessandro.attsw.project.exception.UsernameExistException;
 import com.feri.alessandro.attsw.project.model.Book;
+import com.feri.alessandro.attsw.project.model.BookDTO;
 import com.feri.alessandro.attsw.project.model.User;
+import com.feri.alessandro.attsw.project.model.UserDTO;
 import com.feri.alessandro.attsw.project.services.BookService;
 import com.feri.alessandro.attsw.project.services.UserService;
 
@@ -45,7 +47,12 @@ public class BookshopWebController {
 	}
 	
 	@PostMapping("/saveUser")
-	public String createNewUser(User user, Model model) throws EmailExistException, UsernameExistException {
+	public String createNewUser(UserDTO userDTO, Model model) throws EmailExistException, UsernameExistException {
+		User user = new User();
+		user.setId(userDTO.getId());
+		user.setEmail(userDTO.getEmail());
+		user.setUsername(userDTO.getUsername());
+		user.setPassword(userDTO.getPassword());
 		
 		userService.findUserByEmail(user.getEmail());
 		userService.findUserByUsername(user.getUsername());
@@ -84,7 +91,13 @@ public class BookshopWebController {
 	}
 	
 	@PostMapping("/save")
-	public String saveBook(Book book) throws BookNotFoundException {
+	public String saveBook(BookDTO bookDTO) throws BookNotFoundException {
+		Book book = new Book();
+		book.setId(bookDTO.getId());
+		book.setTitle(bookDTO.getTitle());
+		book.setType(bookDTO.getType());
+		book.setPrice(bookDTO.getPrice());
+		
 		Long id = book.getId();
 		if(id == null) {
 			bookService.insertNewBook(book);

@@ -60,13 +60,13 @@ Feature: Operations inside the bookshop site
   	And I click the "Sign in" button
   	Then I am on the "Home" page
 		When I click the "Insert" button
-		And I insert "TestTitleToSearch" in title field, "TestType" in type field and "10" in price field 
+		And I insert "TestTitleToSearch" in title field, "TestTypeToSearch" in type field and "10" in price field 
 		And I click the "Save" button
-		Then The "Book Table" is shown and it contains a book with "TestTitleToSearch", "TestType", and price "10"
+		Then The "Book Table" is shown and it contains a book with "TestTitleToSearch", "TestTypeToSearch", and price "10"
   	When I insert "TestTitleToSearch" in the search field
 		And I click the "Search" button
 		Then I am on the "Search" page
-		Then The "Result Table" is shown and it contains a book with "TestTitleToSearch", "TestType", and price "10"
+		Then The "Result Table" is shown and it contains a book with "TestTitleToSearch", "TestTypeToSearch", and price "10"
 		When I click on "Home" link
 		Then I am on the "Home" page
 		
@@ -81,13 +81,32 @@ Feature: Operations inside the bookshop site
   	And I click the "Sign in" button
   	Then I am on the "Home" page
   	When I click the "Insert" button
-  	And I insert "TestTitleToSearch" in title field, "TestType" in type field and "10" in price field 
+  	And I insert "TestTitle" in title field, "TestType" in type field and "25" in price field 
 		And I click the "Save" button
-		Then The "Book Table" is shown and it contains a book with "TestTitleToSearch", "TestType", and price "10"
+		Then The "Book Table" is shown and it contains a book with "TestTitle", "TestType", and price "25"
   	When I insert "" in the search field
 		And I click the "Search" button
 		Then I am on the "Search" page
 		And "Error! Please, insert a valid title." message is shown
+		
+	Scenario: Failing book research due to book not found
+		Given I am on the Registration page
+  	When I insert "my_email@gmail" into email field, "my_username" into username field and "my_password" into password field
+  	And I click the "Register" button
+  	Then I am on the "Result" page
+  	And "You have successfully registered!" message is shown
+  	When I click on "Login Page" link
+  	And I insert "my_email@gmail" into email field and "my_password" into password field
+  	And I click the "Sign in" button
+  	Then I am on the "Home" page
+  	When I click the "Insert" button
+  	And I insert "Title" in title field, "Type" in type field and "25" in price field 
+		And I click the "Save" button
+		Then The "Book Table" is shown and it contains a book with "Title", "Type", and price "25"
+  	When I insert "Title Not Found" in the search field
+		And I click the "Search" button
+		Then I am on the "Book not found" page
+		And "Book not found!" message is shown
 		
 	Scenario: Delete All books from the table
   	Given I am on the Registration page

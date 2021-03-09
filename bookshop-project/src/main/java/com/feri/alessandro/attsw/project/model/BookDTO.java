@@ -7,7 +7,20 @@ public class BookDTO {
 	private String type;
 	private int price;
 	
+	public BookDTO(Long id, String title, String type, int price) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.type = type;
+		this.price = price;
+	}
 	
+	public BookDTO() {
+	
+	}
+
+
+
 	public Long getId() {
 		return id;
 	}

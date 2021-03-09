@@ -6,6 +6,7 @@ public class UserDTO {
 	private String email;
 	private String username;
 	private String password;	
+	private Boolean enabled;
 	
 	public UserDTO(String id, String email, String username, String password, Boolean enabled) {
 		super();
@@ -50,6 +51,5 @@ public class UserDTO {
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
-	private Boolean enabled;
 	
 }

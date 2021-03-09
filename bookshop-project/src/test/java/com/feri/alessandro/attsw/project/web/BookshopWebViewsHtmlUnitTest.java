@@ -99,9 +99,9 @@ public class BookshopWebViewsHtmlUnitTest {
 		
 		assertThat(result.getTitleText()).isEqualTo("Result");
 		assertLinkPresentWithText(result, "Go back to Registration page");
-		assertThat(result.getBody().getTextContent().contains(
+		assertThat(result.getBody().getTextContent()).contains(
 				"There is already a user registered with the email provided."
-				+ "Please, try with another email address."));
+				+ "Please, try with another email address.");
 		
 		verify(userService).findUserByEmail("email_exist@gmail");
 		
@@ -126,9 +126,9 @@ public class BookshopWebViewsHtmlUnitTest {
 	
 		assertThat(result.getTitleText()).isEqualTo("Result");
 		assertLinkPresentWithText(result, "Go back to Registration page");
-		assertThat(result.getBody().getTextContent().contains(
+		assertThat(result.getBody().getTextContent()).contains(
 			"There is already a user registered with the username provided."
-			+ "Please, try with another username."));
+			+ "Please, try with another username.");
 	
 		verify(userService).findUserByUsername("username_exist");
 	}
@@ -146,8 +146,8 @@ public class BookshopWebViewsHtmlUnitTest {
 		HtmlPage result = form.getButtonByName("Register").click();
 		
 		assertThat(result.getTitleText()).isEqualTo("Result");
-		assertThat(result.getBody().getTextContent().contains(
-				"You have successfully registered!"));
+		assertThat(result.getBody().getTextContent()).contains(
+				"You have successfully registered!");
 		assertLinkPresentWithText(result, "Login Page");
 		
 	}
@@ -244,7 +244,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		
 		assertThat(page.getTitleText()).isEqualTo("Book not found");
 		
-		assertThat(page.getBody().getTextContent().contains("Book not found!"));
+		assertThat(page.getBody().getTextContent()).contains("Book not found!");
 	}
 	
 	@Test

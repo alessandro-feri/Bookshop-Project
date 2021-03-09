@@ -95,10 +95,10 @@ public class UserServiceWithMockitoTest {
 	
 	@Test
 	public void test_loadByUsername_whenUserNotExist_shouldThrowException() {
-		when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+		when(userRepository.findByEmail("email@gmail")).thenReturn(Optional.empty());
 		
 		assertThatThrownBy(() -> 
-				userService.loadUserByUsername(anyString())).
+				userService.loadUserByUsername("email@gmail")).
 					isInstanceOf(UsernameNotFoundException.class);
 		
 		verify(userRepository).findByEmail(anyString());

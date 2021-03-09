@@ -42,6 +42,11 @@
       ${basedir}/src/main/resources
     </sonar.sources>
     
+    <sonar.issue.ignore.multicriteria>e11</sonar.issue.ignore.multicriteria>
+    <sonar.issue.ignore.multicriteria.e11.ruleKey>S3776</sonar.issue.ignore.multicriteria.e11.ruleKey>
+    <sonar.issue.ignore.multicriteria.e12.resourceKey>**/Book.java</sonar.issue.ignore.multicriteria.e12.resourceKey>
+	<sonar.issue.ignore.multicriteria.e12.resourceKey>**/User.java</sonar.issue.ignore.multicriteria.e12.resourceKey>
+		
    <!-- Exclude non covered files -->  
     <sonar.coverage.exclusions>
       **/*Application.*,

@@ -44,14 +44,14 @@
       <thead>
         <tr>
           <th scope="col">Title</th>
-          <th scope="col">Type</th>
+          <th scope="col">Author</th>
           <th scope="col">Price</th>
         </tr>
       </thead>
       <tbody>
         <tr th:each="book : ${books}">
           <td th:text="${book.title}"></td>
-          <td th:text="${book.type}"></td>
+          <td th:text="${book.author}"></td>
           <td th:text="${book.price}"></td>
           <td><a id="edit" th:href="@{'/edit/' + ${book.id}}"><button name="Edit">Edit</button></a></td>
           <td><a th:href="@{/delete(id=${book.id})}"><button name="Delete">Delete</button></a></td>        

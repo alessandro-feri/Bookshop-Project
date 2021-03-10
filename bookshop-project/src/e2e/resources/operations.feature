@@ -24,9 +24,9 @@ Feature: Operations inside the bookshop site
   	And I click the "Sign in" button
   	Then I am on the "Home" page
 		When I click the "Insert" button
-		And I insert "TestTitleToDelete" in title field, "TestTypeToDelete" in type field and "30" in price field 
+		And I insert "TestTitleToDelete" in title field, "TestAuthorToDelete" in author field and "30" in price field 
 		And I click the "Save" button
-		Then The "Book Table" is shown and it contains a book with "TestTitleToDelete", "TestTypeToDelete", and price "30"
+		Then The "Book Table" is shown and it contains a book with "TestTitleToDelete", "TestAuthorToDelete", and price "30"
 		When I click the "Delete" button
 		Then "There are no books" message is shown
 	
@@ -41,13 +41,13 @@ Feature: Operations inside the bookshop site
   	And I click the "Sign in" button
   	Then I am on the "Home" page
 		When I click the "Insert" button
-		And I insert "TestTitleToEdit" in title field, "TestTypeToEdit" in type field and "30" in price field 
+		And I insert "TestTitleToEdit" in title field, "TestAuthorToEdit" in author field and "30" in price field 
 		And I click the "Save" button
-		Then The "Book Table" is shown and it contains a book with "TestTitleToEdit", "TestTypeToEdit", and price "30"
+		Then The "Book Table" is shown and it contains a book with "TestTitleToEdit", "TestAuthorToEdit", and price "30"
 		When I click the "Edit" button
-		And I update the type field with "UpdatedType" and the price field with "20"
+		And I update the author field with "UpdatedAuthor" and the price field with "20"
 		And I click the "Save" button
-		Then The "Book Table" is shown and it contains a book with "TestTitleToEdit", "UpdatedType", and price "20"
+		Then The "Book Table" is shown and it contains a book with "TestTitleToEdit", "UpdatedAuthor", and price "20"
 		
 	Scenario: Add a new Book and search it
   	Given I am on the Registration page
@@ -60,13 +60,13 @@ Feature: Operations inside the bookshop site
   	And I click the "Sign in" button
   	Then I am on the "Home" page
 		When I click the "Insert" button
-		And I insert "TestTitleToSearch" in title field, "TestTypeToSearch" in type field and "10" in price field 
+		And I insert "TestTitleToSearch" in title field, "TestAuthorToSearch" in author field and "10" in price field 
 		And I click the "Save" button
-		Then The "Book Table" is shown and it contains a book with "TestTitleToSearch", "TestTypeToSearch", and price "10"
+		Then The "Book Table" is shown and it contains a book with "TestTitleToSearch", "TestAuthorToSearch", and price "10"
   	When I insert "TestTitleToSearch" in the search field
 		And I click the "Search" button
 		Then I am on the "Search" page
-		Then The "Result Table" is shown and it contains a book with "TestTitleToSearch", "TestTypeToSearch", and price "10"
+		Then The "Result Table" is shown and it contains a book with "TestTitleToSearch", "TestAuthorToSearch", and price "10"
 		When I click on "Home" link
 		Then I am on the "Home" page
 		
@@ -81,9 +81,9 @@ Feature: Operations inside the bookshop site
   	And I click the "Sign in" button
   	Then I am on the "Home" page
   	When I click the "Insert" button
-  	And I insert "TestTitle" in title field, "TestType" in type field and "25" in price field 
+  	And I insert "TestTitle" in title field, "TestAuthor" in author field and "25" in price field 
 		And I click the "Save" button
-		Then The "Book Table" is shown and it contains a book with "TestTitle", "TestType", and price "25"
+		Then The "Book Table" is shown and it contains a book with "TestTitle", "TestAuthor", and price "25"
   	When I insert "" in the search field
 		And I click the "Search" button
 		Then I am on the "Search" page
@@ -100,9 +100,9 @@ Feature: Operations inside the bookshop site
   	And I click the "Sign in" button
   	Then I am on the "Home" page
   	When I click the "Insert" button
-  	And I insert "Title" in title field, "Type" in type field and "25" in price field 
+  	And I insert "Title" in title field, "Author" in author field and "25" in price field 
 		And I click the "Save" button
-		Then The "Book Table" is shown and it contains a book with "Title", "Type", and price "25"
+		Then The "Book Table" is shown and it contains a book with "Title", "Author", and price "25"
   	When I insert "Title Not Found" in the search field
 		And I click the "Search" button
 		Then I am on the "Book not found" page
@@ -119,8 +119,8 @@ Feature: Operations inside the bookshop site
   	And I click the "Sign in" button
   	Then I am on the "Home" page
 		When I click the "Insert" button
-		And I insert "TestTitleForDeleteAll" in title field, "TestTypeForDeleteAll" in type field and "50" in price field 
+		And I insert "TestTitleForDeleteAll" in title field, "TestAuthorForDeleteAll" in author field and "50" in price field 
 		And I click the "Save" button
-		Then The "Book Table" is shown and it contains a book with "TestTitleForDeleteAll", "TestTypeForDeleteAll", and price "50"
+		Then The "Book Table" is shown and it contains a book with "TestTitleForDeleteAll", "TestAuthorForDeleteAll", and price "50"
 		When I click the "Delete All" button
 		Then "There are no books" message is shown

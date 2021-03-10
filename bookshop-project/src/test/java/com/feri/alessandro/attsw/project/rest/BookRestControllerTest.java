@@ -102,11 +102,11 @@ public class BookRestControllerTest {
 				contentType(MediaType.APPLICATION_JSON_VALUE).
 				body("id[0]", equalTo(1),
 					 "title[0]", equalTo("Il ritratto di Dorian Gray"),
-					 "type[0]", equalTo("romanzo"),
+					 "author[0]", equalTo("romanzo"),
 					 "price[0]", equalTo(7),
 					 "id[1]", equalTo(2),
 					 "title[1]", equalTo("Harry Potter e la pietra filosofale"),
-					 "type[1]", equalTo("romanzo"),
+					 "author[1]", equalTo("romanzo"),
 					 "price[1]", equalTo(9)
 				);
 		
@@ -145,7 +145,7 @@ public class BookRestControllerTest {
 				contentType(MediaType.APPLICATION_JSON_VALUE).
 				body("id", equalTo(1),
 					 "title", equalTo("Il ritratto di Dorian Gray"),
-				     "type", equalTo("romanzo"),
+				     "author", equalTo("romanzo"),
 				     "price", equalTo(7)
 				);
 		
@@ -172,7 +172,7 @@ public class BookRestControllerTest {
 	@Test
 	public void test_getBookByTitle_WithExistingTitle() throws BookNotFoundException {
 		when(bookService.getBookByTitle(anyString())).
-			thenReturn(new Book(1L, "testTitle", "type", 10));
+			thenReturn(new Book(1L, "testTitle", "author", 10));
 		
 		given().
 		when().
@@ -183,7 +183,7 @@ public class BookRestControllerTest {
 			contentType(MediaType.APPLICATION_JSON_VALUE).
 				body("id", equalTo(1),
 					 "title", equalTo("testTitle"),
-					 "type", equalTo("type"),
+					 "author", equalTo("author"),
 					 "price", equalTo(10)
 				);
 		
@@ -207,7 +207,7 @@ public class BookRestControllerTest {
 			assertThat().
 				body("id", equalTo(1),
 					 "title", equalTo("Il ritratto di Dorian Gray"),
-					 "type", equalTo("romanzo"),
+					 "author", equalTo("romanzo"),
 					 "price", equalTo(7)
 				);
 		verify(bookService, times(1)).insertNewBook(requesBodyBook);
@@ -216,7 +216,7 @@ public class BookRestControllerTest {
 	
 	@Test
 	public void testPUT_editBookById_WithNonExistingId() throws BookNotFoundException {
-		Book bookNotFound = new Book(null, "titleNotFound", "typeNotFound", 0);
+		Book bookNotFound = new Book(null, "titleNotFound", "authorNotFound", 0);
 		when(bookService.editBookById(1L, bookNotFound)).thenThrow(BookNotFoundException.class);
 		
 		given().
@@ -234,9 +234,9 @@ public class BookRestControllerTest {
 	
 	@Test
 	public void testPUT_editBookById_WithExistingId() throws BookNotFoundException {
-		Book requestBodyBook = new Book(null, "testType", "testType", 10);
+		Book requestBodyBook = new Book(null, "testBook", "testAuthor", 10);
 		when(bookService.editBookById(1L, requestBodyBook)).
-			thenReturn(new Book(1L, "testBook", "testType", 10));
+			thenReturn(new Book(1L, "testBook", "testAuthor", 10));
 		
 		given().
 			contentType(MediaType.APPLICATION_JSON_VALUE).
@@ -248,7 +248,7 @@ public class BookRestControllerTest {
 			assertThat().
 			body("id", equalTo(1),
 				 "title", equalTo("testBook"),
-				 "type", equalTo("testType"),
+				 "author", equalTo("testAuthor"),
 				 "price", equalTo(10)
 				);
 		
@@ -274,7 +274,7 @@ public class BookRestControllerTest {
 	
 	@Test
 	public void testDELETE_deleteBookById() throws BookNotFoundException {
-		Book bookToDelete = new Book(1L, "testTitle", "testType", 10);
+		Book bookToDelete = new Book(1L, "testTitle", "testAuthor", 10);
 		when(bookService.getBookById(1L)).thenReturn(bookToDelete);
 		
 		given().

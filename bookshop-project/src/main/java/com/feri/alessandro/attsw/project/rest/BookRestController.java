@@ -44,7 +44,7 @@ public class BookRestController {
 		Book book = new Book();
 		book.setId(bookDTO.getId());
 		book.setTitle(bookDTO.getTitle());
-		book.setType(bookDTO.getType());
+		book.setAuthor(bookDTO.getAuthor());
 		book.setPrice(bookDTO.getPrice());
 		
 		return bookService.insertNewBook(book);
@@ -54,7 +54,7 @@ public class BookRestController {
 	public Book editBookById(@PathVariable Long id, @RequestBody BookDTO replacementBookDTO) throws BookNotFoundException {
 		Book replacementBook = new Book();
 		replacementBook.setTitle(replacementBookDTO.getTitle());
-		replacementBook.setType(replacementBookDTO.getType());
+		replacementBook.setAuthor(replacementBookDTO.getAuthor());
 		replacementBook.setPrice(replacementBookDTO.getPrice());
 			
 		return bookService.editBookById(id, replacementBook);

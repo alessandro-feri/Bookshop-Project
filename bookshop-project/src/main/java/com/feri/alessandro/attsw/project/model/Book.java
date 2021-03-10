@@ -10,14 +10,14 @@ public class Book {
 	@Id @GeneratedValue
 	private Long id;
 	private String title;
-	private String type;
+	private String author;
 	private int price;
 
-	public Book(Long id, String title, String type, int price) {
+	public Book(Long id, String title, String author, int price) {
 		super();
 		this.id = id;
 		this.title = title;
-		this.type = type;
+		this.author = author;
 		this.price = price;
 	}
 
@@ -41,12 +41,12 @@ public class Book {
 		this.title = title;
 	}
 
-	public String getType() {
-		return type;
+	public String getAuthor() {
+		return author;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
 	public int getPrice() {
@@ -59,7 +59,7 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", title=" + title + ", type=" + type + ", price=" + price + "]";
+		return "Book [id=" + id + ", title=" + title + ", author=" + author + ", price=" + price + "]";
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class Book {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + price;
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + ((author == null) ? 0 : author.hashCode());
 		return result;
 	}
 
@@ -94,10 +94,10 @@ public class Book {
 				return false;
 		} else if (!title.equals(other.title))
 			return false;
-		if (type == null) {
-			if (other.type != null)
+		if (author == null) {
+			if (other.author != null)
 				return false;
-		} else if (!type.equals(other.type))
+		} else if (!author.equals(other.author))
 			return false;
 		return true;
 	}

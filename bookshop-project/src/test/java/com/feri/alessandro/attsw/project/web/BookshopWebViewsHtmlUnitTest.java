@@ -192,7 +192,7 @@ public class BookshopWebViewsHtmlUnitTest {
 	@WithMockUser
 	public void test_homePageWithBooks_shouldShowThemInATable() throws Exception {
 		List<Book> books = asList(
-				new Book(1L, "title1", "type1", 10), new Book(2L, "title2", "type2", 15));
+				new Book(1L, "title1", "author1", 10), new Book(2L, "title2", "author2", 15));
 		
 		when(bookService.getAllBooks()).thenReturn(books);
 		
@@ -203,9 +203,9 @@ public class BookshopWebViewsHtmlUnitTest {
 		
 		assertThat(table.asText()).isEqualTo(
 				"Books\n" + 
-				"Title	Type	Price\n" + 
-				"title1	type1	10	Edit	Delete\n" + 
-				"title2	type2	15	Edit	Delete"
+				"Title	Author	Price\n" + 
+				"title1	author1	10	Edit	Delete\n" + 
+				"title2	author2	15	Edit	Delete"
 				
 			);	
 		
@@ -218,7 +218,7 @@ public class BookshopWebViewsHtmlUnitTest {
 	@Test
 	public void test_Edit_And_New_PageStructure() throws Exception {
 		when(bookService.getBookById(1L)).
-		thenReturn(new Book(1L, "title", "type", 10));
+		thenReturn(new Book(1L, "title", "author", 10));
 	
 		HtmlPage page = webClient.getPage("/edit/1");
 		
@@ -228,8 +228,8 @@ public class BookshopWebViewsHtmlUnitTest {
 		assertElementPresent(page, "btn_save");
 		assertTextPresent(page, "Title:");
 		assertInputPresent(page, "title");
-		assertTextPresent(page, "Type:");
-		assertInputPresent(page, "type");
+		assertTextPresent(page, "Author:");
+		assertInputPresent(page, "author");
 		assertTextPresent(page, "Price:");
 		assertInputPresent(page, "price");
 	}
@@ -251,20 +251,20 @@ public class BookshopWebViewsHtmlUnitTest {
 	@WithMockUser
 	public void test_editWithExistentBook() throws Exception {
 		when(bookService.getBookById(1L)).
-			thenReturn(new Book(1L, "title", "type", 10));
+			thenReturn(new Book(1L, "title", "author", 10));
 		
 		HtmlPage page = webClient.getPage("/edit/1");
 		
 		final HtmlForm form = page.getFormByName("book_form");
 		
 		form.getInputByValue("title").setValueAttribute("modified_title");
-		form.getInputByValue("type").setValueAttribute("modified_type");
+		form.getInputByValue("author").setValueAttribute("modified_author");
 		form.getInputByValue("10").setValueAttribute("15");
 		
 		form.getButtonByName("Save").click();
 		
 		verify(bookService, times(1))
-			.editBookById(1L, new Book(1L, "modified_title", "modified_type", 15));
+			.editBookById(1L, new Book(1L, "modified_title", "modified_author", 15));
 	}
 	
 	@Test
@@ -275,13 +275,13 @@ public class BookshopWebViewsHtmlUnitTest {
 		final HtmlForm form = page.getFormByName("book_form");
 		
 		form.getInputByName("title").setValueAttribute("new_title");
-		form.getInputByName("type").setValueAttribute("new_type");
+		form.getInputByName("author").setValueAttribute("new_author");
 		form.getInputByName("price").setValueAttribute("10");
 		
 		form.getButtonByName("Save").click();
 		
 		verify(bookService)
-			.insertNewBook(new Book(null, "new_title", "new_type", 10));
+			.insertNewBook(new Book(null, "new_title", "new_author", 10));
 	}
 	
 	@Test
@@ -322,7 +322,7 @@ public class BookshopWebViewsHtmlUnitTest {
 	@Test
 	@WithMockUser
 	public void test_searchView_WhenBookIsFound() throws Exception {
-		Book found = new Book(1L, "test_title", "type", 10);
+		Book found = new Book(1L, "test_title", "author", 10);
 		when(bookService.getBookByTitle("test_title")).thenReturn(found);
 		
 		HtmlPage page = webClient.getPage("/");
@@ -336,7 +336,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		search.getAnchorByHref("/");
 		
 		assertThat(search.getElementById("bookSearchedResult").getTextContent()).
-			contains("Result", "Title", "Type", "Price", "test_title", "type", "10");
+			contains("Result", "Title", "Author", "Price", "test_title", "author", "10");
 		
 		assertThat(search.getAnchorByText("Home").getHrefAttribute()).isEqualTo("/");
 		
@@ -347,7 +347,7 @@ public class BookshopWebViewsHtmlUnitTest {
 	@Test
 	@WithMockUser
 	public void testDelete() throws Exception {
-		Book book = new Book(1L, "title1", "type1", 10);
+		Book book = new Book(1L, "title1", "author1", 10);
 		List<Book> books = asList(book);
 		
 		when(bookService.getAllBooks()).thenReturn(books);

@@ -24,4 +24,4 @@ cache:
     
 script:
   - mvn -f bookshop-project/pom.xml verify -Pe2e-tests
-  - mvn -f bookshop-project/pom.xml coveralls:report sonar:sonar
+  - mvn -f bookshop-project/pom.xml sonar:sonar

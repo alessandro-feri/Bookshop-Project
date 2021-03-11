@@ -62,7 +62,7 @@ public class BookshopSteps {
 	@When("I click the {string} button")
 	public void i_click_the_button(String button) throws Exception {
 		webDriver.findElement(By.name(button)).click();
-		//Thread.sleep(1500);
+		Thread.sleep(1500);
 	}
 	
 	@Then("I am on the {string} page")
@@ -78,7 +78,7 @@ public class BookshopSteps {
 	@When("I click on {string} link")
 	public void i_click_on_link(String linkName) throws Exception {
 	    webDriver.findElement(By.linkText(linkName)).click();
-	    //Thread.sleep(1500);	    
+	    Thread.sleep(1500);	    
 	}
 
 	@When("I insert {string} into email field and {string} into password field")

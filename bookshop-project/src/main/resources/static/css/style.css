@@ -1,11 +1,13 @@
 @charset "UTF-8";
 
-form {
+.form {
 	display: inline;
+	
 }
 
 .center-elements {
 	text-align: center;
+	
 }
 
 .left-elements {
@@ -16,25 +18,109 @@ form {
 	text-align: right;
 }
 
+.title {
+	text-align: center;
+	font-size: 38px;
+	color: #cc0000;
+	font-family: Times;
+	text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
+}
 
 .headers {
-	color: blue;
+	text-align: center;
+	font-size: 35px;
+	color: #2e8b57;
+	font-family: Times;
+	text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
 }
 
 .table {
+	text-align: center;
+	width: 65%;
 	border: 1px solid #000000;
 	background-color: #8FBC8F;
+	margin-left: auto;
+  	margin-right: auto;
 }
 
+table th, table td {
+    border: 1px solid;
+}
+table th, table td{ 
+    padding: 4px 8px;
+}
 
+.input-border {
+	border-width: 1px 2px 1px 2px;
+	border-style: solid;
+	border-color: black black black black;
+	height: 30px; 
+	width: 250px;
+}
 
-.buttons-color {
-	background-color: teal;
+.parameters {
+	text-align: center;
 	font-size: 15px;
-	color: white;
-	padding: 5px 13px;
+	color: black;
+	font: bold 20px/1.5 Georgia;
+	
+}
+
+.buttons {
+	background-color: #E0E0E0;
+	font-size: 15px;
+	color: black;
+	padding: 6px 14px;
 	border-radius: 8px;
 	border: 1px solid black;
 	-webkit-transition-duration: 0.4;
 	transition-duration: 0.4;
+	display: inline-block;
 }
+
+.buttons:hover {
+	background-color: gray;
+	color: black;
+}
+
+.error {
+	text-align: center;
+	font-size:40;
+	font: bold 24px/1.5 Georgia, "Times New Roman", serif;
+}
+
+h3 {
+	text-align: center;
+	font-size: 30px;
+	color: #cc0000;
+	font-family: Times New Roman;
+	text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
+}
+
+h4 {
+	text-align: center;
+	font-size: 25px;
+	color: #2e8b57;
+	font-family: Times New Roman;
+	text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
+}
+
+h5 {
+	font-size: 18px;
+}
+
+A:LINK {
+ color : darkblue;
+ text-decoration: none
+}
+
+A:VISITED {
+ color: darkpurple;
+ text-decoration: none
+}
+
+A:HOVER {
+	text-decoration: underline
+}
+
+

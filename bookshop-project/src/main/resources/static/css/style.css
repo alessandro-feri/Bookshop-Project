@@ -87,6 +87,11 @@ table th, table td{
 	font: bold 24px/1.5 Georgia, "Times New Roman", Times, serif;
 }
 
+.login-error {
+	font-size: 18px;
+	color: darkred;
+}
+
 h3 {
 	text-align: center;
 	font-size: 30px;

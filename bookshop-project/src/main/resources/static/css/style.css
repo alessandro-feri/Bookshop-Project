@@ -22,7 +22,7 @@
 	text-align: center;
 	font-size: 38px;
 	color: #cc0000;
-	font-family: Times;
+	font-family: "Times New Roman", Times, serif;
 	text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
 }
 
@@ -30,7 +30,7 @@
 	text-align: center;
 	font-size: 35px;
 	color: #2e8b57;
-	font-family: Times;
+	font-family: "Times New Roman", Times, serif;
 	text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
 }
 
@@ -62,7 +62,7 @@ table th, table td{
 	text-align: center;
 	font-size: 15px;
 	color: black;
-	font: bold 20px/1.5 Georgia;
+	font: bold 22px/1.5 Georgia, "Times New Roman", Times, serif;
 	
 }
 
@@ -86,14 +86,14 @@ table th, table td{
 .error {
 	text-align: center;
 	font-size:40;
-	font: bold 24px/1.5 Georgia, "Times New Roman", serif;
+	font: bold 24px/1.5 Georgia, "Times New Roman", Times, serif;
 }
 
 h3 {
 	text-align: center;
 	font-size: 30px;
 	color: #cc0000;
-	font-family: Times New Roman;
+	font-family: "Times New Roman", Times, serif;
 	text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
 }
 
@@ -101,7 +101,7 @@ h4 {
 	text-align: center;
 	font-size: 25px;
 	color: #2e8b57;
-	font-family: Times New Roman;
+	font-family: "Times New Roman", Times, serif;
 	text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
 }
 

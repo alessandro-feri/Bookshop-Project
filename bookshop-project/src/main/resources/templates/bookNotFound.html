@@ -3,13 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <title>Book not found</title>
+<link rel="stylesheet" th:href="@{/css/style.css}" href="../../css/style.css"/>
 </head>
-<body>
-  <div>
-    <a th:href="@{/}">Back to homepage</a>
+<body bgcolor="#9A9A9A">
+  <div class="error">
+    <br>
+    <h1>ERROR 404</h1> 
+      Book not found!
   </div>
-  <div>
-    <h2>Book not found!</h2>
+  <br>
+  <br>
+  <div class="center-elements">
+    <a th:href="@{/}">Home</a>
   </div>
 </body>
 </html>

@@ -2,36 +2,46 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<style type="text/css">
+
+body {
+  background-image:URL("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWgaH_3BIGepIZC1srl_GlNCXNxk2qwOAABw&usqp=CAU");
+  background-size:cover;
+}
+
+</style>
+
 <title>Search</title>
+<link rel="stylesheet" th:href="@{/css/style.css}" href="../../css/style.css"/>
 </head>
 <body>
-    <div>
+    <div class="center-elements">
       <div th:unless="${message.empty}">
+        <br>
+        <br>
+        <br>
+        <br>
         <h3 th:text="${message}"></h3>
       </div>
       <div th:if="${message.empty}">
         <!-- Book result -->
-        <div id="bookSearchedResult">
-          <div th:if="${book == null}">
-            <h5>No book</h5>
-          </div>
-          <div th:unless="${book == null}">
-            <h2>Result:</h2>
-            <div>
-              <table id="Result Table">
-                <caption>Searched</caption>
+          <div class = "center-elements" th:unless="${book == null}">
+            <h1 class="headers"><b>Results</b></h1>
+            <br>
+            <div class="center-elements">
+              <table class="table" id="Result Table">
                 <thead>
                   <tr>
-                    <th scope="col">Title</th>
-                    <th scope="col">Author</th>
-                    <th scope="col">Price</th>
+                    <th colspan="2" scope="col">Title</th>
+                    <th colspan="2" scope="col">Author</th>
+                    <th colspan="2" scope="col">Price</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td th:text="${book.title}"></td>
-                    <td th:text="${book.author}"></td>
-                    <td th:text="${book.price}"></td>
+          		    <td colspan="2" th:text="${book.title}"></td>
+          			<td colspan="2" th:text="${book.author}"></td>
+          			<td colspan="2" th:text="${book.price}"></td>
                   </tr>
                 </tbody>
               </table>
@@ -39,8 +49,8 @@
           </div>
         </div>
       </div>
-    </div>
-    <div>
+    <div class="center-elements">
+      <br>
       <a th:href="@{/}">Home</a>
     </div>
 </body>

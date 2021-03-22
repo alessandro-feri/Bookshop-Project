@@ -51,6 +51,7 @@ public class BookshopWebViewsHtmlUnitTest {
 	public void test_LoginPageStructure() throws Exception {
 		HtmlPage page = webClient.getPage("/login");
 		
+		assertTextPresent(page, "Sign in");
 		assertFormPresent(page, "login_form");
 		assertInputPresent(page, "email");
 		assertInputPresent(page, "password");
@@ -69,14 +70,16 @@ public class BookshopWebViewsHtmlUnitTest {
 	public void test_RegistrationPageStructure() throws Exception {
 		HtmlPage page = webClient.getPage("/registration");
 		
+		assertTextPresent(page, "Register Here");
 		assertFormPresent(page, "registration_form");
+		assertTextPresent(page, "Email address:");
 		assertInputPresent(page, "email");
+		assertTextPresent(page, "Username:");
 		assertInputPresent(page, "username");
+		assertTextPresent(page, "Password:");
 		assertInputPresent(page, "password");
-		assertTextPresent(page, "or back to");
-		assertElementPresent(page, "login_button");
 		assertElementPresent(page, "registration_button");
-		assertLinkPresentWithText(page, "Login");
+		assertLinkPresentWithText(page, "Login Page");
 		
 	}
 	
@@ -165,16 +168,17 @@ public class BookshopWebViewsHtmlUnitTest {
 	public void test_HomePageStructure() throws Exception {
 		HtmlPage page = webClient.getPage("/");
 		
+		assertTextPresent(page, "Bookshop Home Page");
+		assertFormPresent(page, "Logout_form");
+		assertFormPresent(page, "search_form");
+		assertElementPresent(page, "btn_search");
+		assertTextPresent(page, "Book List");
 		assertThat(page.getAnchorByText("Insert").getHrefAttribute()).isEqualTo("/new");
-		assertThat(page.getBody().getTextContent()).contains("There are no books");
+		assertFormPresent(page, "deleteAll");
+		assertThat(page.getBody().getTextContent()).contains("There are no books.");
 		assertLinkNotPresentWithText(page, "Edit");
 		assertLinkNotPresentWithText(page, "Delete");
-		assertTextPresent(page, "Search");
-		assertFormPresent(page, "search_form");
 		assertInputPresent(page, "title_searched");
-		assertElementPresent(page, "btn_search");
-		assertFormPresent(page, "deleteAll");
-		assertFormPresent(page, "Logout");
 
 	}	
 	
@@ -202,7 +206,6 @@ public class BookshopWebViewsHtmlUnitTest {
 		HtmlTable table = page.getHtmlElementById("Book Table");
 		
 		assertThat(table.asText()).isEqualTo(
-				"Books\n" + 
 				"Title	Author	Price\n" + 
 				"title1	author1	10	Edit	Delete\n" + 
 				"title2	author2	15	Edit	Delete"
@@ -222,16 +225,15 @@ public class BookshopWebViewsHtmlUnitTest {
 	
 		HtmlPage page = webClient.getPage("/edit/1");
 		
-		assertThat(page.getTitleText()).isEqualTo("Edit Page");
-		assertTextPresent(page, "Edit Book");
+		assertTextPresent(page, "Edit Page");
 		assertFormPresent(page, "book_form");
-		assertElementPresent(page, "btn_save");
 		assertTextPresent(page, "Title:");
 		assertInputPresent(page, "title");
 		assertTextPresent(page, "Author:");
 		assertInputPresent(page, "author");
 		assertTextPresent(page, "Price:");
 		assertInputPresent(page, "price");
+		assertElementPresent(page, "btn_save");
 	}
 	
 	@Test
@@ -316,7 +318,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		assertThat(search.getTextContent()).isNull();
 		
 		assertTextPresent(search, "Book not found!");
-		assertLinkPresentWithText(search, "Back to homepage");
+		assertLinkPresentWithText(search, "Home");
 	}
 	
 	@Test
@@ -335,8 +337,8 @@ public class BookshopWebViewsHtmlUnitTest {
 		
 		search.getAnchorByHref("/");
 		
-		assertThat(search.getElementById("bookSearchedResult").getTextContent()).
-			contains("Result", "Title", "Author", "Price", "test_title", "author", "10");
+		assertThat(search.getElementById("Result Table").getTextContent()).
+			contains("Title", "Author", "Price", "test_title", "author", "10");
 		
 		assertThat(search.getAnchorByText("Home").getHrefAttribute()).isEqualTo("/");
 		

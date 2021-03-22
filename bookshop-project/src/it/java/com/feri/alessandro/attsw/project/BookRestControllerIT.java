@@ -44,7 +44,7 @@ public class BookRestControllerIT {
 	
 	@Test
 	public void test_getAllBooksFromNotEmptyRepository() {
-		List<Book> books = bookRepository.saveAll(
+		bookRepository.saveAll(
 				asList(
 					new Book(null, "title1", "author1", 10), new Book(null, "title2", "author2", 15)));
 		
@@ -61,9 +61,6 @@ public class BookRestControllerIT {
 				 "author[1]", equalTo("author2"),
 				 "price[1]", equalTo(15)
 				);
-					
-		
-		assertThat(bookRepository.findAll()).isEqualTo(books);
 		
 	}
 	

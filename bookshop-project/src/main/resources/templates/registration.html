@@ -2,26 +2,50 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8"/>
+<style type="text/css">
+
+body {
+  background-image:URL("https://www.ugei.it/wp-content/uploads/2020/03/libri.jpg");
+  background-size: cover;
+}
+
+</style>
 <title>Registration Page</title>
 <link rel="stylesheet" th:href="@{/css/style.css}" href=“../../css/style.css”/>
 </head>
 <body>
-  <div class="center-elements">
-    <form name="registration_form" th:action="@{/saveUser}" method="post">
-      <h1 style="color: white; background: blue;">Register Here</h1>
-      <div>
-        <label>Email address:</label> 
-        <input type="email" name="email" id="inputEmail" placeholder="Email" required/>
-        <label>Username:</label>
-        <input type="text" name="username" id="inputUsername" placeholder="Username" required/>
-        <label>Password:</label>
-        <input type="password" name="password" id="inputPassword" placeholder="Password" required> 
-      </div>
+  <div>
+    <form class="form" name="registration_form" th:action="@{/saveUser}" method="post">
+      <h1 class="title">Register Here</h1>     
       <br>
-      <button name="Register" id="registration_button" type="submit">Register</button>
+      <br>
+      <br>
+      <div class="center-elements">
+        <label class="parameters">Email address:&nbsp;&nbsp;</label> 
+        <input class="input-border" type="email" name="email" id="inputEmail" placeholder="Email" required/>
+        <br>
+        <br>
+        <br>
+        <label class="parameters">Username:&emsp;&ensp;&nbsp;&nbsp;&nbsp;</label>
+        <input class="input-border" type="text" name="username" id="inputUsername" placeholder="Username" required/>
+        <br>
+        <br>
+        <br>
+        <label class="parameters">Password:&emsp;&ensp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+        <input class="input-border" type="password" name="password" id="inputPassword" placeholder="Password" required> 
+      </div>
+      
+      <br>
+      <br>
+      <br>
+      <div class="center-elements">
+        <button class="buttons" name="Register" id="registration_button" type="submit">Register</button>
+      </div>
     </form>
-     or back to
-    <a th:href="@{/login}"><button id="login_button" type="submit">Login</button></a>
+  </div>
+  <br>
+  <div class="center-elements">
+    <h5><a th:href="@{/login}">Login Page</a></h5>
   </div>
 </body>
 </html>

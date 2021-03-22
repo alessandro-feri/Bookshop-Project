@@ -60,7 +60,6 @@ table th, table td{
 
 .parameters {
 	text-align: center;
-	font-size: 15px;
 	color: black;
 	font: bold 22px/1.5 Georgia, "Times New Roman", Times, serif;
 	
@@ -85,7 +84,6 @@ table th, table td{
 
 .error {
 	text-align: center;
-	font-size:40;
 	font: bold 24px/1.5 Georgia, "Times New Roman", Times, serif;
 }
 

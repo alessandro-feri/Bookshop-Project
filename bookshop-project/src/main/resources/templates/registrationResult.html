@@ -2,19 +2,32 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<style type="text/css">
+
+body {
+  background-image:URL("https://www.ugei.it/wp-content/uploads/2020/03/libri.jpg");
+  background-size: cover;
+}
+
+</style>
 <title>Result</title>
+<link rel="stylesheet" th:href="@{/css/style.css}" href=“../../css/style.css”/>
 </head>
 <body>
-  <div>
+  <br>
+  <br>
+  <br>
+  <div class="center-elements">
     <div th:unless="${message.empty}">
       <h3 th:text="${message}"></h3>
         <div>
-          <a th:href="@{/registration}">Go back to Registration page</a>
+          <h5><a th:href="@{/registration}">Go back to Registration page</a></h5>
         </div>
     </div>
     <div th:if="${message.empty}">
-      <h1>You have successfully registered!</h1>
-      <a th:href="@{/login}">Login Page</a>
+      <h3>You have successfully registered!</h3>
+      <br>
+      <h5><a th:href="@{/login}">Login Page</a></h5>
     </div> 
 
   </div>

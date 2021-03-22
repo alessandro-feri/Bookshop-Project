@@ -45,8 +45,6 @@
 
 table th, table td {
     border: 1px solid;
-}
-table th, table td{ 
     padding: 4px 8px;
 }
 
@@ -125,5 +123,4 @@ A:VISITED {
 A:HOVER {
 	text-decoration: underline
 }
-
 

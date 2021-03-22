@@ -27,16 +27,16 @@ public class BookServiceRepositoryIT {
 	@Test
 	public void test_serviceCanInsertIntoRepository() {
 		Book saved = bookService.insertNewBook(
-				new Book(null, "testing_title", "testing_type", 10));
+				new Book(null, "testing_title", "testing_author", 10));
 		
 		assertThat(bookRepository.findById(saved.getId())).isPresent();
 	}
 
 	@Test
 	public void test_serviceCanUpdateIntoRepository() throws BookNotFoundException {
-		Book saved = bookRepository.save(new Book(null, "title", "type", 10));
+		Book saved = bookRepository.save(new Book(null, "title", "author", 10));
 		
-		Book updated = new Book(saved.getId(), "updated_title", "updated_type", 15);
+		Book updated = new Book(saved.getId(), "updated_title", "updated_author", 15);
 		
 		Book result = bookService.editBookById(saved.getId(), updated);
 		
@@ -45,7 +45,7 @@ public class BookServiceRepositoryIT {
 	
 	@Test
 	public void test_serviceCanDeleteFromRepository() throws BookNotFoundException {
-		Book saved = bookRepository.save(new Book(null, "title", "type", 10));
+		Book saved = bookRepository.save(new Book(null, "title", "author", 10));
 		
 		assertThat(bookRepository.findById(saved.getId())).isPresent();
 		

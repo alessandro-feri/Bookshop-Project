@@ -4,14 +4,14 @@ public class BookDTO {
 
 	private Long id;
 	private String title;
-	private String type;
+	private String author;
 	private int price;
 	
-	public BookDTO(Long id, String title, String type, int price) {
+	public BookDTO(Long id, String title, String author, int price) {
 		super();
 		this.id = id;
 		this.title = title;
-		this.type = type;
+		this.author = author;
 		this.price = price;
 	}
 	
@@ -33,11 +33,11 @@ public class BookDTO {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getType() {
-		return type;
+	public String getAuthor() {
+		return author;
 	}
-	public void setType(String type) {
-		this.type = type;
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 	public int getPrice() {
 		return price;

@@ -95,7 +95,7 @@ public class BookshopWebController {
 		Book book = new Book();
 		book.setId(bookDTO.getId());
 		book.setTitle(bookDTO.getTitle());
-		book.setType(bookDTO.getType());
+		book.setAuthor(bookDTO.getAuthor());
 		book.setPrice(bookDTO.getPrice());
 		
 		Long id = book.getId();

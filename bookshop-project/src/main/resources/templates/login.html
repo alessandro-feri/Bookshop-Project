@@ -2,27 +2,50 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8"/>
+<style type="text/css">
+
+body {
+  background-image:URL("https://www.ugei.it/wp-content/uploads/2020/03/libri.jpg");
+  background-size: cover;
+}
+
+</style>
 <title>Login</title>
 <link rel="stylesheet" th:href="@{/css/style.css}" href=“../../css/style.css”/>
 </head>
 <body>
   <div class="center-elements">
-    <form name="login_form" th:action="@{/login}" method="post">
-       <h1 style="color: red; background: black;">Sign in</h1>
-       <div th:if="${param.error}">
-           Invalid email and password.
-       </div>
-       <div>
-         <label>Email address:</label>
-           <input type="email" name="email" id="inputEmail" placeholder="Email" required/>
-         <label>Password:</label>
-           <input type="password" name="password" id="inputPassword" placeholder="Password" required>
-       </div>
+    <form class="form" name="login_form" th:action="@{/login}" method="post">
+       <h1 class="title">Sign in</h1>
        <br>
-         <button name="Sign in" id="login_button" type="submit">Sign in</button>
+       <br>
+       <div th:if="${param.error}">
+           <h5><font color="darkred">Invalid email and password.</font></h5>
+       </div>
+
+       <br>
+
+       <div>
+         <label class="parameters">Email address:</label>
+         <input class="input-border" type="email" name="email" id="inputEmail" placeholder="Email" required/>
+         <br>
+         <br>
+         <br>
+         <label class="parameters">&emsp;&emsp;Password:</label>
+         <input class="input-border" type="password" name="password" id="inputPassword" placeholder="Password" required>
+       </div>
+
+       <br>
+       <br>
+       <br>
+       <br>
+       
+         <button class="buttons" name="Sign in" id="login_button" type="submit">Sign in</button>
      </form>
-     or
-     <a th:href="@{/registration}"><button id="registration_button">Register</button></a>
+     &ensp;or&ensp;
+     <a th:href="@{/registration}">
+       <button class="buttons" id="registration_button">Register</button>
+     </a>
    </div>
 </body>
 </html>

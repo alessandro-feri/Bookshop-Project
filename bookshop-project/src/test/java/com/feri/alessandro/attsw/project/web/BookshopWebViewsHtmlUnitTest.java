@@ -101,10 +101,10 @@ public class BookshopWebViewsHtmlUnitTest {
 		HtmlPage result = form.getButtonByName("Register").click();
 		
 		assertThat(result.getTitleText()).isEqualTo("Result");
-		assertLinkPresentWithText(result, "Go back to Registration page");
 		assertThat(result.getBody().getTextContent()).contains(
-				"There is already a user registered with the email provided."
-				+ "Please, try with another email address.");
+				"There is already a user registered with the email provided. "
+				+ "Please, try with another email address.", "ERROR 409");
+		assertLinkPresentWithText(result, "Go back to Registration page");
 		
 		verify(userService).findUserByEmail("email_exist@gmail");
 		
@@ -128,10 +128,10 @@ public class BookshopWebViewsHtmlUnitTest {
 		HtmlPage result = form.getButtonByName("Register").click();
 	
 		assertThat(result.getTitleText()).isEqualTo("Result");
-		assertLinkPresentWithText(result, "Go back to Registration page");
 		assertThat(result.getBody().getTextContent()).contains(
-			"There is already a user registered with the username provided."
-			+ "Please, try with another username.");
+			"There is already a user registered with the username provided. "
+			+ "Please, try with another username.", "ERROR 409");
+		assertLinkPresentWithText(result, "Go back to Registration page");
 	
 		verify(userService).findUserByUsername("username_exist");
 	}
@@ -246,7 +246,8 @@ public class BookshopWebViewsHtmlUnitTest {
 		
 		assertThat(page.getTitleText()).isEqualTo("Book not found");
 		
-		assertThat(page.getBody().getTextContent()).contains("Book not found!");
+		assertThat(page.getBody().getTextContent()).contains("Book not found!", "ERROR 404");
+		assertLinkPresentWithText(page, "Home");	
 	}
 	
 	@Test
@@ -317,7 +318,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		
 		assertThat(search.getTextContent()).isNull();
 		
-		assertTextPresent(search, "Book not found!");
+		assertThat(search.getBody().getTextContent()).contains("Book not found!", "ERROR 404");
 		assertLinkPresentWithText(search, "Home");
 	}
 	

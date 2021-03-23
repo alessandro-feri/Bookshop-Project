@@ -94,6 +94,8 @@ public class BookshopWebControllerTest {
 				.param("username", "username")
 				.param("password", "password"))
 			.andExpect(view().name("registrationResult"))
+			.andExpect(model().attribute("message", "There is already a user registered with the email provided. "
+				+ "Please, try with another email address."))
 			.andExpect(status().is(409));
 		
 		verify(userService).findUserByEmail("tested_email@gmail");
@@ -109,7 +111,7 @@ public class BookshopWebControllerTest {
 				param("username", "tested_username").
 				param("password", "password")).
 			andExpect(view().name("registrationResult")).
-			andExpect(model().attribute("message", "There is already a user registered with the username provided."
+			andExpect(model().attribute("message", "There is already a user registered with the username provided. "
 				+ "Please, try with another username.")).
 			andExpect(status().is(409));
 		

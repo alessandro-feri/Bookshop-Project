@@ -5,7 +5,7 @@
 <style type="text/css">
 
 body {
-  background-image:URL("https://www.ugei.it/wp-content/uploads/2020/03/libri.jpg");
+  background-image:URL("https://www.sarascrive.com/wp-content/uploads/2020/03/cinque_libri_da_leggere_nel_2020_alcuni_consigli_eee5f5f0.jpg");
   background-size: cover;
 }
 
@@ -14,7 +14,7 @@ body {
 <link rel="stylesheet" th:href="@{/css/style.css}" href=“../../css/style.css”/>
 </head>
 <body>
-  <div class="center-elements">
+  <div class="authentication-pages">
     <form class="form" name="login_form" th:action="@{/login}" method="post">
        <h1 class="title">Sign in</h1>
        <br>
@@ -25,7 +25,7 @@ body {
 
        <br>
 
-       <div>
+       <div class="label-position">
          <label class="parameters">Email address:</label>
          <input class="input-border" type="email" name="email" id="inputEmail" placeholder="Email" required/>
          <br>
@@ -39,8 +39,8 @@ body {
        <br>
        <br>
        <br>
-       
          <button class="buttons" name="Sign in" id="login_button" type="submit">Sign in</button>
+       
      </form>
      &ensp;or&ensp;
      <a th:href="@{/registration}">

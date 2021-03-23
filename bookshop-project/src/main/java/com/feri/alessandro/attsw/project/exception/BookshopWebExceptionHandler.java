@@ -24,7 +24,7 @@ public class BookshopWebExceptionHandler extends ResponseEntityExceptionHandler 
 	@ExceptionHandler(value = EmailExistException.class)
 	public String handleEmailExistException(Model model, HttpServletResponse response) {
 		
-		model.addAttribute(MESSAGE, "There is already a user registered with the email provided."
+		model.addAttribute(MESSAGE, "There is already a user registered with the email provided. "
 				+ "Please, try with another email address.");
 		response.setStatus(409);
 		
@@ -33,7 +33,7 @@ public class BookshopWebExceptionHandler extends ResponseEntityExceptionHandler 
 	
 	@ExceptionHandler(value = UsernameExistException.class)
 	public String handleUsernameExistException(Model model, HttpServletResponse response) {
-		model.addAttribute(MESSAGE, "There is already a user registered with the username provided."
+		model.addAttribute(MESSAGE, "There is already a user registered with the username provided. "
 				+ "Please, try with another username.");
 		response.setStatus(409);
 		

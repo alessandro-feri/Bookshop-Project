@@ -20,6 +20,7 @@ import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
 import com.feri.alessandro.attsw.project.exception.EmailExistException;
 import com.feri.alessandro.attsw.project.exception.UsernameExistException;
 import com.feri.alessandro.attsw.project.model.Book;
+import com.feri.alessandro.attsw.project.model.User;
 import com.feri.alessandro.attsw.project.services.BookService;
 import com.feri.alessandro.attsw.project.services.UserService;
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -148,11 +149,12 @@ public class BookshopWebViewsHtmlUnitTest {
 		
 		HtmlPage result = form.getButtonByName("Register").click();
 		
+		verify(userService).saveUser(new User(null, "email@gmail", "username", "password"));
 		assertThat(result.getTitleText()).isEqualTo("Result");
 		assertThat(result.getBody().getTextContent()).contains(
 				"You have successfully registered!");
 		assertLinkPresentWithText(result, "Login Page");
-		
+
 	}
 	
 	
@@ -315,8 +317,6 @@ public class BookshopWebViewsHtmlUnitTest {
 		form.getInputByName("title_searched").setValueAttribute("notFound");
 		
 		HtmlPage search = form.getButtonByName("Search").click();
-		
-		assertThat(search.getTextContent()).isNull();
 		
 		assertThat(search.getBody().getTextContent()).contains("Book not found!", "ERROR 404");
 		assertLinkPresentWithText(search, "Home");

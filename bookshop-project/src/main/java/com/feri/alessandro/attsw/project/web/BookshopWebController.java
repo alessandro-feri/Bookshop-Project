@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
 import com.feri.alessandro.attsw.project.exception.EmailExistException;
@@ -37,17 +38,21 @@ public class BookshopWebController {
 	private UserService userService;
 	
 	@GetMapping("/login")
-	public String getLoginPage() {
-		return "login";
+	public ModelAndView getLoginPage() {
+		ModelAndView login = new ModelAndView("login");
+		
+		return login;
 	}
 	
 	@GetMapping("/registration")
-	public String getRegistrationPage() {
-		return "registration";
+	public ModelAndView getRegistrationPage() {
+		ModelAndView registration = new ModelAndView("registration");
+		
+		return registration;
 	}
 	
 	@PostMapping("/saveUser")
-	public String createNewUser(UserDTO userDTO, Model model) throws EmailExistException, UsernameExistException {
+	public ModelAndView createNewUser(UserDTO userDTO, Model model) throws EmailExistException, UsernameExistException {
 		User user = new User();
 		user.setEmail(userDTO.getEmail());
 		user.setUsername(userDTO.getUsername());
@@ -56,41 +61,45 @@ public class BookshopWebController {
 		userService.findUserByEmail(user.getEmail());
 		userService.findUserByUsername(user.getUsername());
 		
+		ModelAndView registrationResult = new ModelAndView("registrationResult");
 		model.addAttribute(MESSAGE, EMPTY_MESSAGE);
 		userService.saveUser(user);
 		
-		return "registrationResult";
+		return registrationResult;
 	}
 	
 	
 	@GetMapping("/")
-	public String getIndex(Model model) {
+	public ModelAndView getIndex(Model model) {
 		List<Book> allBooks = bookService.getAllBooks();
+		ModelAndView index = new ModelAndView("index");
 		model.addAttribute("books", allBooks);
 		model.addAttribute(MESSAGE, allBooks.isEmpty() ? "There are no books." : EMPTY_MESSAGE);
 		
-		return "index";
+		return index;
 	}
 
 	@GetMapping("/edit/{id}")
-	public String editBookById(@PathVariable Long id, Model model) throws BookNotFoundException {
+	public ModelAndView editBookById(@PathVariable Long id, Model model) throws BookNotFoundException {
 		Book book = bookService.getBookById(id);
+		ModelAndView edit = new ModelAndView("edit");
 		model.addAttribute("book", book);
 		model.addAttribute(MESSAGE, EMPTY_MESSAGE);
 			
-		return "edit";
+		return edit;
 	}
 	
 	@GetMapping("/new")
-	public String newBook(Model model) {
+	public ModelAndView newBook(Model model) {
+		ModelAndView edit = new ModelAndView("edit");
 		model.addAttribute("book", new Book());
 		model.addAttribute(MESSAGE, EMPTY_MESSAGE);
 		
-		return "edit";
+		return edit;
 	}
 	
 	@PostMapping("/save")
-	public String saveBook(BookDTO bookDTO) throws BookNotFoundException {
+	public ModelAndView saveBook(BookDTO bookDTO) throws BookNotFoundException {
 		Book book = new Book();
 		book.setId(bookDTO.getId());
 		book.setTitle(bookDTO.getTitle());
@@ -104,12 +113,14 @@ public class BookshopWebController {
 			bookService.editBookById(id, book);
 		}
 		
-		return REDIRECT;
+		ModelAndView redirect = new ModelAndView(REDIRECT);
+		
+		return redirect;
 	}
 	
 	@GetMapping("/search")
-	public String search (@RequestParam("title_searched") String title, Model model) throws BookNotFoundException {
-		if(title.equals(EMPTY_MESSAGE)) {
+	public ModelAndView search (@RequestParam("title_searched") String title, Model model) throws BookNotFoundException {
+		if(title.equals("")) {
 			model.addAttribute(MESSAGE, "Error! Please, insert a valid title.");
 		} else {
 		
@@ -118,21 +129,27 @@ public class BookshopWebController {
 		model.addAttribute(MESSAGE, EMPTY_MESSAGE);
 		
 		}
-		return "search";
+		ModelAndView search = new ModelAndView("search");
+		
+		return search;
 	}
 	
 	@GetMapping("/delete")
-	public String deleteBook(@RequestParam("id") Long id, Model model) throws BookNotFoundException {
+	public ModelAndView deleteBook(@RequestParam("id") Long id, Model model) throws BookNotFoundException {
 		Book toDelete = bookService.getBookById(id);
 		bookService.deleteOneBook(toDelete);
 		
-		return REDIRECT;
+		ModelAndView redirect = new ModelAndView(REDIRECT);
+		
+		return redirect;
 	}
 	
 	@GetMapping("/deleteAll")
-	public String deleteAll() {
+	public ModelAndView deleteAll() {
 		bookService.deleteAllBooks();
 		
-		return REDIRECT;
+		ModelAndView redirect = new ModelAndView(REDIRECT);
+		
+		return redirect;
 	}
 }

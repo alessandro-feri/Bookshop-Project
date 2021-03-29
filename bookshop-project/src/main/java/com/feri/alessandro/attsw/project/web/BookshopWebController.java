@@ -49,7 +49,6 @@ public class BookshopWebController {
 	@PostMapping("/saveUser")
 	public String createNewUser(UserDTO userDTO, Model model) throws EmailExistException, UsernameExistException {
 		User user = new User();
-		user.setId(userDTO.getId());
 		user.setEmail(userDTO.getEmail());
 		user.setUsername(userDTO.getUsername());
 		user.setPassword(userDTO.getPassword());
@@ -68,7 +67,7 @@ public class BookshopWebController {
 	public String getIndex(Model model) {
 		List<Book> allBooks = bookService.getAllBooks();
 		model.addAttribute("books", allBooks);
-		model.addAttribute(MESSAGE, allBooks.isEmpty() ? "No books!" : EMPTY_MESSAGE);
+		model.addAttribute(MESSAGE, allBooks.isEmpty() ? "There are no books." : EMPTY_MESSAGE);
 		
 		return "index";
 	}

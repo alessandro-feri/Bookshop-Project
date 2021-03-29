@@ -42,7 +42,6 @@ public class BookRestController {
 	@PostMapping("/new")
 	public Book insertNewBook(@RequestBody BookDTO bookDTO) {
 		Book book = new Book();
-		book.setId(bookDTO.getId());
 		book.setTitle(bookDTO.getTitle());
 		book.setAuthor(bookDTO.getAuthor());
 		book.setPrice(bookDTO.getPrice());

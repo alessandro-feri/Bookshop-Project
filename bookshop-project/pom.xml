@@ -279,12 +279,14 @@
 	        </targetTests>
 	        <excludedTestClasses>
 	          <param>com.feri.alessandro.attsw.project.BookshopProjectApplicationTests</param>
+	          <param>com.feri.alessandro.attsw.project.*IT*</param>
+	          <param>com.feri.alessandro.attsw.project.e2e.*</param>
 	        </excludedTestClasses>
-	        <timeoutConstant>100000</timeoutConstant>
 	        <mutators>
-	          <mutator>ALL</mutator>
+	          <mutator>DEFAULTS</mutator>
 	        </mutators>
-	        <mutationThreshold>50</mutationThreshold>
+	        <timeoutConstant>100000</timeoutConstant>
+	        <mutationThreshold>100</mutationThreshold>
 	      </configuration>
 	    </plugin>
 	    <!-- You must run coveralls:report explicitly specifying that in travis.yml -->

@@ -106,15 +106,17 @@ public class UserServiceWithMockitoTest {
 	
 	@Test
 	public void test_saveUser() {
-		User user = new User("1L", "email", "username", "password");
+		User user = new User(null, "email", "username", "password");
 		
 		when(userRepository.save(isA(User.class))).thenReturn(user);
-		when(bCryptPasswordEncoder.encode(user.getPassword())).thenReturn("password");
+		when(bCryptPasswordEncoder.encode(user.getPassword())).thenReturn("password_encoded");
+		
+		assertThat(user.getPassword()).isEqualTo("password");
 		
 		userService.saveUser(user);
 		
+		assertThat(user.getPassword()).isEqualTo("password_encoded");
 		verify(userRepository).save(isA(User.class));
-		verify(bCryptPasswordEncoder).encode(user.getPassword());
 	}
 	
 }

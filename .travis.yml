@@ -24,4 +24,4 @@ cache:
     - $HOME/.sonar/cache
     
 script:
-  - mvn -f bookshop-project/pom.xml clean verify -Pjacoco && mvn -f bookshop-project/pom.xml verify -Pintegration-tests && mvn -f bookshop-project/pom.xml verify -Pe2e-tests && mvn -f bookshop-project/pom.xml coveralls:report sonar:sonar
+  - mvn -f bookshop-project/pom.xml clean verify -Pjacoco && mvn -f bookshop-project/pom.xml verify -Pintegration-tests && mvn -f bookshop-project/pom.xml verify -Pe2e-tests && mvn -f bookshop-project/pom.xml verify -Ppit && mvn -f bookshop-project/pom.xml coveralls:report sonar:sonar 

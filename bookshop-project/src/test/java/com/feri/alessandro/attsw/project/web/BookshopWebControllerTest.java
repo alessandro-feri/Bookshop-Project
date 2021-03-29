@@ -52,7 +52,7 @@ public class BookshopWebControllerTest {
 	}
 	
 	@Test
-	public void test_returnLoginView() throws Exception {
+	public void test_returnLoginViewName() throws Exception {
 		ModelAndViewAssert.assertViewName(
 				mvc.perform(get("/login")).andReturn().getModelAndView(), "login");
 	}
@@ -140,7 +140,7 @@ public class BookshopWebControllerTest {
 		 mvc.perform(get("/"))
 		 	.andExpect(view().name("index"))
 		 	.andExpect(model().attribute("books", Collections.emptyList()))
-		 	.andExpect(model().attribute("message", "No books!"));
+		 	.andExpect(model().attribute("message", "There are no books."));
 		 
 		 verify(bookService, times(1)).getAllBooks();
 		 verifyNoMoreInteractions(bookService);
@@ -254,7 +254,7 @@ public class BookshopWebControllerTest {
 		 verify(bookService, times(1)).editBookById(1L, replacement);
 		 verifyNoMoreInteractions(bookService);
 	 }
-	
+	 
 	 @Test
 	 @WithMockUser
 	 public void test_Search_ShouldShowSearchedBook() throws Exception {

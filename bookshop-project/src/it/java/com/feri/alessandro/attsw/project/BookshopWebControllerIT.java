@@ -161,7 +161,7 @@ public class BookshopWebControllerIT {
 		mvc.perform(get("/")).
 			andExpect(view().name("index")).
 			andExpect(model().attribute("books", Collections.emptyList())).
-			andExpect(model().attribute("message", "No books!"));
+			andExpect(model().attribute("message", "There are no books."));
 		
 		assertThat(bookRepository.findAll()).isEmpty();
 	}

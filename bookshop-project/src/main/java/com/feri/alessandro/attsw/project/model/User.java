@@ -20,7 +20,6 @@ public class User implements UserDetails {
 	private String email;
 	private String username;
 	private String password;	
-	private Boolean enabled;
 	
 	public User(String id, String email, String username, String password) {
 		super();
@@ -64,15 +63,6 @@ public class User implements UserDetails {
 	
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-
-	public Boolean getEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
 	}
 	
 	@Override

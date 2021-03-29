@@ -6,15 +6,14 @@ public class UserDTO {
 	private String email;
 	private String username;
 	private String password;	
-	private Boolean enabled;
 	
-	public UserDTO(String id, String email, String username, String password, Boolean enabled) {
+	
+	public UserDTO(String id, String email, String username, String password) {
 		super();
 		this.id = id;
 		this.email = email;
 		this.username = username;
 		this.password = password;
-		this.enabled = enabled;
 	}
 	
 	public UserDTO() {
@@ -44,12 +43,6 @@ public class UserDTO {
 	}
 	public void setPassword(String password) {
 		this.password = password;
-	}
-	public Boolean getEnabled() {
-		return enabled;
-	}
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
 	}
 	
 }

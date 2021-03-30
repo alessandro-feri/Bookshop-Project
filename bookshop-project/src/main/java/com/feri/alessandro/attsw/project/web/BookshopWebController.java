@@ -39,16 +39,12 @@ public class BookshopWebController {
 	
 	@GetMapping("/login")
 	public ModelAndView getLoginPage() {
-		ModelAndView login = new ModelAndView("login");
-		
-		return login;
+		return new ModelAndView("login");
 	}
 	
 	@GetMapping("/registration")
 	public ModelAndView getRegistrationPage() {
-		ModelAndView registration = new ModelAndView("registration");
-		
-		return registration;
+		return new ModelAndView("registration");
 	}
 	
 	@PostMapping("/saveUser")
@@ -61,41 +57,37 @@ public class BookshopWebController {
 		userService.findUserByEmail(user.getEmail());
 		userService.findUserByUsername(user.getUsername());
 		
-		ModelAndView registrationResult = new ModelAndView("registrationResult");
 		model.addAttribute(MESSAGE, EMPTY_MESSAGE);
 		userService.saveUser(user);
 		
-		return registrationResult;
+		return new ModelAndView("registrationResult");
 	}
 	
 	
 	@GetMapping("/")
 	public ModelAndView getIndex(Model model) {
 		List<Book> allBooks = bookService.getAllBooks();
-		ModelAndView index = new ModelAndView("index");
 		model.addAttribute("books", allBooks);
 		model.addAttribute(MESSAGE, allBooks.isEmpty() ? "There are no books." : EMPTY_MESSAGE);
 		
-		return index;
+		return new ModelAndView("index");
 	}
 
 	@GetMapping("/edit/{id}")
 	public ModelAndView editBookById(@PathVariable Long id, Model model) throws BookNotFoundException {
 		Book book = bookService.getBookById(id);
-		ModelAndView edit = new ModelAndView("edit");
 		model.addAttribute("book", book);
 		model.addAttribute(MESSAGE, EMPTY_MESSAGE);
 			
-		return edit;
+		return new ModelAndView("edit");
 	}
 	
 	@GetMapping("/new")
 	public ModelAndView newBook(Model model) {
-		ModelAndView edit = new ModelAndView("edit");
 		model.addAttribute("book", new Book());
 		model.addAttribute(MESSAGE, EMPTY_MESSAGE);
 		
-		return edit;
+		return new ModelAndView("edit");
 	}
 	
 	@PostMapping("/save")
@@ -113,9 +105,7 @@ public class BookshopWebController {
 			bookService.editBookById(id, book);
 		}
 		
-		ModelAndView redirect = new ModelAndView(REDIRECT);
-		
-		return redirect;
+		return new ModelAndView(REDIRECT);
 	}
 	
 	@GetMapping("/search")
@@ -129,9 +119,8 @@ public class BookshopWebController {
 		model.addAttribute(MESSAGE, EMPTY_MESSAGE);
 		
 		}
-		ModelAndView search = new ModelAndView("search");
 		
-		return search;
+		return new ModelAndView("search");
 	}
 	
 	@GetMapping("/delete")
@@ -139,17 +128,14 @@ public class BookshopWebController {
 		Book toDelete = bookService.getBookById(id);
 		bookService.deleteOneBook(toDelete);
 		
-		ModelAndView redirect = new ModelAndView(REDIRECT);
-		
-		return redirect;
+		return new ModelAndView(REDIRECT);
 	}
 	
 	@GetMapping("/deleteAll")
 	public ModelAndView deleteAll() {
 		bookService.deleteAllBooks();
+	
+		return new ModelAndView(REDIRECT);
 		
-		ModelAndView redirect = new ModelAndView(REDIRECT);
-		
-		return redirect;
 	}
 }

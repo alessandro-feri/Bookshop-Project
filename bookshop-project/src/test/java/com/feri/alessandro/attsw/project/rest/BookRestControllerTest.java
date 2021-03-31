@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
-import com.feri.alessandro.attsw.project.exception.BookExceptionHandler;
+import com.feri.alessandro.attsw.project.exception.BookshopExceptionHandler;
 import com.feri.alessandro.attsw.project.exception.BookNotFoundException;
 import com.feri.alessandro.attsw.project.model.Book;
 import com.feri.alessandro.attsw.project.services.BookService;
@@ -41,16 +41,16 @@ public class BookRestControllerTest {
 	private BookRestController bookRestController;
 	
 	/**
-	 * Initializes BookExceptionController advice using the StaticApplicationContext with the single bean
+	 * Initializes BookshopExceptionHanlder advice using the StaticApplicationContext with the single bean
 	 * 
-	 * @return HandlerExceptionResolver instantiated based on the BookExceptionController
+	 * @return HandlerExceptionResolver instantiated based on the BookshopExceptionHanlder
 	 * 
-	 * So, my BookExceptionController is initialized using StaticApplicationContext and then I retrieve
+	 * So, my BookshopExceptionHanlder is initialized using StaticApplicationContext and then I retrieve
 	 * handlerExceptionResolver from it and pass it into RestAssuredMockMvc standaloneSetup()
 	 */
 	private HandlerExceptionResolver initBookExceptionHandlerResolvers() {
 		StaticApplicationContext applicationContext = new StaticApplicationContext();
-		applicationContext.registerSingleton("exceptionHandler", BookExceptionHandler.class);
+		applicationContext.registerSingleton("exceptionHandler", BookshopExceptionHandler.class);
 		
 		WebMvcConfigurationSupport webMvcConfigurationSupport = new WebMvcConfigurationSupport();
 		webMvcConfigurationSupport.setApplicationContext(applicationContext);

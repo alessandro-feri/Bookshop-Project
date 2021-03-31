@@ -18,6 +18,7 @@ import com.feri.alessandro.attsw.project.model.Book;
 @DataJpaTest
 @RunWith(SpringRunner.class)
 public class BookRepositoryTest {
+	
 	@Autowired
 	private TestEntityManager entityManager;
 	
@@ -40,7 +41,7 @@ public class BookRepositoryTest {
 	public void test_findAllWithEmptyDatabase() {
 		List<Book> books = bookRepository.findAll();
 		
-		assertThat(books).isEmpty();;
+		assertThat(books).isEmpty();
 	}
 
 	@Test
@@ -108,8 +109,8 @@ public class BookRepositoryTest {
 	
 	@Test
 	public void test_findAllBooksWhosePriceIsWithinAnInterval() {
-		Book testBook1 = entityManager.persistFlushFind(new Book(null, "testTitle1", "Author1", 30));
-		Book testBook2 = entityManager.persistFlushFind(new Book(null, "testTitle2", "Author1", 15));
+		Book testBook1 = entityManager.persistFlushFind(new Book(null, "testTitle1", "Author1", 35));
+		Book testBook2 = entityManager.persistFlushFind(new Book(null, "testTitle2", "Author1", 10));
 		Book testBook3 = entityManager.persistFlushFind(new Book(null, "testTitle3", "Author2", 25));
 		Book testBook4 = entityManager.persistFlushFind(new Book(null, "testTitle4", "Author1", 40));
 		
@@ -120,14 +121,14 @@ public class BookRepositoryTest {
 	
 	@Test
 	public void test_findAllBooksByAuthorOrderByTitle() {
-		Book testBook1 = entityManager.persistFlushFind(new Book(null, "La Divina Commedia", "Author1", 55));
-		Book testBook2 = entityManager.persistFlushFind(new Book(null, "Geronimo Stilton", "Author2", 15));
-		Book testBook3 = entityManager.persistFlushFind(new Book(null, "Il ritratto di Dorian Gray", "Author1", 26));
-		Book testBook4 = entityManager.persistFlushFind(new Book(null, "Harry Potter e la pietra filosofale", "Author1", 30));
+		Book testBook1 = entityManager.persistFlushFind(new Book(null, "FirstTitle", "Author1", 55));
+		Book testBook2 = entityManager.persistFlushFind(new Book(null, "FirstTitle", "Author2", 15));
+		Book testBook3 = entityManager.persistFlushFind(new Book(null, "SecondTitle", "Author1", 26));
+		Book testBook4 = entityManager.persistFlushFind(new Book(null, "ThirdTitle", "Author1", 30));
 		
 		List<Book> books = bookRepository.findAllBooksByAuthorOrderByTitle("Author1");
 		
-		assertThat(books).containsExactly(testBook4, testBook3, testBook1).doesNotContain(testBook2);
+		assertThat(books).containsExactly(testBook1, testBook3, testBook4).doesNotContain(testBook2);
 	}
 	
 }

@@ -22,7 +22,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 	@Query("Select b from Book b where b.title = :title and b.price = :price")
 	Optional<Book> findBookByTitleAndPrice(@Param("title") String title, @Param("price") int price);
 
-	@Query("Select b from Book b where b.price > :min and b.price < :max")
+	@Query("Select b from Book b where b.price >= :min and b.price <= :max")
 	List<Book> findAllBooksWhosePriceIsWithinAnInterval(@Param("min") int min, @Param("max") int max);
 	
 	@Query("Select b from Book b where b.author = :author order by b.title")

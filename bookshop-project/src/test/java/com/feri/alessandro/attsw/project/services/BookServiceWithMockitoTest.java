@@ -42,7 +42,7 @@ public class BookServiceWithMockitoTest {
 	
 	@Test
 	public void test_getAllBooksWithOneBook() {
-		Book book = new Book(1L, "testBook", "testAuthor", 10);
+		Book book = new Book(1L, "testBook", "testAuthor", 10.0);
 		
 		when(bookRepository.findAll()).thenReturn(asList(book));
 		
@@ -54,8 +54,8 @@ public class BookServiceWithMockitoTest {
 	
 	@Test
 	public void test_getAllBooksWithMoreThanOneBook() {
-		Book book1 = new Book(1L, "testBook1", "testAuthor1", 10);
-		Book book2 = new Book(2L, "testBook2", "testAuthor2", 20);
+		Book book1 = new Book(1L, "testBook1", "testAuthor1", 10.0);
+		Book book2 = new Book(2L, "testBook2", "testAuthor2", 20.0);
 		
 		when(bookRepository.findAll()).thenReturn(asList(book1, book2));
 		
@@ -67,7 +67,7 @@ public class BookServiceWithMockitoTest {
 	
 	@Test
 	public void test_getBookById_found() throws BookNotFoundException {
-		Book book = new Book(1L, "testBook", "testAuthor", 10);
+		Book book = new Book(1L, "testBook", "testAuthor", 10.0);
 		
 		when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
 		
@@ -88,7 +88,7 @@ public class BookServiceWithMockitoTest {
 	
 	@Test
 	public void test_getBookByTitle_found() throws BookNotFoundException {
-		Book book = new Book(1L, "tesedtTitle", "author", 10);
+		Book book = new Book(1L, "tesedtTitle", "author", 10.0);
 		
 		when(bookRepository.findByTitle("testedTitle")).thenReturn(Optional.of(book));
 		
@@ -111,8 +111,8 @@ public class BookServiceWithMockitoTest {
 	
 	@Test
 	public void test_insertNewBook_setsIdToNull_and_ReturnsSavedBook() {
-		Book bookToSave = spy(new Book(2L, "testBookToSave", "testAuthorToSave", 0));
-		Book bookSaved = new Book(1L, "testBookSaved", "testAuthorSaved", 10);
+		Book bookToSave = spy(new Book(2L, "testBookToSave", "testAuthorToSave", 0.0));
+		Book bookSaved = new Book(1L, "testBookSaved", "testAuthorSaved", 10.0);
 		
 		when(bookRepository.save(any(Book.class))).thenReturn(bookSaved);
 
@@ -130,8 +130,8 @@ public class BookServiceWithMockitoTest {
 	
 	@Test
 	public void test_editBookById_setsIdToArgument_and_ShouldReturnsSavedBook() throws BookNotFoundException {
-		Book replacementBook = spy(new Book(null, "replacementBook", "replacementAuthor", 5));
-		Book replacedBook= new Book(1L, "replacedBook", "replacedAuthor", 10);
+		Book replacementBook = spy(new Book(null, "replacementBook", "replacementAuthor", 5.0));
+		Book replacedBook= new Book(1L, "replacedBook", "replacedAuthor", 10.0);
 		
 		when(bookRepository.save(any(Book.class))).thenReturn(replacedBook);
 		when(bookRepository.findById(1L)).thenReturn(Optional.of(replacedBook));
@@ -151,7 +151,7 @@ public class BookServiceWithMockitoTest {
 	
 	@Test
 	public void test_editBookById_WhenIdNotFound_ShouldThrowException() {
-		Book bookNotFound = new Book(1L, "titleNotFound", "authorNotFound", 0);
+		Book bookNotFound = new Book(1L, "titleNotFound", "authorNotFound", 0.0);
 		
 		when(bookRepository.findById(1L)).thenReturn(Optional.empty());
 		
@@ -163,7 +163,7 @@ public class BookServiceWithMockitoTest {
 	
 	@Test
 	public void test_deleteOneBook() {
-		Book bookToDelete = new Book(1L, "titleToDelete", "authorToDelete", 10);
+		Book bookToDelete = new Book(1L, "titleToDelete", "authorToDelete", 10.0);
 		
 		when(bookRepository.findById(1L)).thenReturn(Optional.of(bookToDelete));
 		
@@ -175,7 +175,7 @@ public class BookServiceWithMockitoTest {
 	
 	@Test
 	public void test_deleteOneBook_WhenItsIdIsNotFound_ShouldThrowException() {
-		Book bookNotFound = new Book(1L, "titleNotFound", "authorNoyFound", 0);
+		Book bookNotFound = new Book(1L, "titleNotFound", "authorNoyFound", 0.0);
 		
 		when(bookRepository.findById(1L)).thenReturn(Optional.empty());
 		

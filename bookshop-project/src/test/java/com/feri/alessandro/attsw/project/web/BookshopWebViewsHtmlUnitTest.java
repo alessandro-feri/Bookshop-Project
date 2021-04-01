@@ -198,7 +198,7 @@ public class BookshopWebViewsHtmlUnitTest {
 	@WithMockUser
 	public void test_homePageWithBooks_shouldShowThemInATable() throws Exception {
 		List<Book> books = asList(
-				new Book(1L, "title1", "author1", 10), new Book(2L, "title2", "author2", 15));
+				new Book(1L, "title1", "author1", 10.0), new Book(2L, "title2", "author2", 15.0));
 		
 		when(bookService.getAllBooks()).thenReturn(books);
 		
@@ -209,8 +209,8 @@ public class BookshopWebViewsHtmlUnitTest {
 		
 		assertThat(table.asText()).isEqualTo(
 				"Title	Author	Price\n" + 
-				"title1	author1	10	Edit	Delete\n" + 
-				"title2	author2	15	Edit	Delete"
+				"title1	author1	10.0	Edit	Delete\n" + 
+				"title2	author2	15.0	Edit	Delete"
 				
 			);	
 		
@@ -223,7 +223,7 @@ public class BookshopWebViewsHtmlUnitTest {
 	@Test
 	public void test_Edit_And_New_PageStructure() throws Exception {
 		when(bookService.getBookById(1L)).
-		thenReturn(new Book(1L, "title", "author", 10));
+		thenReturn(new Book(1L, "title", "author", 10.0));
 	
 		HtmlPage page = webClient.getPage("/edit/1");
 		
@@ -256,7 +256,7 @@ public class BookshopWebViewsHtmlUnitTest {
 	@WithMockUser
 	public void test_editWithExistentBook() throws Exception {
 		when(bookService.getBookById(1L)).
-			thenReturn(new Book(1L, "title", "author", 10));
+			thenReturn(new Book(1L, "title", "author", 10.0));
 		
 		HtmlPage page = webClient.getPage("/edit/1");
 		
@@ -264,12 +264,12 @@ public class BookshopWebViewsHtmlUnitTest {
 		
 		form.getInputByValue("title").setValueAttribute("modified_title");
 		form.getInputByValue("author").setValueAttribute("modified_author");
-		form.getInputByValue("10").setValueAttribute("15");
+		form.getInputByValue("10.0").setValueAttribute("15.0");
 		
 		form.getButtonByName("Save").click();
 		
 		verify(bookService, times(1))
-			.editBookById(1L, new Book(1L, "modified_title", "modified_author", 15));
+			.editBookById(1L, new Book(1L, "modified_title", "modified_author", 15.0));
 	}
 	
 	@Test
@@ -286,7 +286,7 @@ public class BookshopWebViewsHtmlUnitTest {
 		form.getButtonByName("Save").click();
 		
 		verify(bookService)
-			.insertNewBook(new Book(null, "new_title", "new_author", 10));
+			.insertNewBook(new Book(null, "new_title", "new_author", 10.0));
 	}
 	
 	@Test
@@ -325,7 +325,7 @@ public class BookshopWebViewsHtmlUnitTest {
 	@Test
 	@WithMockUser
 	public void test_searchView_WhenBookIsFound() throws Exception {
-		Book found = new Book(1L, "test_title", "author", 10);
+		Book found = new Book(1L, "test_title", "author", 10.0);
 		when(bookService.getBookByTitle("test_title")).thenReturn(found);
 		
 		HtmlPage page = webClient.getPage("/");
@@ -350,7 +350,7 @@ public class BookshopWebViewsHtmlUnitTest {
 	@Test
 	@WithMockUser
 	public void testDelete() throws Exception {
-		Book book = new Book(1L, "title1", "author1", 10);
+		Book book = new Book(1L, "title1", "author1", 10.0);
 		List<Book> books = asList(book);
 		
 		when(bookService.getAllBooks()).thenReturn(books);

@@ -27,7 +27,7 @@ public class BookRepositoryTest {
 
 	@Test
 	public void testJpaMapping() {
-		Book savedBook = entityManager.persistFlushFind(new Book(null, "testBook", "testAuthor", 10));
+		Book savedBook = entityManager.persistFlushFind(new Book(null, "testBook", "testAuthor", 10.0));
 		assertThat(savedBook.getTitle()).isEqualTo("testBook");
 		assertThat(savedBook.getAuthor()).isEqualTo("testAuthor");
 		assertThat(savedBook.getPrice()).isEqualTo(10);
@@ -46,7 +46,7 @@ public class BookRepositoryTest {
 
 	@Test
 	public void test_findAllUsingSave() {
-		Book bookSaved = bookRepository.save(new Book(null, "testBook", "testAuthor", 10));
+		Book bookSaved = bookRepository.save(new Book(null, "testBook", "testAuthor", 10.0));
 		
 		List<Book> books = bookRepository.findAll();
 		
@@ -55,7 +55,7 @@ public class BookRepositoryTest {
 	
 	@Test
 	public void test_findBookByTitle() {
-		Book bookSaved = new Book(null, "testBook", "testAuthor", 10);
+		Book bookSaved = new Book(null, "testBook", "testAuthor", 10.0);
 		
 		entityManager.persistFlushFind(bookSaved);
 		
@@ -66,9 +66,9 @@ public class BookRepositoryTest {
 	
 	@Test
 	public void test_findBooksByAuthor() {
-		Book testBook1 = new Book(null, "testTitle1", "Author1", 10);
-		Book testBook2 = new Book(null, "testTitle2", "Author2", 10);
-		Book testBook3 = new Book(null, "testTitle3", "Author1", 10);
+		Book testBook1 = new Book(null, "testTitle1", "Author1", 10.0);
+		Book testBook2 = new Book(null, "testTitle2", "Author2", 10.0);
+		Book testBook3 = new Book(null, "testTitle3", "Author1", 10.0);
 		
 		entityManager.persistFlushFind(testBook1);
 		entityManager.persistFlushFind(testBook2);
@@ -82,10 +82,10 @@ public class BookRepositoryTest {
 
 	@Test
 	public void test_findBooksByTitleOrAuthor() {
-		Book testBook1 = entityManager.persistFlushFind(new Book(null, "testTitle1", "Author1", 10));
-		Book testBook2 = entityManager.persistFlushFind(new Book(null, "testTitle2", "Author1", 10));
-		Book testBook3 = entityManager.persistFlushFind(new Book(null, "testTitle3", "Author2", 10));
-		Book testBook4 = entityManager.persistFlushFind(new Book(null, "testTitle4", "Author1", 10));
+		Book testBook1 = entityManager.persistFlushFind(new Book(null, "testTitle1", "Author1", 10.0));
+		Book testBook2 = entityManager.persistFlushFind(new Book(null, "testTitle2", "Author1", 10.0));
+		Book testBook3 = entityManager.persistFlushFind(new Book(null, "testTitle3", "Author2", 10.0));
+		Book testBook4 = entityManager.persistFlushFind(new Book(null, "testTitle4", "Author1", 10.0));
 		
 		List<Book> books = bookRepository.findBooksByTitleOrAuthor("testTitle2", "Author1");
 		
@@ -94,37 +94,37 @@ public class BookRepositoryTest {
 	
 	@Test
 	public void test_findBookByTitleAndPrice() {
-		Book testBook1 = new Book(null, "testTitle1", "testAuthor", 10);
-		Book testBook2 = new Book(null, "testTitle2", "testAuthor", 10);
-		Book testBook3 = new Book(null, "testTitle1", "testAuthor", 15);
+		Book testBook1 = new Book(null, "testTitle1", "testAuthor", 10.0);
+		Book testBook2 = new Book(null, "testTitle2", "testAuthor", 10.0);
+		Book testBook3 = new Book(null, "testTitle1", "testAuthor", 15.0);
 
 		entityManager.persistFlushFind(testBook1);
 		entityManager.persistFlushFind(testBook2);
 		entityManager.persistFlushFind(testBook3);
 
-		Optional<Book> book = bookRepository.findBookByTitleAndPrice("testTitle1", 10);
+		Optional<Book> book = bookRepository.findBookByTitleAndPrice("testTitle1", 10.0);
 
 		assertEquals(book.get(), testBook1);		
 	}
 	
 	@Test
 	public void test_findAllBooksWhosePriceIsWithinAnInterval() {
-		Book testBook1 = entityManager.persistFlushFind(new Book(null, "testTitle1", "Author1", 35));
-		Book testBook2 = entityManager.persistFlushFind(new Book(null, "testTitle2", "Author1", 10));
-		Book testBook3 = entityManager.persistFlushFind(new Book(null, "testTitle3", "Author2", 25));
-		Book testBook4 = entityManager.persistFlushFind(new Book(null, "testTitle4", "Author1", 40));
+		Book testBook1 = entityManager.persistFlushFind(new Book(null, "testTitle1", "Author1", 35.0));
+		Book testBook2 = entityManager.persistFlushFind(new Book(null, "testTitle2", "Author1", 10.0));
+		Book testBook3 = entityManager.persistFlushFind(new Book(null, "testTitle3", "Author2", 25.0));
+		Book testBook4 = entityManager.persistFlushFind(new Book(null, "testTitle4", "Author1", 40.0));
 		
-		List<Book> books = bookRepository.findAllBooksWhosePriceIsWithinAnInterval(10, 35);
+		List<Book> books = bookRepository.findAllBooksWhosePriceIsWithinAnInterval(10.0, 35.0);
 		
 		assertThat(books).containsExactly(testBook1, testBook2, testBook3).doesNotContain(testBook4);
 	}
 	
 	@Test
 	public void test_findAllBooksByAuthorOrderByTitle() {
-		Book testBook1 = entityManager.persistFlushFind(new Book(null, "FirstTitle", "Author1", 55));
-		Book testBook2 = entityManager.persistFlushFind(new Book(null, "FirstTitle", "Author2", 15));
-		Book testBook3 = entityManager.persistFlushFind(new Book(null, "SecondTitle", "Author1", 26));
-		Book testBook4 = entityManager.persistFlushFind(new Book(null, "ThirdTitle", "Author1", 30));
+		Book testBook1 = entityManager.persistFlushFind(new Book(null, "FirstTitle", "Author1", 55.0));
+		Book testBook2 = entityManager.persistFlushFind(new Book(null, "FirstTitle", "Author2", 15.0));
+		Book testBook3 = entityManager.persistFlushFind(new Book(null, "SecondTitle", "Author1", 26.0));
+		Book testBook4 = entityManager.persistFlushFind(new Book(null, "ThirdTitle", "Author1", 30.0));
 		
 		List<Book> books = bookRepository.findAllBooksByAuthorOrderByTitle("Author1");
 		

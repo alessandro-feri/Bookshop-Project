@@ -20,10 +20,10 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 	List<Book> findBooksByTitleOrAuthor(@Param("title") String title, @Param("author") String author);
 
 	@Query("Select b from Book b where b.title = :title and b.price = :price")
-	Optional<Book> findBookByTitleAndPrice(@Param("title") String title, @Param("price") int price);
+	Optional<Book> findBookByTitleAndPrice(@Param("title") String title, @Param("price") double price);
 
 	@Query("Select b from Book b where b.price >= :min and b.price <= :max")
-	List<Book> findAllBooksWhosePriceIsWithinAnInterval(@Param("min") int min, @Param("max") int max);
+	List<Book> findAllBooksWhosePriceIsWithinAnInterval(@Param("min") double min, @Param("max") double max);
 	
 	@Query("Select b from Book b where b.author = :author order by b.title")
 	List<Book> findAllBooksByAuthorOrderByTitle(@Param("author") String author);

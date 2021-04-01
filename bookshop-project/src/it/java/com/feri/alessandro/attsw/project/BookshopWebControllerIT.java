@@ -170,9 +170,9 @@ public class BookshopWebControllerIT {
 	@WithMockUser
 	public void test_homePage_shouldContainBooks() throws Exception {
 		List<Book> books = asList(
-				new Book(null, "title1", "author1", 10),
-				new Book(null, "title2", "author2", 15),
-				new Book(null, "title3", "author3", 20));
+				new Book(null, "title1", "author1", 10.0),
+				new Book(null, "title2", "author2", 15.0),
+				new Book(null, "title3", "author3", 20.0));
 		
 		bookRepository.saveAll(books);
 	
@@ -186,7 +186,7 @@ public class BookshopWebControllerIT {
 	@Test
 	@WithMockUser
 	public void test_editBook_withExistingBookIntoRepository() throws Exception {
-		Book saved = new Book(null, "title", "author", 10);
+		Book saved = new Book(null, "title", "author", 10.0);
 		
 		bookRepository.save(saved);
 		
@@ -230,7 +230,7 @@ public class BookshopWebControllerIT {
 		mvc.perform(post("/save")
 				.param("title", "title1")
 				.param("author", "author1")
-				.param("price", "10")).
+				.param("price", "10.0")).
 			andExpect(view().name("redirect:/"));
 		
 		assertEquals(bookRepository.findAll().size(), 1);
@@ -239,7 +239,7 @@ public class BookshopWebControllerIT {
 	@Test
 	@WithMockUser
 	public void test_saveWithExistingId_shouldUpdateBookIntoRepository_andRedirectToHomePage() throws Exception {
-		Book saved = new Book(null, "original_title", "original_author", 10);
+		Book saved = new Book(null, "original_title", "original_author", 10.0);
 		
 		bookRepository.save(saved);
 		
@@ -251,7 +251,7 @@ public class BookshopWebControllerIT {
 				.param("id", id.toString())
 				.param("title", "modified_title")
 				.param("author", "modified_author")
-				.param("price", "15")).
+				.param("price", "15.0")).
 			andExpect(view().name("redirect:/"));
 		
 		assertEquals(bookRepository.findAll().size(), 1);
@@ -261,13 +261,13 @@ public class BookshopWebControllerIT {
 		assertEquals(saved.getId(), updated.getId());
 		assertThat(updated.getTitle()).isEqualTo("modified_title");
 		assertThat(updated.getAuthor()).isEqualTo("modified_author");
-		assertThat(updated.getPrice()).isEqualTo(15);
+		assertThat(updated.getPrice()).isEqualTo(15.0);
 	}
 	
 	@Test
 	@WithMockUser
 	public void test_searchView() throws Exception {
-		Book saved = new Book(null, "existing_title", "author", 10);
+		Book saved = new Book(null, "existing_title", "author", 10.0);
 		
 		bookRepository.save(saved);
 		
@@ -292,7 +292,7 @@ public class BookshopWebControllerIT {
 	@Test
 	@WithMockUser
 	public void test_deleteBook_shouldDeleteFromRepository_andRedirectToHomepage() throws Exception {
-		Book saved = new Book(null, "title", "author", 10);
+		Book saved = new Book(null, "title", "author", 10.0);
 		bookRepository.save(saved);
 		
 		assertThat(bookRepository.findAll()).containsExactly(saved);
@@ -309,9 +309,9 @@ public class BookshopWebControllerIT {
 	@WithMockUser
 	public void test_deleteAll_souldDeleteAllBooksFromRepository_andRedirectToHomepage() throws Exception {
 		List<Book> books = asList(
-				new Book(null, "title1", "author1", 10),
-				new Book(null, "title2", "author2", 15),
-				new Book(null, "title3", "author3", 20));
+				new Book(null, "title1", "author1", 10.0),
+				new Book(null, "title2", "author2", 15.0),
+				new Book(null, "title3", "author3", 20.0));
 		
 		bookRepository.saveAll(books);
 		

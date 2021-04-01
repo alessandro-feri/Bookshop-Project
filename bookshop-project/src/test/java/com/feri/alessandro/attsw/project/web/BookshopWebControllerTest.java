@@ -149,7 +149,7 @@ public class BookshopWebControllerTest {
 	 @Test
 	 @WithMockUser
 	 public void test_HomeView_showsBooks() throws Exception {
-		 List<Book> books = asList(new Book(null, "title", "author", 10));
+		 List<Book> books = asList(new Book(null, "title", "author", 10.0));
 		 
 		 when(bookService.getAllBooks()).thenReturn(books);
 		 
@@ -180,7 +180,7 @@ public class BookshopWebControllerTest {
 	 @Test
 	 @WithMockUser
 	 public void test_editBookById_WhenIdIsFound() throws Exception {
-		 Book found = new Book(1L, "title", "author", 10);
+		 Book found = new Book(1L, "title", "author", 10.0);
 		 
 		 when(bookService.getBookById(1L)).thenReturn(found);
 		 
@@ -215,7 +215,7 @@ public class BookshopWebControllerTest {
 		 	.andExpect(view().name("redirect:/"));
 		 	
 			verify(bookService, times(1)).insertNewBook(
-					new Book(null, "testedTitle", "testedAuthor", 10));
+					new Book(null, "testedTitle", "testedAuthor", 10.0));
 			verifyNoMoreInteractions(bookService);
 	 }
 	 
@@ -230,14 +230,14 @@ public class BookshopWebControllerTest {
 		 	.andExpect(view().name("redirect:/"));
 
 		 verify(bookService, times(1)).editBookById(
-				 1L, new Book(1L, "testedTitle", "testedAuthor", 10));
+				 1L, new Book(1L, "testedTitle", "testedAuthor", 10.0));
 		 verifyNoMoreInteractions(bookService);
 	 }
 	 
 	 @Test
 	 @WithMockUser
 	 public void test_PostBookWhenIdNotFound() throws Exception {
-		 Book replacement = new Book(1L, "title", "author", 10);
+		 Book replacement = new Book(1L, "title", "author", 10.0);
 		 
 		 when(bookService.editBookById(1L, replacement)).thenThrow(BookNotFoundException.class);
 		 
@@ -260,7 +260,7 @@ public class BookshopWebControllerTest {
 	 public void test_Search_ShouldShowSearchedBook() throws Exception {
 		 String search = "title";
 		 
-		 Book searched =  new Book(1L, "title", "author", 10);
+		 Book searched =  new Book(1L, "title", "author", 10.0);
 		 
 		 when(bookService.getBookByTitle(search)).thenReturn(searched);
 		 
@@ -306,7 +306,7 @@ public class BookshopWebControllerTest {
 	 @Test
 	 @WithMockUser
 	 public void test_deleteBook() throws Exception {
-		 Book toDelete = new Book(1L, "title", "author", 10);
+		 Book toDelete = new Book(1L, "title", "author", 10.0);
 		 
 		 when(bookService.getBookById(1L)).thenReturn(toDelete);
 		 

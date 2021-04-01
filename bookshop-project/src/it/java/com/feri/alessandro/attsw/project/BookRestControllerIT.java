@@ -46,7 +46,7 @@ public class BookRestControllerIT {
 	public void test_getAllBooksFromNotEmptyRepository() {
 		bookRepository.saveAll(
 				asList(
-					new Book(null, "title1", "author1", 10), new Book(null, "title2", "author2", 15)));
+					new Book(null, "title1", "author1", 10.0), new Book(null, "title2", "author2", 15.0)));
 		
 		given().
 		when().
@@ -56,10 +56,10 @@ public class BookRestControllerIT {
 				assertThat().
 				body("title[0]", equalTo("title1"),
 				 "author[0]", equalTo("author1"),
-				 "price[0]", equalTo(10),
+				 "price[0]", equalTo(10.0f),
 				 "title[1]", equalTo("title2"),
 				 "author[1]", equalTo("author2"),
-				 "price[1]", equalTo(15)
+				 "price[1]", equalTo(15.0f)
 				);
 		
 	}
@@ -67,7 +67,7 @@ public class BookRestControllerIT {
 	
 	@Test
 	public void test_getBookByIdWithExistingBookInTheRepository() {
-		Book saved = bookRepository.save(new Book(null, "title", "author", 10));
+		Book saved = bookRepository.save(new Book(null, "title", "author", 10.0));
 		
 		Response response = 
 				given().
@@ -82,7 +82,7 @@ public class BookRestControllerIT {
 	
 	@Test
 	public void test_getBookByTitleWithExistingBookInTheRepository() {
-		Book saved = bookRepository.save(new Book(null, "title", "author", 10));
+		Book saved = bookRepository.save(new Book(null, "title", "author", 10.0));
 		
 		Response response = 
 				given().
@@ -98,7 +98,7 @@ public class BookRestControllerIT {
 	public void test_NewBook() {
 		Response response = given().
 					contentType(MediaType.APPLICATION_JSON_VALUE).
-					body(new Book(null, "title", "author", 10)).
+					body(new Book(null, "title", "author", 10.0)).
 				when().
 					post("/api/books/new");
 		
@@ -110,11 +110,11 @@ public class BookRestControllerIT {
 	
 	@Test
 	public void test_EditBookWithExistingBookInTheRepository() {
-		Book replacedBook = bookRepository.save(new Book(null, "title", "author", 10));
+		Book replacedBook = bookRepository.save(new Book(null, "title", "author", 10.0));
 		
 		Response response = given().
 					contentType(MediaType.APPLICATION_JSON_VALUE).
-					body(new Book(null, "updated_title", "updated_author", 10)).
+					body(new Book(null, "updated_title", "updated_author", 10.0)).
 				when().
 					put("/api/books/edit/" + replacedBook.getId());
 		
@@ -126,7 +126,7 @@ public class BookRestControllerIT {
 	
 	@Test
 	public void test_deleteBookByIdWithExistingBookInTheRepository() {
-		Book saved = bookRepository.save(new Book(null, "title", "author", 10));
+		Book saved = bookRepository.save(new Book(null, "title", "author", 10.0));
 		
 		given().
 		when().
@@ -142,7 +142,7 @@ public class BookRestControllerIT {
 	public void test_deleteAllBooks() {
 		List<Book> books = bookRepository.saveAll(
 				asList(
-					new Book(null, "title1", "author1", 10), new Book(null, "title2", "author", 15)));
+					new Book(null, "title1", "author1", 10.0), new Book(null, "title2", "author", 15.0)));
 		
 		assertThat(bookRepository.findAll()).isEqualTo(books);
 		

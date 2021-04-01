@@ -5,9 +5,9 @@ public class BookDTO {
 	private Long id;
 	private String title;
 	private String author;
-	private int price;
+	private double price;
 	
-	public BookDTO(Long id, String title, String author, int price) {
+	public BookDTO(Long id, String title, String author, double price) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -39,10 +39,10 @@ public class BookDTO {
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-	public int getPrice() {
+	public double getPrice() {
 		return price;
 	}
-	public void setPrice(int price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 	

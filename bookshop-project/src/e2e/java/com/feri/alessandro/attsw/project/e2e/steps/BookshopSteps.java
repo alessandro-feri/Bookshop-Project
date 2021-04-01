@@ -11,9 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.feri.alessandro.attsw.project.repositories.BookRepository;
 import com.feri.alessandro.attsw.project.repositories.UserRepository;
 
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
-import cucumber.api.java.en.*;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.cucumber.java.en.*;
 
 @SpringBootTest(properties = "spring.main.allow-bean-definition-overriding=true")
 public class BookshopSteps {
